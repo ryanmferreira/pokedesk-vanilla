@@ -1,0 +1,87 @@
+* {
+    transition: 0.3s ease;
+    box-sizing: border-box;
+}
+
+:root {
+    --background-color: #362C22;
+    --container-color: #ECE0C2;
+    --glass-color: rgba(20, 14, 7, 0.9);
+
+    --input-color: #C69C3F;
+    --input-contrast-color: #583D1E;
+    --input-camp-color: #FFF7E2;
+
+    --green-color: #37A826;
+    --red-color: #943131;
+    --red-complementar-color: #EFCDAB;
+    --white-color: #FFFFFF;
+
+    --default-padding: 16px;
+    --default-button-padding: 8px 12px 8px 12px;
+    --default-tiny-button-padding: 4px 8px 4px 8px;
+}
+
+.red {
+    background: var(--red-color) !important;
+}
+
+.expand {
+    flex-grow: 1;
+    width: 100%;
+}
+
+html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+body {
+    display: flex;
+    background-color: var(--background-color);
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: var(--input-contrast-color);
+    margin: 0;
+}
+
+button {
+    min-width: max-content;
+    border: none;
+    padding: var(--default-button-padding);
+    background-color: var(--background-color);
+    color: var(--white-color)
+}
+
+button:hover {
+    filter: brightness(125%);
+    transform: translateY(-2px);
+}
+
+button:active {
+    transform: translateY(0px);
+    filter: brightness(75%);
+}
+
+hr {
+    border: 1px dashed var(--input-contrast-color);
+    width: 100%;
+    margin: 0;
+}
+
+input {
+    padding: var(--default-tiny-button-padding);
+    border: 0;
+    border-bottom: 2px dashed var(--input-contrast-color);
+}

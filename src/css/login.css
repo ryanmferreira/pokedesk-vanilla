@@ -1,0 +1,58 @@
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+main .row {
+    max-width: 60%;
+    width: 100%;
+    height: 350px;
+    gap: 0px !important;
+}
+
+.container {
+    width: 100%;
+}
+
+div.red {
+    background-color: var(--red-color) !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: var(--default-padding);
+}
+
+div.red img {
+    width: 80px;
+    height: auto;
+}
+
+button {
+    margin-top: auto;
+    max-width: 100%;
+}
+
+h2,
+p,
+button {
+    text-transform: uppercase;
+}
+
+@media screen and (max-width: 900px) {
+    main {
+        padding: var(--default-padding);
+    }
+
+    main .row {
+        flex-direction: column-reverse;
+        min-height: 450px;
+        max-width: 75%;
+    }
+
+    div.red {
+        height: 180px;
+        flex-grow: 0;
+    }
+}

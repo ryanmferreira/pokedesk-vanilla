@@ -1,0 +1,97 @@
+nav,
+nav * {
+    gap: 16px;
+}
+
+nav {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    /* max-height: calc(100% - var(--default-padding) * 2); */
+    width: fit-content;
+    background-color: var(--glass-color);
+    padding: var(--default-padding);
+}
+
+nav div {
+    gap: 16px;
+    display: flex;
+    flex-direction: column;
+}
+
+.nav-header {
+    display: flex;
+    flex-direction: column;
+}
+
+h1,
+h6,
+p,
+hr,
+button {
+    color: var(--input-color);
+}
+
+nav button {
+    border-right: 4px solid var(--input-color);
+    background: none;
+    text-align: start;
+}
+
+nav button:hover {
+    background: var(--input-color);
+    color: var(--input-contrast-color);
+    border-color: var(--input-contrast-color);
+}
+
+nav button:active {
+    filter: saturate(25%);
+}
+
+
+@media screen and (max-width: 720px) {
+    main {
+        padding-top: 96px !important;
+    }
+
+    nav {
+        position: fixed;
+        height: auto;
+        width: 100%;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    nav div {
+        flex-direction: row;
+        align-items: center;
+        max-height: fit-content;
+        max-width: fit-content;
+    }
+
+    .nav-header {
+        gap: 0;
+        align-items: start;
+    }
+
+    nav button {
+        border-bottom: 4px solid var(--input-color);
+        border-right: none;
+        background: none;
+        text-align: center;
+    }
+
+    nav div.expand,
+    nav hr {
+        display: none;
+    }
+
+    nav h1 {
+        display: none;
+    }
+
+    h1 {
+        font-size: clamp(1rem, 1vw, 3rem);
+    }
+}
