@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session Name</title>
+
+    <link rel="stylesheet" href="../css/global-styles.css">
+    <link rel="stylesheet" href="../css/sidebar.css">
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/session.css">
+</head>
+
+<body>
+    <nav>
+        <div class="nav-header">
+            <h1>Hello, Ryan!</h1>
+            <h6>Player</h6>
+        </div>
+        <hr>
+        <div>
+            <button>Pokémon</button>
+            <button>Inventory</button>
+            <button>Diary</button>
+        </div>
+        <div class="expand"></div>
+        <div>
+            <button>Leave the Session</button>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Header -->
+        <div class="container header-card">
+            <h2>Aldric</h2>
+            <hr>
+            <div class="static-row align-between">
+                <h3>Character Sheet</h3>
+                <span class="last-saved">Last Saved - 22:22</span>
+            </div>
+        </div>
+
+        <!-- Grid Principal -->
+        <div class="grid main-grid expand">
+
+            <!-- Basic Information -->
+            <div class="container flex-grow">
+                <h2>Basic information</h2>
+                <hr>
+                <div class="column">
+                    <h6>Name</h6>
+                    <input type="text">
+                </div>
+                <div class="row">
+                    <div class="column">
+                        <h6>Class</h6>
+                        <input type="text">
+                    </div>
+                    <div class="column">
+                        <h6>Race</h6>
+                        <input type="text">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Player Health -->
+            <div class="container flex-grow">
+                <h2>Player Health</h2>
+                <hr>
+                <div class="static-row health-layout">
+                    <div class="donut-hp" style="--percentage: 100%;">
+                        <div class="donut-text">
+                            <span>100%</span>
+                            <small>5/5</small>
+                        </div>
+                    </div>
+                    <div class="column maximum-health-box">
+                        <h6>Max HP</h6>
+                        <h1>5</h1>
+                    </div>
+                    <div class="column current-health-box">
+                        <h6>Current HP</h6>
+                        <div class="static-row counter-control">
+                            <button class="plus-button">-</button>
+                            <span>5</span>
+                            <button class="plus-button">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Character Pokémon Team -->
+            <div class="container flex-grow">
+                <div class="static-row align-between">
+                    <h2>Pokémon Team</h2>
+                    <h2>1/6</h2>
+                </div>
+                <hr>
+                <div class="pokemon-grid">
+                    <!-- Slot Ativo -->
+                    <div class="pokemon-slot active-slot">
+                        <div class="pokemon-image-placeholder"></div>
+                        <div class="column pokemon-info">
+                            <div class="static-row align-between">
+                                <h5>Pokémon Name</h5>
+                                <h6>LVL 12</h6>
+                            </div>
+                            <div class="health-bar-container">
+                                <div class="health-bar-fill" style="width: 100%;"></div>
+                            </div>
+                            <div class="static-row align-between tiny-text">
+                                <span>HP 12/12</span>
+                                <span>Happiness 5/10</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Slots Vazios -->
+                    <div class="pokemon-slot empty-slot">(+) Empty</div>
+                    <div class="pokemon-slot empty-slot">(+) Empty</div>
+                    <div class="pokemon-slot empty-slot">(+) Empty</div>
+                    <div class="pokemon-slot empty-slot">(+) Empty</div>
+                    <div class="pokemon-slot empty-slot">(+) Empty</div>
+                </div>
+            </div>
+
+            <!-- Character Attributes (Mantendo os 4 corretos do HTML original em inglês) -->
+            <div class="container flex-grow">
+                <div class="static-row align-between">
+                    <h2>Attributes</h2>
+                    <h6 class="points-label">Points to distribute: 0</h6>
+                </div>
+                <hr>
+                <div class="attributes-list">
+                    <div class="attribute-item">
+                        <div class="column">
+                            <h4>Resistance</h4>
+                            <h6>Trainer physical resistance.</h6>
+                        </div>
+                        <div class="static-row counter-control">
+                            <button class="plus-button">-</button>
+                            <span>1</span>
+                            <button class="plus-button">+</button>
+                        </div>
+                    </div>
+                    <div class="attribute-item">
+                        <div class="column">
+                            <h4>Strength</h4>
+                            <h6>Raw power, climbing, pushing, holding.</h6>
+                        </div>
+                        <div class="static-row counter-control">
+                            <button class="plus-button">-</button>
+                            <span>1</span>
+                            <button class="plus-button">+</button>
+                        </div>
+                    </div>
+                    <div class="attribute-item">
+                        <div class="column">
+                            <h4>Mind</h4>
+                            <h6>Intelligence, strategy, identifying Pokémon.</h6>
+                        </div>
+                        <div class="static-row counter-control">
+                            <button class="plus-button">-</button>
+                            <span>1</span>
+                            <button class="plus-button">+</button>
+                        </div>
+                    </div>
+                    <div class="attribute-item">
+                        <div class="column">
+                            <h4>Agility</h4>
+                            <h6>Reflexes, dodging, initiative.</h6>
+                        </div>
+                        <div class="static-row counter-control">
+                            <button class="plus-button">-</button>
+                            <span>1</span>
+                            <button class="plus-button">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+</body>
+
+</html>

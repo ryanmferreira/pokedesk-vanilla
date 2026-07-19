@@ -1,6 +1,6 @@
 * {
-    transition: 0.3s ease;
     box-sizing: border-box;
+    transition: 0.25s ease-in-out;
 }
 
 :root {
@@ -51,7 +51,8 @@ h2,
 h3,
 h4,
 h5,
-h6 {
+h6,
+button {
     color: var(--input-contrast-color);
     margin: 0;
 }
@@ -64,14 +65,18 @@ button {
     color: var(--white-color)
 }
 
-button:hover {
-    filter: brightness(125%);
-    transform: translateY(-2px);
+
+@media (pointer: fine) and (hover: hover) {
+    button:hover {
+        filter: brightness(125%);
+        transform: translateY(-2px);
+        cursor: pointer;
+    }
 }
 
 button:active {
-    transform: translateY(0px);
-    filter: brightness(75%);
+    transform: translateY(2px);
+    filter: saturate(25%);
 }
 
 hr {
@@ -84,4 +89,21 @@ input {
     padding: var(--default-tiny-button-padding);
     border: 0;
     border-bottom: 2px dashed var(--input-contrast-color);
+}
+
+html {
+    scrollbar-width: thin;
+    scrollbar-color: var(--input-color) var(--background-color);
+}
+
+::-webkit-scrollbar-track {
+    background-color: var(--background-color);
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--input-color);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: var(--input-color);
 }

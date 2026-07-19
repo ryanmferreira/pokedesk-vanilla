@@ -2,15 +2,22 @@ main {
     flex-grow: 1;
     height: 100%;
     padding: var(--default-padding);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    overflow-y: auto;
 }
 
 .container {
     background: var(--container-color) !important;
-    flex-grow: 1;
     display: flex;
     flex-direction: column;
     padding: var(--default-padding);
     gap: 12px;
+}
+
+.flex-grow {
+    flex-grow: 1;
 }
 
 .row {
@@ -20,11 +27,23 @@ main {
     flex-grow: 1;
 }
 
+.static-row {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+}
+
 .column {
     display: flex;
     flex-direction: column;
     gap: 12px;
     flex-grow: 1;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
 }
 
 @media screen and (max-width: 720px) {

@@ -1,0 +1,196 @@
+.align-between {
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.header-card .last-saved {
+    border: 2px dashed var(--input-contrast-color);
+    padding: 4px 8px;
+    font-size: 11px;
+    font-weight: bold;
+    color: var(--input-contrast-color);
+}
+
+.plus-button {
+    width: 32px;
+    height: 32px;
+    justify-content: center;
+    align-items: center;
+}
+
+.health-layout {
+    align-items: center;
+    height: 100%;
+    position: relative;
+    gap: 24px;
+}
+
+.maximum-health-box {
+    margin-bottom: 24px;
+}
+
+.maximum-health-box h1 {
+    font-size: 48px;
+    color: var(--input-contrast-color);
+}
+
+.current-health-box {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    align-items: flex-end;
+}
+
+.counter-control {
+    align-items: center;
+    gap: 12px;
+    font-weight: bold;
+    color: var(--input-contrast-color);
+}
+
+.donut-hp {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    background: conic-gradient(var(--green-color) var(--percentage), rgba(0, 0, 0, 0.1) 0);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.donut-hp::before {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    width: 82px;
+    height: 82px;
+    background: var(--container-color);
+}
+
+.donut-text {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-weight: bold;
+    color: var(--input-contrast-color);
+    line-height: 1.1;
+}
+
+.donut-text span {
+    font-size: 16px;
+}
+
+.donut-text small {
+    font-size: 10px;
+    opacity: 0.7;
+}
+
+.pokemon-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.pokemon-slot {
+    border: 2px dashed var(--input-contrast-color);
+    display: flex;
+    padding: 4px;
+    align-items: center;
+    min-height: 64px;
+}
+
+.empty-slot {
+    justify-content: center;
+    color: var(--input-contrast-color);
+    min-height: 64px;
+    font-size: 11px;
+    font-weight: bold;
+    opacity: 0.6;
+}
+
+.active-slot {
+    gap: 8px;
+}
+
+.pokemon-image-placeholder {
+    width: 55px;
+    height: 55px;
+    border: 2px dashed var(--input-contrast-color);
+    flex-shrink: 0;
+}
+
+.pokemon-info {
+    gap: 4px;
+    width: 100%;
+}
+
+.pokemon-info h5 {
+    font-size: 11px;
+}
+
+.pokemon-info h6 {
+    font-size: 10px;
+}
+
+.pokemon-info .tiny-text {
+    font-size: 9px;
+    font-weight: bold;
+}
+
+.health-bar-container {
+    width: 100%;
+    height: 6px;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.health-bar-fill {
+    height: 100%;
+    background-color: var(--green-color);
+}
+
+.points-label {
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.attributes-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.attribute-item {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.attribute-item h6 {
+    font-size: 11px;
+    opacity: 0.7;
+}
+
+@media screen and (max-width: 720px) {
+    .main-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .pokemon-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .health-layout {
+        justify-content: center;
+        flex-direction: column;
+        height: auto;
+    }
+
+    .current-health-box {
+        position: relative;
+        align-items: center;
+    }
+}

@@ -4,6 +4,7 @@ nav * {
 }
 
 nav {
+    z-index: 9999;
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -24,11 +25,11 @@ nav div {
     flex-direction: column;
 }
 
-h1,
-h6,
-p,
-hr,
-button {
+nav h1,
+nav h6,
+nav p,
+nav hr,
+nav button {
     color: var(--input-color);
 }
 
@@ -43,11 +44,6 @@ nav button:hover {
     color: var(--input-contrast-color);
     border-color: var(--input-contrast-color);
 }
-
-nav button:active {
-    filter: saturate(25%);
-}
-
 
 @media screen and (max-width: 720px) {
     main {
