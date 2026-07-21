@@ -1,4 +1,4 @@
-/* BASE MODAL STRUCTURE */
+/*   BASE MODAL STRUCTURE */
 
 .modal-overlay {
     position: fixed;
@@ -32,10 +32,10 @@
     color: var(--input-contrast-color);
 }
 
-/* MODAL 1: INVENTORY */
 
+/*   MODAL 1: INVENTORY */
 .inventory-section {
-    gap: 0px !important;
+    gap: 0 !important;
     display: flex;
     flex: 1;
 }
@@ -100,8 +100,7 @@
 }
 
 
-/* MODAL 2: POKÉMON MANAGEMENT */
-
+/*   MODAL 2: POKÉMON MANAGEMENT */
 .pokemon-detail-panel {
     display: flex;
     flex-direction: row;
@@ -205,8 +204,109 @@
 }
 
 
-/* MODAL UTILITY BUTTONS */
+/*   MODAL 3: EDIT POKÉMON (BOSS FINAL) */
+.edit-pokemon-card {
+    width: 85%;
+    max-width: 1100px;
+}
 
+.edit-pokemon-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    overflow-y: auto;
+    max-height: 65vh;
+    padding-right: 4px;
+}
+
+.custom-select {
+    padding: var(--default-tiny-button-padding);
+    border: 2px dashed var(--input-contrast-color);
+    background-color: transparent;
+    color: var(--input-contrast-color);
+    font-family: inherit;
+    font-weight: bold;
+    height: 32px;
+    outline: none;
+    cursor: pointer;
+}
+
+.current-lvl-box {
+    width: 100px;
+    height: 100%;
+    align-self: stretch;
+}
+
+.lvl-big-number {
+    font-size: 38px;
+    font-weight: bold;
+    color: var(--background-color);
+    line-height: 1;
+}
+
+.status-table {
+    display: flex;
+    flex-direction: column;
+    border: 2px dashed var(--input-contrast-color);
+}
+
+.status-table-header {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    background-color: var(--red-color);
+    color: var(--white-color);
+    text-align: center;
+    font-weight: bold;
+    font-size: 11px;
+    padding: 6px 0;
+}
+
+.status-table-body {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    background-color: var(--red-complementar-color);
+}
+
+.status-table-body input {
+    text-align: center;
+    border: none;
+    border-right: 1px dashed var(--input-contrast-color);
+    background-color: transparent;
+    font-weight: bold;
+    height: 32px;
+}
+
+.status-table-body input:last-child {
+    border-right: none;
+}
+
+.attacks-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.attack-card {
+    border-left: 4px solid var(--red-color);
+    background-color: var(--red-complementar-color);
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.custom-checkbox {
+    width: 32px;
+    height: 32px;
+    accent-color: var(--red-color);
+    cursor: pointer;
+}
+
+/*   BUTTONS & UTILITIES */
 .action-row {
     display: flex;
     flex-direction: row;
@@ -226,7 +326,18 @@
     color: var(--white-color);
 }
 
-/* RESPONSIVE LAYOUT (MOBILE) */
+
+/*   RESPONSIVE LAYOUT (MOBILE) */
+@media screen and (max-width: 950px) {
+    .edit-pokemon-body {
+        grid-template-columns: 1fr;
+        max-height: 60vh;
+    }
+
+    .attacks-grid {
+        grid-template-columns: 1fr;
+    }
+}
 
 @media screen and (max-width: 800px) {
     .modal-card {

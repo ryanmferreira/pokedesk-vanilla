@@ -47,6 +47,7 @@
     gap: 12px;
     font-weight: bold;
     color: var(--input-contrast-color);
+    justify-content: space-between;
 }
 
 .hp-donut {
@@ -212,7 +213,7 @@
     }
 }
 
-@media screen and (max-width: 380px) {
+@media screen and (max-width: 400px) {
     .pokemon-grid {
         grid-template-columns: 1fr;
     }

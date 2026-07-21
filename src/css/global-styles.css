@@ -26,6 +26,11 @@
     background: var(--red-color) !important;
 }
 
+.red-text {
+    color: var(--red-color) !important;
+    border-color: var(--red-color) !important;
+}
+
 .expand {
     flex-grow: 1;
     width: 100%;
@@ -68,6 +73,7 @@ button {
 
 @media (pointer: fine) and (hover: hover) {
 
+    select,
     input:hover,
     button:hover {
         filter: brightness(125%);
@@ -76,6 +82,7 @@ button {
     }
 }
 
+select,
 input:active,
 button:active {
     transform: translateY(2px);

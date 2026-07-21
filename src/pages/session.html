@@ -226,9 +226,7 @@
             <hr>
             <!-- Pop-up actions -->
             <div class="static-row">
-                <button id="add-item-btn" class="btn-dark expand">
-                    Add Item +
-                </button>
+                <button id="add-item-btn" class="btn-dark expand">Add Item +</button>
                 <button onclick="closeInventory()" class="btn-red">Close</button>
             </div>
         </div>
@@ -275,7 +273,7 @@
             <!--Selected Pokémon Actions -->
             <div class="action-row">
                 <button class="btn-dark flex-grow">Add To Team</button>
-                <button class="btn-dark flex-grow">Edit</button>
+                <button onclick="openEditPokemon()" class="btn-dark flex-grow">Edit</button>
                 <button class="btn-red flex-grow">Delete</button>
             </div>
 
@@ -295,6 +293,266 @@
                 <button id="add-pokemon-btn" class="btn-dark flex-grow">New Pokémon</button>
                 <button onclick="closePokemon()" class="red">Close</button>
             </div>
+        </div>
+    </div>
+
+    <!-- Modal 3: Edit Pokémon -->
+    <div id="edit-pokemon-modal" class="modal-overlay hidden">
+        <div class="modal-card container edit-pokemon-card">
+
+            <!-- Header -->
+            <div class="static-row align-between">
+                <h2>EDIT POKÉMON</h2>
+                <button class="btn-dark">Add Image</button>
+            </div>
+            <hr class="dashed-hr">
+
+            <!-- Body / Content (Scrollable Container) -->
+            <div class="edit-pokemon-body">
+
+                <!-- LEFT COLUMN -->
+                <div class="column">
+
+                    <!-- Section: Identity -->
+                    <h3 class="section-title">IDENTITY</h3>
+                    <hr class="dashed-hr">
+
+                    <div class="static-row">
+                        <div class="column">
+                            <h6>TYPE 1</h6>
+                            <select class="custom-select">
+                                <option>dropdown menu</option>
+                            </select>
+                        </div>
+                        <div class="column">
+                            <h6>TYPE 2</h6>
+                            <select class="custom-select">
+                                <option>dropdown menu</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="column">
+                        <h6>SPECIE</h6>
+                        <input type="text" class="inventory-item-input">
+                    </div>
+
+                    <div class="static-row">
+                        <div class="column">
+                            <h6>EQUIPPED ITEM</h6>
+                            <input type="text" class="inventory-item-input">
+                        </div>
+                        <div class="column">
+                            <h6>CURRENT HP</h6>
+                            <input type="number" class="inventory-item-input">
+                        </div>
+                    </div>
+
+                    <div class="row align-between">
+                        <div class="column flex-grow">
+                            <h6>HABILITY</h6>
+                            <select class="custom-select">
+                                <option>dropdown menu</option>
+                            </select>
+                        </div>
+                        <div class="column flex-grow">
+                            <h6>NATURE</h6>
+                            <select class="custom-select">
+                                <option>dropdown menu</option>
+                            </select>
+                        </div>
+                        <div class="column align-center">
+                            <h6>HAPPINESS</h6>
+                            <div class="static-row counter-control">
+                                <button class="btn-qty-control">-</button>
+                                <span class="panel-value">1</span>
+                                <button class="btn-qty-control">+</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section: Progression -->
+                    <h3 class="section-title" style="margin-top: 12px;">PROGRESSION</h3>
+                    <hr class="dashed-hr">
+
+                    <div class="static-row">
+                        <div class="column flex-grow">
+                            <div class="column">
+                                <h6>LEVEL UP SPEED</h6>
+                                <select id="level-up-velocity" class="custom-select">
+                                    <option>Fast</option>
+                                    <option>Medium</option>
+                                    <option>Slow</option>
+                                    <option>Pseudo-legendary</option>
+                                    <option>Legendary</option>
+                                </select>
+                            </div>
+                            <div class="column">
+                                <h6>XP TO BE ADDED</h6>
+                                <input id="xp-to-add" type="number" class="inventory-item-input">
+                            </div>
+                        </div>
+
+                        <div class="column flex-grow" style="justify-content: space-between;">
+                            <div class="column">
+                                <h6>TOTAL XP</h6>
+                                <input id="total-xp" type="number" class="inventory-item-input">
+                            </div>
+                            <div class="column">
+                                <h6>CONFIRM ADDITION?</h6>
+                                <button id="add-xp" class="btn-red">Add XP</button>
+                            </div>
+                        </div>
+
+                        <div class="detail-box stat-box column align-center current-lvl-box">
+                            <span class="panel-label">CURRENT LVL</span>
+                            <span id="current-level" class="lvl-big-number">5</span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- RIGHT COLUMN -->
+                <div class="column">
+
+                    <!-- Section: Status -->
+                    <h3 class="section-title red-text">STATUS</h3>
+
+                    <hr class="red-text">
+
+                    <div class="red-text status-table">
+                        <div class="status-table-header">
+                            <span>HP</span>
+                            <span>ATK</span>
+                            <span>DEF</span>
+                            <span>SP. ATK</span>
+                            <span>SP. DEF</span>
+                            <span>SPD</span>
+                        </div>
+                        <div class="status-table-body">
+                            <input type="number" value="35">
+                            <input type="number" value="35">
+                            <input type="number" value="35">
+                            <input type="number" value="35">
+                            <input type="number" value="35">
+                            <input type="number" value="35">
+                        </div>
+                    </div>
+
+                    <!-- Section: Attacks -->
+                    <h3 class="section-title red-text" style="margin-top: 12px;">ATTACKS</h3>
+                    <hr class="red-text">
+
+                    <div class="attacks-grid">
+
+                        <!-- Attack 1 -->
+                        <div class="attack-card">
+                            <div class="static-row">
+                                <div class="column flex-grow">
+                                    <h6>ATTACK</h6>
+                                    <input type="text" class="inventory-item-input">
+                                </div>
+                                <div class="column" style="width: 40px;">
+                                    <h6>PWR</h6>
+                                    <input type="text" class="inventory-item-input text-center">
+                                </div>
+                                <div class="column" style="width: 40px;">
+                                    <h6>PP</h6>
+                                    <input type="text" class="inventory-item-input text-center">
+                                </div>
+                            </div>
+                            <h6>HAVE EFFECT?</h6>
+                            <div class="static-row align-center">
+                                <input type="checkbox" class="custom-checkbox" unchecked
+                                    onchange="toggleEffectInput(this)">
+                                <input type="text" class="inventory-item-input">
+                            </div>
+                        </div>
+
+                        <!-- Attack 2 -->
+                        <div class="attack-card">
+                            <div class="static-row">
+                                <div class="column flex-grow">
+                                    <h6>ATTACK</h6>
+                                    <input type="text" class="inventory-item-input">
+                                </div>
+                                <div class="column" style="width: 40px;">
+                                    <h6>PWR</h6>
+                                    <input type="text" class="inventory-item-input text-center">
+                                </div>
+                                <div class="column" style="width: 40px;">
+                                    <h6>PP</h6>
+                                    <input type="text" class="inventory-item-input text-center">
+                                </div>
+                            </div>
+                            <h6>HAVE EFFECT?</h6>
+                            <div class="static-row align-center">
+                                <input type="checkbox" class="custom-checkbox" unchecked
+                                    onchange="toggleEffectInput(this)">
+                                <input type="text" class="inventory-item-input">
+                            </div>
+                        </div>
+
+                        <!-- Attack 3 -->
+                        <div class="attack-card">
+                            <div class="static-row">
+                                <div class="column flex-grow">
+                                    <h6>ATTACK</h6>
+                                    <input type="text" class="inventory-item-input">
+                                </div>
+                                <div class="column" style="width: 40px;">
+                                    <h6>PWR</h6>
+                                    <input type="text" class="inventory-item-input text-center">
+                                </div>
+                                <div class="column" style="width: 40px;">
+                                    <h6>PP</h6>
+                                    <input type="text" class="inventory-item-input text-center">
+                                </div>
+                            </div>
+                            <h6>HAVE EFFECT?</h6>
+                            <div class="static-row align-center">
+                                <input type="checkbox" class="custom-checkbox" unchecked
+                                    onchange="toggleEffectInput(this)">
+                                <input type="text" class="inventory-item-input">
+                            </div>
+                        </div>
+
+                        <!-- Attack 4 -->
+                        <div class="attack-card">
+                            <div class="static-row">
+                                <div class="column flex-grow">
+                                    <h6>ATTACK</h6>
+                                    <input type="text" class="inventory-item-input">
+                                </div>
+                                <div class="column" style="width: 40px;">
+                                    <h6>PWR</h6>
+                                    <input type="text" class="inventory-item-input text-center">
+                                </div>
+                                <div class="column" style="width: 40px;">
+                                    <h6>PP</h6>
+                                    <input type="text" class="inventory-item-input text-center">
+                                </div>
+                            </div>
+                            <h6>HAVE EFFECT?</h6>
+                            <div class="static-row align-center">
+                                <input type="checkbox" class="custom-checkbox" unchecked
+                                    onchange="toggleEffectInput(this)">
+                                <input type="text" class="inventory-item-input">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="dashed-hr">
+
+            <!-- Footer Actions -->
+            <div class="action-row">
+                <button onclick="document.getElementById('edit-pokemon-modal').classList.add('hidden')"
+                    class="btn-dark flex-grow">Cancel</button>
+                <button class="btn-red flex-grow">Confirm</button>
+            </div>
+
         </div>
     </div>
 
