@@ -1,85 +1,105 @@
 /* ==========================================================================
-   1. STATES AND GLOBAL SELECTORS
+   STATES AND GLOBAL SELECTORS
    ========================================================================== */
 
 // Player elements
-const itemsContainer = document.getElementById('inventory-items-container');
-const pokemonContainer = document.getElementById('captured-pokemon-list');
+const itemsContainerElement = document.getElementById('inventory-items-container');
+const pokemonContainerElement = document.getElementById('captured-pokemon-list');
+
+const maxHpElement = document.getElementById("max-hp");
+const hpPercentageElement = document.getElementById("hp-percentage");
+const hpStatusElement = document.getElementById("hp-status");
+
+// Player Values
+let characterMaxHp = characterState.attributes.resistance * 5;
+const baseHp = 0;
+
+// Player Attributes
+const currentHpElement = document.getElementById('hp-display');
+
+const resistanceElement = document.getElementById('attr-resistance');
+const strengthElement = document.getElementById('attr-strength');
+const minElement = document.getElementById('attr-mind');
+const agilityElement = document.getElementById('attr-agility');
 
 // Modals
 const inventoryModal = document.getElementById('inventory-modal');
 const pokemonModal = document.getElementById('pokemon-management-modal');
 const editPokemonModal = document.getElementById('edit-pokemon-modal');
 
-// Pokémon Attributtes
-const pokeLevelUpVelocity = document.getElementById('poke-level-velocity');
-const totalXPInput = document.getElementById('total-xp');
-const xpToAddInput = document.getElementById('xp-to-add');
-const currentLvlDisplay = document.getElementById('current-level');
-
 /* ==========================================================================
-   2. LEVEL & XP RULES
+   PLAYER MANAGEMENT
    ========================================================================== */
-function getMinimumXp(level, velocity) {
-    switch (velocity) {
-        case "fast": return 0.8 * level * level;
-        case "medium": return 1.0 * level * level;
-        case "slow": return 1.25 * level * level;
-        case "pseudo-legendary": return 1.5 * level * level;
-        case "legendary": return 2.0 * level * level;
-        default: return 1.0 * level * level;
-    }
-}
+function alterAttribute(attributeName, quantity) {
+    let currentUsedPoints = 0;
 
-function calculateLevel(xpTotal) {
-    if (!pokeLevelUpVelocity) return 5;
-    const velocity = pokeLevelUpVelocity.value.toLowerCase();
-    const xpInput = parseFloat(xpTotal) || 0;
-
-    const baseXpForLvl5 = getMinimumXp(5, velocity);
-    const totalXp = xpInput + baseXpForLvl5;
-
-    let level = 5;
-
-    switch (velocity) {
-        case "fast": level = Math.floor(Math.sqrt(totalXp / 0.8)); break;
-        case "medium": level = Math.floor(Math.sqrt(totalXp / 1.0)); break;
-        case "slow": level = Math.floor(Math.sqrt(totalXp / 1.25)); break;
-        case "pseudo-legendary": level = Math.floor(Math.sqrt(totalXp / 1.5)); break;
-        case "legendary": level = Math.floor(Math.sqrt(totalXp / 2.0)); break;
-        default: level = Math.floor(Math.sqrt(totalXp / 1.0)); break;
+    for (let key in characterState.attributes) {
+        currentUsedPoints += characterState.attributes[key];
     }
 
-    return Math.max(5, level);
-}
-
-function updateLevel() {
-    if (!totalXPInput) return;
-    const currentXP = totalXPInput.value;
-    const level = calculateLevel(currentXP);
-
-    if (currentLvlDisplay) {
-        currentLvlDisplay.textContent = level;
+    if (quantity > 0 && currentUsedPoints >= (characterState.points + 4)) {
+        return;
     }
+
+    characterState.attributes[attributeName] += quantity;
+
+    if (characterState.attributes[attributeName] < 1) {
+        characterState.attributes[attributeName] = 1;
+    }
+
+    document.getElementById(`attr-${attributeName}`).textContent = characterState.attributes[attributeName];
+
+    updatePlayerHP();
+    debugPlayer();
 }
 
-function addXP() {
-    if (!totalXPInput || !xpToAddInput) return;
-    const currentTotal = parseInt(totalXPInput.value, 10) || 0;
-    const addedXP = parseInt(xpToAddInput.value, 10) || 0;
+function alterHP(quantity) {
+    characterState.hp += quantity;
 
-    totalXPInput.value = currentTotal + addedXP;
-    xpToAddInput.value = '';
+    if (characterState.hp > characterMaxHp) {
+        characterState.hp = characterMaxHp;
+    }
+    else if (characterState.hp < 0) {
+        characterState.hp = 0;
+    }
 
-    updateLevel();
+    updatePlayerHP();
+    debugPlayer();
+}
+
+function updateMaxHP() {
+    characterMaxHp = baseHp + characterState.attributes.resistance * 5;
+}
+
+function updatePlayerHP() {
+    updateMaxHP();
+
+    currentHpElement.textContent = characterState.hp;
+    hpStatusElement.textContent = `${characterState.hp}/${characterMaxHp}`;
+
+    const percentage = Math.round((characterState.hp / characterMaxHp) * 100);
+    hpPercentageElement.textContent = `${percentage}%`;
+
+    const hpDonut = document.querySelector(".hp-donut");
+    hpDonut.style.setProperty("--percentage", `${percentage}%`);
+
+    maxHpElement.textContent = characterMaxHp;
+}
+
+function debugPlayer() {
+    console.log("Player attributes: ", characterState.attributes);
+}
+
+function updatePlayerInfo() {
+    updatePlayerHP();
 }
 
 /* ==========================================================================
-   3. INVENTORY MANAGEMENT
+   INVENTORY MANAGEMENT
    ========================================================================== */
 function renderInventory() {
-    if (!itemsContainer) return;
-    itemsContainer.innerHTML = '';
+    if (!itemsContainerElement) return;
+    itemsContainerElement.innerHTML = '';
 
     for (let index in characterState.inventory) {
         const item = characterState.inventory[index];
@@ -94,7 +114,7 @@ function renderInventory() {
             <button class="item-delete-btn" onclick="removeItem(${index})">×</button>
         `;
 
-        itemsContainer.appendChild(itemRow);
+        itemsContainerElement.appendChild(itemRow);
     }
 }
 
@@ -112,46 +132,11 @@ function removeItem(index) {
 }
 
 /* ==========================================================================
-   4. CAPTURED POKEMON MANAGEMENT
-   ========================================================================== */
-function renderPokemonBasicInfo() {
-    if (!pokemonContainer) return;
-    pokemonContainer.innerHTML = '';
-
-    for (let index in characterState.capturedPokemon) {
-        const poke = characterState.capturedPokemon[index];
-        const itemRow = document.createElement('button');
-        itemRow.className = 'captured-item';
-
-        itemRow.innerHTML = `
-            <div class="item-avatar"></div>
-            <div class="item-info column">
-                <div class="static-row align-between">
-                    <span class="poke-item-name">${poke.species || 'POKÉMON NAME'}</span>
-                    <span class="poke-item-lvl">LVL ${poke.level || 1}</span>
-                </div>
-                <div class="health-bar-container green-bar">
-                    <div class="health-bar-fill" style="width: 100%;"></div>
-                </div>
-                <div class="static-row align-between tiny-text">
-                    <span>HP 12 / 12</span>
-                    <span>HAPPINESS ${poke.happiness || 0} / 10</span>
-                </div>
-            </div>
-        `;
-
-        pokemonContainer.appendChild(itemRow);
-    }
-}
-
-/* ==========================================================================
-   5. MODAL AND UI CONTROL
+   MODAL AND UI CONTROL
    ========================================================================== */
 
 function openInventory(itemsArray = null) {
     if (itemsArray) characterState.inventory = itemsArray;
-
-    updateAllPlayerNames()
 
     renderInventory();
     inventoryModal?.classList.remove('hidden');
@@ -169,90 +154,10 @@ function updateAllPlayerNames() {
     });
 }
 
-function openPokemon(pokeArray = null) {
-    if (pokeArray) characterState.capturedPokemon = pokeArray;
-
-    updateAllPlayerNames()
-
-    renderPokemonBasicInfo();
-    pokemonModal?.classList.remove('hidden');
-}
-
-function closePokemon() {
-    pokemonModal?.classList.add('hidden');
-}
-
-function openEditPokemon() {
-    if (editPokemonModal) {
-        editPokemonModal.classList.remove('hidden');
-        updateAllEffectInputs();
-    }
-}
-
-function closeEditPokemon() {
-    editPokemonModal?.classList.add('hidden');
-}
-
-function toggleEffectInput(checkbox) {
-    const textInput = checkbox.nextElementSibling;
-    if (textInput) {
-        textInput.disabled = !checkbox.checked;
-    }
-}
-
-function updateAllEffectInputs() {
-    const checkboxes = document.querySelectorAll('#edit-pokemon-modal .custom-checkbox');
-    checkboxes.forEach(checkbox => toggleEffectInput(checkbox));
-}
-
 /* ==========================================================================
-   6. EVENT LISTENERS
+   EVENT LISTENERS
    ========================================================================== */
 document.getElementById('add-item-btn')?.addEventListener('click', () => {
     characterState.inventory.push({ name: '', quantity: 1 });
     renderInventory();
-});
-
-document.getElementById('add-pokemon-btn')?.addEventListener('click', () => {
-    addPokemon();
-});
-
-function addPokemon() {
-    characterState.capturedPokemon.push({
-        species: 'NEW POKÉMON',
-        level: 5,
-        type1: '',
-        type2: '',
-        levelSpeed: '',
-        xp: 0,
-        hp: 0,
-        capturedBy: '',
-        item: '',
-        happiness: 1,
-        nature: '',
-        ability: '',
-        status: {
-            hp: 5,
-            atk: 5,
-            spAtk: 5,
-            def: 5,
-            spDef: 5,
-            spd: 5
-        },
-        attacks: [
-            { atkName: '', atkType: '', pp: 10, pwr: 40, haveEffect: false, effect: '' }
-        ]
-    });
-
-    console.log(characterState);
-
-    renderPokemonBasicInfo();
-}
-
-document.getElementById('add-xp')?.addEventListener('click', () => {
-    addXP();
-});
-
-pokeLevelUpVelocity?.addEventListener('change', () => {
-    updateLevel();
 });

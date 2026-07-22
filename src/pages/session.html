@@ -34,7 +34,7 @@
     <main>
         <!-- Header -->
         <div class="container header-card">
-            <h2>Player Name</h2>
+            <h2 class="get-player-name">Player Name</h2>
             <hr>
             <div class="static-row align-between">
                 <h3>Character Sheet</h3>
@@ -72,20 +72,20 @@
                 <div class="static-row health-layout">
                     <div class="hp-donut" style="--percentage: 100%;">
                         <div class="donut-text">
-                            <span>100%</span>
-                            <small>5/5</small>
+                            <span id="hp-percentage">100%</span>
+                            <small id="hp-status">5/5</small>
                         </div>
                     </div>
                     <div class="column maximum-health-box">
                         <h6>Max HP</h6>
-                        <h1>5</h1>
+                        <h1 id="max-hp">5</h1>
                     </div>
                     <div class="column current-health-box">
                         <h6>Current HP</h6>
                         <div class="static-row counter-control">
-                            <button class="plus-button">-</button>
-                            <span>5</span>
-                            <button class="plus-button">+</button>
+                            <button class="plus-button" onclick="alterHP(-1)">-</button>
+                            <span id="hp-display">5</span>
+                            <button class="plus-button" onclick="alterHP(+1)">+</button>
                         </div>
                     </div>
                 </div>
@@ -116,23 +116,8 @@
                             </div>
                         </div>
                     </button>
-                    <button class="pokemon-slot active-slot">
-                        <div class="pokemon-image-placeholder"></div>
-                        <div class="column pokemon-info">
-                            <div class="static-row align-between">
-                                <h5>Pokémon Name</h5>
-                                <h6>LVL 12</h6>
-                            </div>
-                            <div class="health-bar-container">
-                                <div class="health-bar-fill" style="width: 100%;"></div>
-                            </div>
-                            <div class="static-row align-between tiny-text">
-                                <span>HP 12/12</span>
-                                <span>Happiness 5/10</span>
-                            </div>
-                        </div>
-                    </button>
                     <!-- Slots Vazios -->
+                    <button class="pokemon-slot empty-slot">(+) Empty</button>
                     <button class="pokemon-slot empty-slot">(+) Empty</button>
                     <button class="pokemon-slot empty-slot">(+) Empty</button>
                     <button class="pokemon-slot empty-slot">(+) Empty</button>
@@ -154,9 +139,9 @@
                             <h6>Trainer physical resistance.</h6>
                         </div>
                         <div class="static-row counter-control">
-                            <button class="plus-button">-</button>
-                            <span>1</span>
-                            <button class="plus-button">+</button>
+                            <button class="plus-button" onclick="alterAttribute('resistance', -1)">-</button>
+                            <span id="attr-resistance">1</span>
+                            <button class="plus-button" onclick="alterAttribute('resistance', +1)">+</button>
                         </div>
                     </div>
                     <div class="attribute-item">
@@ -165,9 +150,9 @@
                             <h6>Raw power, climbing, pushing, holding.</h6>
                         </div>
                         <div class="static-row counter-control">
-                            <button class="plus-button">-</button>
-                            <span>1</span>
-                            <button class="plus-button">+</button>
+                            <button class="plus-button" onclick="alterAttribute('strength', -1)">-</button>
+                            <span id="attr-strength">1</span>
+                            <button class="plus-button" onclick="alterAttribute('strength', +1)">+</button>
                         </div>
                     </div>
                     <div class="attribute-item">
@@ -176,9 +161,9 @@
                             <h6>Intelligence, strategy, identifying Pokémon.</h6>
                         </div>
                         <div class="static-row counter-control">
-                            <button class="plus-button">-</button>
-                            <span>1</span>
-                            <button class="plus-button">+</button>
+                            <button class="plus-button" onclick="alterAttribute('mind', -1)">-</button>
+                            <span id="attr-mind">1</span>
+                            <button class="plus-button" onclick="alterAttribute('mind', +1)">+</button>
                         </div>
                     </div>
                     <div class="attribute-item">
@@ -187,9 +172,9 @@
                             <h6>Reflexes, dodging, initiative.</h6>
                         </div>
                         <div class="static-row counter-control">
-                            <button class="plus-button">-</button>
-                            <span>1</span>
-                            <button class="plus-button">+</button>
+                            <button class="plus-button" onclick="alterAttribute('agility', -1)">-</button>
+                            <span id="attr-agility">1</span>
+                            <button class="plus-button" onclick="alterAttribute('agility', +1)">+</button>
                         </div>
                     </div>
                 </div>
@@ -237,18 +222,18 @@
         <div class="modal-card container">
 
             <!-- Header -->
-            <div class="static-row align-between">
-                <h2 id="manage-pokemon-name">POKÉMON NAME</h2>
+            <div class="static-row align-between hidden">
+                <h2 id="manage-pokemon-name">No Pokémon Selected</h2>
                 <h2 class="get-player-name">Player Name</h2>
             </div>
             <hr>
 
             <!-- Top Panel: Selected Pokémon Basic Info -->
             <div class="pokemon-detail-panel">
-                <div class="detail-box avatar-box"></div>
+                <div id="detail-img" class="detail-box avatar-box"></div>
 
                 <div class="detail-box exp-box column">
-                    <span class="panel-label">EXP - <span id="detail-exp-num">1280</span></span>
+                    <span class="panel-label">EXP - <span id="detail-exp-num">~</span></span>
                     <div class="health-bar-container green-bar">
                         <div id="detail-exp-bar" class="health-bar-fill" style="width: 75%;"></div>
                     </div>
@@ -256,17 +241,17 @@
 
                 <div class="detail-box stat-box column align-center">
                     <span class="panel-label">LVL</span>
-                    <span id="detail-lvl-num" class="panel-value">12</span>
+                    <span id="detail-lvl-num" class="panel-value">~</span>
                 </div>
 
                 <div class="detail-box stat-box column align-center">
                     <span class="panel-label">HP</span>
-                    <span id="detail-hp-text" class="panel-value">12 / 12</span>
+                    <span id="detail-hp-text" class="panel-value">~ / ~</span>
                 </div>
 
                 <div class="detail-box stat-box column align-center">
                     <span class="panel-label">HAPPINESS</span>
-                    <span id="detail-happy-text" class="panel-value">5 / 10</span>
+                    <span id="detail-happy-text" class="panel-value">~</span>
                 </div>
             </div>
 
@@ -372,7 +357,7 @@
                             <h6>HAPPINESS</h6>
                             <div class="static-row counter-control">
                                 <button class="btn-qty-control">-</button>
-                                <span class="panel-value">1</span>
+                                <span id="pokemon-happiness" class="panel-value">1</span>
                                 <button class="btn-qty-control">+</button>
                             </div>
                         </div>
@@ -597,7 +582,9 @@
     </div>
 
     <script src="../js/state.js"></script>
-    <script src="../js/pokemon-status.js"></script>
+    <script src="../js/session.js"></script>
+    <script src="../js/pokemon-management.js"></script>
+    <script src="../js/pokemon-attributes.js"></script>
     <script src="../js/player-management.js"></script>
     <script src="../js/global-scripts.js"></script>
 </body>
