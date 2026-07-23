@@ -240,16 +240,23 @@ function addToTeam() {
         return;
     }
 
-    for (const pokemon of characterState.team) {
-        if (pokemon === currentPokemon) {
-            return;
-        }
+    if (isPokemonInTeam()) {
+        characterState.team.splice(isPokemonInTeam(), 1);
+        console.log("Removido do time:", currentPokemon.species);
+        addToTeamButton.textContent = "Add to Team";
+    } else {
+        characterState.team.push(currentPokemon);
+        console.log("Adicionado ao time:", currentPokemon.species);
+        addToTeamButton.textContent = "Remove from Team";
     }
 
-    characterState.team.push(currentPokemon);
-
     renderPokemonTeam()
-    debugPlayer();
+}
+
+function isPokemonInTeam() {
+    let index = characterState.team.indexOf(currentPokemon);
+    
+    return index !== -1 ? true : false;
 }
 
 function updatePokemonInfo() {
