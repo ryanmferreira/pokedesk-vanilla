@@ -1,6 +1,8 @@
 /* ==========================================================================
    STATES AND GLOBAL SELECTORS
    ========================================================================== */
+const pokemonContainerElement = document.getElementById('captured-pokemon-list');
+const pokemonTeamElement = document.getElementById('pokemon-grid');
 
 // Pokémon Attributtes
 let currentPokemon = null;
@@ -26,6 +28,7 @@ const pokemonAbility = document.getElementById('poke-ability');
 
 // Input
 const pokemonSpecie = document.getElementById('poke-specie');
+const pokemonImage = document.getElementById('add-image-input');
 
 const totalXP = document.getElementById('poke-total-xp');
 const pokemonHealth = document.getElementById('poke-hp');
@@ -47,11 +50,71 @@ const selectedHappinessDetails = document.getElementById('detail-happy-text');
 const selectedHealthDetails = document.getElementById('detail-hp-text');
 const selectedImgDetails = document.getElementById('detail-img');
 
+// Modal
+const pokemonModal = document.getElementById('pokemon-management-modal');
+const editPokemonModal = document.getElementById('edit-pokemon-modal');
+const addImageModal = document.getElementById('add-image-modal');
+
 /* ==========================================================================
    CAPTURED POKEMON MANAGEMENT
    ========================================================================== */
+function renderPokemonTeam() {
+    if (!pokemonTeamElement) {
+        return;
+    }
+
+    pokemonTeamElement.innerHTML = '';
+
+    let teamSize = 0;
+
+    for (let index in characterState.team) {
+        const pokemonData = characterState.team[index];
+
+        const pokemonElement = document.createElement('button');
+        pokemonElement.classList = 'pokemon-slot active-slot';
+
+        teamSize++;
+
+        pokemonElement.innerHTML = `
+            <div class="pokemon-image-placeholder"></div>
+            <div class="column pokemon-info">
+                <div class="static-row align-between">
+                    <h5>Pokémon Name</h5>
+                    <h6>LVL 12</h6>
+                </div>
+                <div class="health-bar-container">
+                    <div class="health-bar-fill" style="width: 100%;"></div>
+                </div>
+                <div class="static-row align-between tiny-text">
+                    <span>HP 12/12</span>
+                    <span>Happiness 5/10</span>
+                </div>
+            </div>
+        `;
+
+        pokemonElement.addEventListener('click', () => {
+            selectPokemon(pokemonData);
+        });
+
+        pokemonTeamElement.appendChild(pokemonElement);
+    }
+
+    for (let i = 0; i < (6 - teamSize); i++) {
+        console.log(i)
+
+        const emptySlot = document.createElement('button');
+        emptySlot.textContent = '(+) Empty';
+        emptySlot.classList = 'pokemon-slot empty-slot';
+
+        pokemonTeamElement.appendChild(emptySlot);
+    }
+}
+
 function renderPokemonBasicInfo() {
-    if (!pokemonContainerElement) return;
+    if (!pokemonContainerElement) {
+        return
+    };
+
     pokemonContainerElement.innerHTML = '';
 
     for (let index in characterState.capturedPokemon) {
@@ -60,7 +123,7 @@ function renderPokemonBasicInfo() {
         pokemon.className = 'captured-item';
 
         pokemon.innerHTML = `
-            <div class="detail-box avatar-box"><img src="${poke.imgUrl}" alt="${poke.species}"></div>
+        <div class="detail-box avatar-box"><img src="${poke.imgUrl}" alt="${poke.species}"></div>
             <div class="item-info column">
                 <div class="static-row align-between">
                     <span class="poke-item-name">${poke.species}</span>
@@ -164,6 +227,53 @@ function addPokemon() {
     renderPokemonBasicInfo();
 }
 
+function addToTeam() {
+    if (!currentPokemon) {
+        return;
+    }
+
+    characterState.team.push(currentPokemon);
+
+    renderPokemonTeam()
+    debugPlayer();
+}
+
+function updatePokemonInfo() {
+    if (!currentPokemon) {
+        return;
+    }
+
+    currentPokemon.species = pokemonSpecie?.value;
+    currentPokemon.gender = pokemonGender?.value;
+    currentPokemon.levelSpeed = pokeLevelVelocity?.value;
+    currentPokemon.type1 = pokemonType1?.value;
+    currentPokemon.type2 = pokemonType2?.value;
+    currentPokemon.capturedBy = pokemonPokeball?.value;
+    currentPokemon.nature = pokemonNature?.value;
+    currentPokemon.ability = pokemonAbility?.value;
+    currentPokemon.item = pokemonItem?.value;
+    currentPokemon.imgUrl = pokemonImage?.value;
+
+    currentPokemon.xp = parseInt(totalXP?.value, 10);
+    currentPokemon.level = calculateLevel(currentPokemon.xp);
+    currentPokemon.happiness = parseInt(pokemonHapiness?.textContent, 10);
+    currentPokemon.hp = parseInt(pokemonHealth?.value, 10);
+
+    currentPokemon.status = {
+        hp: parseInt(pokemonStatusHp?.value, 10),
+        atk: parseInt(pokemonStatusAtk?.value, 10),
+        spAtk: parseInt(pokemonStatusSpAtk?.value, 10),
+        def: parseInt(pokemonStatusDef?.value, 10),
+        spDef: parseInt(pokemonStatusSpDef?.value, 10),
+        spd: parseInt(pokemonStatusSpd?.value, 10)
+    };
+
+    selectPokemon(currentPokemon);
+    renderPokemonBasicInfo();
+
+    closeEditPokemon();
+}
+
 /* ==========================================================================
    MODAL AND UI CONTROL
    ========================================================================== */
@@ -176,7 +286,9 @@ function hiddenSelectedPokemon() {
 }
 
 function openPokemon(pokeArray = null) {
-    if (pokeArray) characterState.capturedPokemon = pokeArray;
+    if (pokeArray) {
+        characterState.capturedPokemon = pokeArray;
+    }
 
     renderPokemonBasicInfo();
     pokemonModal?.classList.remove('hidden');
@@ -187,29 +299,38 @@ function closePokemon() {
     hiddenSelectedPokemon();
 }
 
+function closeAddImage() {
+    addImageModal?.classList.add('hidden');
+}
+
+function openAddImage() {
+    addImageModal?.classList.remove('hidden');
+}
+
 function openEditPokemon() {
     if (!currentPokemon) return;
 
-    if (pokemonSpecie) pokemonSpecie.value = currentPokemon.species || '';
-    if (pokemonGender) pokemonGender.value = currentPokemon.gender || '';
-    if (pokeLevelVelocity) pokeLevelVelocity.value = currentPokemon.levelSpeed || 'medium';
-    if (pokemonType1) pokemonType1.value = currentPokemon.type1 || '';
-    if (pokemonType2) pokemonType2.value = currentPokemon.type2 || '';
-    if (pokemonPokeball) pokemonPokeball.value = currentPokemon.capturedBy || '';
-    if (pokemonNature) pokemonNature.value = currentPokemon.nature || '';
-    if (pokemonAbility) pokemonAbility.value = currentPokemon.ability || '';
-    if (pokemonItem) pokemonItem.value = currentPokemon.item || '';
-    if (pokemonHapiness) pokemonHapiness.textContent = currentPokemon.happiness || 1;
+    if (pokemonSpecie) pokemonSpecie.value = currentPokemon.species;
+    if (pokemonGender) pokemonGender.value = currentPokemon.gender;
+    if (pokeLevelVelocity) pokeLevelVelocity.value = currentPokemon.levelSpeed;
+    if (pokemonType1) pokemonType1.value = currentPokemon.type1;
+    if (pokemonType2) pokemonType2.value = currentPokemon.type2;
+    if (pokemonPokeball) pokemonPokeball.value = currentPokemon.capturedBy;
+    if (pokemonNature) pokemonNature.value = currentPokemon.nature;
+    if (pokemonAbility) pokemonAbility.value = currentPokemon.ability;
+    if (pokemonItem) pokemonItem.value = currentPokemon.item;
+    if (pokemonHapiness) pokemonHapiness.textContent = currentPokemon.happiness;
 
-    if (totalXP) totalXP.value = currentPokemon.xp || 0;
-    if (pokemonHealth) pokemonHealth.value = currentPokemon.hp || 0;
+    if (totalXP) totalXP.value = currentPokemon.xp;
+    if (pokemonHealth) pokemonHealth.value = currentPokemon.hp;
+    if (pokemonImage) pokemonImage.value = currentPokemon.imgUrl;
 
-    if (pokemonStatusHp) pokemonStatusHp.value = currentPokemon.status?.hp || 5;
-    if (pokemonStatusAtk) pokemonStatusAtk.value = currentPokemon.status?.atk || 5;
-    if (pokemonStatusSpAtk) pokemonStatusSpAtk.value = currentPokemon.status?.spAtk || 5;
-    if (pokemonStatusDef) pokemonStatusDef.value = currentPokemon.status?.def || 5;
-    if (pokemonStatusSpDef) pokemonStatusSpDef.value = currentPokemon.status?.spDef || 5;
-    if (pokemonStatusSpd) pokemonStatusSpd.value = currentPokemon.status?.spd || 5;
+    if (pokemonStatusHp) pokemonStatusHp.value = currentPokemon.status?.hp;
+    if (pokemonStatusAtk) pokemonStatusAtk.value = currentPokemon.status?.atk;
+    if (pokemonStatusSpAtk) pokemonStatusSpAtk.value = currentPokemon.status?.spAtk;
+    if (pokemonStatusDef) pokemonStatusDef.value = currentPokemon.status?.def;
+    if (pokemonStatusSpDef) pokemonStatusSpDef.value = currentPokemon.status?.spDef;
+    if (pokemonStatusSpd) pokemonStatusSpd.value = currentPokemon.status?.spd;
 
     updateLevel();
 
@@ -217,40 +338,6 @@ function openEditPokemon() {
         editPokemonModal.classList.remove('hidden');
         updateAllEffectInputs();
     }
-}
-
-// Finally update Pokémon Info :D
-function updatePokemonInfo() {
-    if (!currentPokemon) return;
-
-    currentPokemon.species = pokemonSpecie?.value || 'NEW POKÉMON';
-    currentPokemon.gender = pokemonGender?.value || '';
-    currentPokemon.levelSpeed = pokeLevelVelocity?.value || 'medium';
-    currentPokemon.type1 = pokemonType1?.value || '';
-    currentPokemon.type2 = pokemonType2?.value || '';
-    currentPokemon.capturedBy = pokemonPokeball?.value || '';
-    currentPokemon.nature = pokemonNature?.value || '';
-    currentPokemon.ability = pokemonAbility?.value || '';
-    currentPokemon.item = pokemonItem?.value || '';
-
-    currentPokemon.xp = parseInt(totalXP?.value, 10) || 0;
-    currentPokemon.level = calculateLevel(currentPokemon.xp);
-    currentPokemon.happiness = parseInt(pokemonHapiness?.textContent, 10) || 1;
-    currentPokemon.hp = parseInt(pokemonHealth?.value, 10) || 0;
-
-    currentPokemon.status = {
-        hp: parseInt(pokemonStatusHp?.value, 10) || 0,
-        atk: parseInt(pokemonStatusAtk?.value, 10) || 0,
-        spAtk: parseInt(pokemonStatusSpAtk?.value, 10) || 0,
-        def: parseInt(pokemonStatusDef?.value, 10) || 0,
-        spDef: parseInt(pokemonStatusSpDef?.value, 10) || 0,
-        spd: parseInt(pokemonStatusSpd?.value, 10) || 0
-    };
-
-    selectPokemon(currentPokemon);
-    renderPokemonBasicInfo();
-
-    closeEditPokemon();
 }
 
 function closeEditPokemon() {
@@ -274,6 +361,10 @@ function updateAllEffectInputs() {
    ========================================================================== */
 document.getElementById('add-pokemon-btn')?.addEventListener('click', () => {
     addPokemon();
+});
+
+document.getElementById('add-selected-pokemon')?.addEventListener('click', () => {
+    addToTeam();
 });
 
 document.getElementById('delete-selected-pokemon')?.addEventListener('click', () => {

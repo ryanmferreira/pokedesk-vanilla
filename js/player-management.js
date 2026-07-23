@@ -4,7 +4,6 @@
 
 // Player elements
 const itemsContainerElement = document.getElementById('inventory-items-container');
-const pokemonContainerElement = document.getElementById('captured-pokemon-list');
 
 const maxHpElement = document.getElementById("max-hp");
 const hpPercentageElement = document.getElementById("hp-percentage");
@@ -24,8 +23,6 @@ const agilityElement = document.getElementById('attr-agility');
 
 // Modals
 const inventoryModal = document.getElementById('inventory-modal');
-const pokemonModal = document.getElementById('pokemon-management-modal');
-const editPokemonModal = document.getElementById('edit-pokemon-modal');
 
 /* ==========================================================================
    PLAYER MANAGEMENT
@@ -88,6 +85,7 @@ function updatePlayerHP() {
 
 function debugPlayer() {
     console.log("Player attributes: ", characterState.attributes);
+    console.log("Player team: ", characterState.team);
 }
 
 function updatePlayerInfo() {

@@ -100,34 +100,12 @@
                     <h2>1/6</h2>
                 </div>
                 <hr>
-                <div class="pokemon-grid">
-                    <!-- Active slots -->
-                    <button class="pokemon-slot active-slot">
-                        <div class="pokemon-image-placeholder"></div>
-                        <div class="column pokemon-info">
-                            <div class="static-row align-between">
-                                <h5>Pokémon Name</h5>
-                                <h6>LVL 12</h6>
-                            </div>
-                            <div class="health-bar-container">
-                                <div class="health-bar-fill" style="width: 100%;"></div>
-                            </div>
-                            <div class="static-row align-between tiny-text">
-                                <span>HP 12/12</span>
-                                <span>Happiness 5/10</span>
-                            </div>
-                        </div>
-                    </button>
-                    <!-- Slots Vazios -->
-                    <button class="pokemon-slot empty-slot">(+) Empty</button>
-                    <button class="pokemon-slot empty-slot">(+) Empty</button>
-                    <button class="pokemon-slot empty-slot">(+) Empty</button>
-                    <button class="pokemon-slot empty-slot">(+) Empty</button>
-                    <button class="pokemon-slot empty-slot">(+) Empty</button>
+                <div id="pokemon-grid" class="pokemon-grid">
+                    <!-- Lines goes here -->
                 </div>
             </div>
 
-            <!-- Character Attributes (Mantendo os 4 corretos do HTML original em inglês) -->
+            <!-- Character Attributes -->
             <div class="container flex-grow">
                 <div class="static-row align-between">
                     <h2>Attributes</h2>
@@ -260,7 +238,7 @@
 
                 <!--Selected Pokémon Actions -->
                 <div class="action-row">
-                    <button class="btn-dark flex-grow">Add To Team</button>
+                    <button id="add-selected-pokemon" class="btn-dark flex-grow">Add To Team</button>
                     <button id="edit-selected-pokemon" class="btn-dark flex-grow">Edit</button>
                     <button id="delete-selected-pokemon" class="btn-red flex-grow">Delete</button>
                 </div>
@@ -292,7 +270,7 @@
             <!-- Header -->
             <div class="static-row align-between">
                 <h2>EDIT POKÉMON</h2>
-                <button class="btn-dark">Add Image</button>
+                <button class="btn-dark" onclick="openAddImage()">Add Image</button>
             </div>
             <hr class="dashed-hr">
 
@@ -594,6 +572,15 @@
                 <button id="save-pokemon-btn" class="btn-red flex-grow">Confirm</button>
             </div>
 
+        </div>
+    </div>
+
+    <div id="add-image-modal" class="modal-overlay hidden">
+        <div class="modal-card container">
+            <h2>Image URL</h2>
+            <hr>
+            <input id="add-image-input" type="text" name="" id="">
+            <button onclick="closeAddImage()">Close</button>
         </div>
     </div>
 
