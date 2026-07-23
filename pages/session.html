@@ -29,8 +29,9 @@
         </div>
         <div class="expand"></div>
         <div>
-            <button>Save to Cloud</button>
-            <button>Leave the Session</button>
+            <button type="button">Reload</button>
+            <button type="button">Save changes</button>
+            <button type="button">Leave the Session</button>
         </div>
     </nav>
 
@@ -177,7 +178,7 @@
                 <h6>CASH IN HAND</h6>
                 <div class="static-row inventory-section" style="align-items: center;">
                     <button class="plus-button">₽</button>
-                    <input class="inventory-item-input" type="number" id="inventory-cash" value="0">
+                    <input class="inventory-item-input" onchange="updateCash(value)" type="number" id="inventory-cash">
                 </div>
             </div>
 
@@ -465,8 +466,8 @@
     <script src="../js/session.js"></script>
     <script src="../js/pokemon-info.js"></script>
     <script src="../js/pokemon-management.js"></script>
-    <script src="../js/player-management.js"></script>
     <script src="../js/global-scripts.js"></script>
+    <script src="../js/player-management.js"></script>
 </body>
 
 </html>

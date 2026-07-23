@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    updatePlayerInfo();
-    updateAllPlayerNames();
+    loadPlayerInfo();
 
     renderPokemonTeam();
     renderCapturedPokemons();
