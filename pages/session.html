@@ -26,7 +26,7 @@
         <hr>
         <div>
             <button onclick="openInventory(null)">Inventory</button>
-            <button onclick="openPokemon(null)">Pokémon PC</button>
+            <button onclick="openPokemon(null)">PC</button>
             <button>Diary</button>
         </div>
         <div class="expand"></div>
@@ -101,7 +101,7 @@
             <!-- Character Pokémon Team -->
             <div class="container flex-grow">
                 <div class="static-row align-between">
-                    <h2>Pokémon Team</h2>
+                    <h2>Pokémon Party</h2>
                     <h2 id="team-size">1/6</h2>
                 </div>
                 <hr>
@@ -251,7 +251,7 @@
 
                 <!--Selected Pokémon Actions -->
                 <div class="action-row">
-                    <button id="add-selected-pokemon" class="btn-dark flex-grow">Move To Team</button>
+                    <button id="add-selected-pokemon" class="btn-dark flex-grow">Move To Party</button>
                     <button id="edit-selected-pokemon" class="btn-dark flex-grow">Edit</button>
                     <button id="delete-selected-pokemon" class="btn-red flex-grow">Release</button>
                 </div>
@@ -274,7 +274,7 @@
 
             <!-- Footer Actions -->
             <div class="static-row">
-                <button id="add-pokemon-btn" class="btn-dark flex-grow">Add Pokémon to Box</button>
+                <button id="add-pokemon-btn" class="btn-dark flex-grow">Register a new Pokémon</button>
                 <button onclick="closePokemon()" class="red">Close</button>
             </div>
         </div>

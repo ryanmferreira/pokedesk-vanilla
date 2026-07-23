@@ -390,7 +390,7 @@ function updateTeamButton() {
     if (inTeam) {
         addToTeamButton.textContent = "Send to PC";
     } else {
-        addToTeamButton.textContent = "Add to Team";
+        addToTeamButton.textContent = "Move to Party";
     }
 }
 

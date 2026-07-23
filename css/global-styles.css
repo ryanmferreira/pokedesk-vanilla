@@ -83,6 +83,10 @@ button {
     }
 }
 
+button:disabled {
+    filter: saturate(0%);
+}
+
 select,
 input:active,
 button:active {
