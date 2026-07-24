@@ -97,7 +97,7 @@
 .pokemon-slot {
     border: 2px dashed var(--input-contrast-color);
     display: flex;
-    padding: 2px;
+    padding: var(--default-tiny-button-padding) !important;
     align-items: center;
 
     background-color: transparent;
@@ -116,7 +116,7 @@
 }
 
 .active-slot {
-    gap: 8px;
+    gap: 4px;
 }
 
 .pokemon-image-placeholder {
