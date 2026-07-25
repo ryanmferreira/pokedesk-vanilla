@@ -16,7 +16,7 @@ nav {
     min-width: 20%;
 }
 
-nav div {
+nav > div {
     gap: 16px;
     display: flex;
     flex-direction: column;
@@ -68,7 +68,13 @@ nav button:hover {
         flex-direction: row;
         align-items: center;
         justify-content: space-between;
-        border-bottom: 2px dashed var(--input-color);
+    }
+
+    #manage-pokemon-name {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 100%;
     }
 
     .nav-header,
@@ -97,12 +103,12 @@ nav button:hover {
 
     .mobile-menu-dropdown {
         display: none;
+        width: 0%;
+        height: 0%;
         position: absolute;
         top: 64px;
-        right: 0;
+        left: 0;
         background-color: var(--glass-color);
-        border-left: 2px dashed var(--input-color);
-        border-bottom: 2px dashed var(--input-color);
         padding: 12px;
         flex-direction: column;
         gap: 8px;
@@ -113,6 +119,8 @@ nav button:hover {
 
     .mobile-menu-dropdown.show {
         display: flex;
+        min-width: 50%;
+        height: fit-content;
     }
 
     nav button {

@@ -23,14 +23,17 @@
             <h1>Hello, Ryan!</h1>
             <h6>Player</h6>
         </div>
+      
         <hr>
+      
         <div>
             <button onclick="openInventory(null)">Inventory</button>
             <button onclick="openPokemon(null)">PC</button>
             <button>Diary</button>
         </div>
+        
         <div class="expand"></div>
-        <!-- Adicionada a classe 'mobile-menu-dropdown' aqui -->
+        
         <div class="mobile-menu-dropdown">
             <button type="button" disabled>Reload</button>
             <button type="button" disabled>Save changes</button>
@@ -42,7 +45,9 @@
         <!-- Header -->
         <div class="container header-card">
             <h2 class="get-player-name">Player Name</h2>
+         
             <hr>
+           
             <div class="static-row align-between">
                 <h3>Character Sheet</h3>
                 <span class="last-saved">Last Saved - 22:22</span>
@@ -55,16 +60,20 @@
             <!-- Basic Information -->
             <div class="container flex-grow">
                 <h2>Basic information</h2>
+             
                 <hr>
+            
                 <div class="column">
                     <h6>Name</h6>
                     <input id="character-name" type="text">
                 </div>
+             
                 <div class="static-row">
                     <div class="column">
                         <h6>Class</h6>
                         <input id="character-class" type="text">
                     </div>
+             
                     <div class="column">
                         <h6>Race</h6>
                         <input id="character-race" type="text">
@@ -75,7 +84,9 @@
             <!-- Player Health -->
             <div class="container flex-grow">
                 <h2>Player Health</h2>
+             
                 <hr>
+             
                 <div class="static-row health-layout">
                     <div class="hp-donut" style="--percentage: 100%;">
                         <div class="donut-text">
@@ -83,10 +94,12 @@
                             <small id="hp-status">5/5</small>
                         </div>
                     </div>
+                 
                     <div class="column maximum-health-box">
                         <h6>Max HP</h6>
                         <h1 id="max-hp">5</h1>
                     </div>
+                  
                     <div class="column current-health-box">
                         <h6>Current HP</h6>
                         <div class="static-row counter-control">
@@ -104,8 +117,10 @@
                     <h2>Pokémon Party</h2>
                     <h2 id="team-size">1/6</h2>
                 </div>
+             
                 <hr>
-                <div id="pokemon-grid" class="pokemon-grid">
+             
+                <div id="pokemon-grid" class="pokemon-grid flex-grow">
                     <!-- Lines goes here -->
                 </div>
             </div>
@@ -116,7 +131,9 @@
                     <h2>Attributes</h2>
                     <h6 class="points-label">Points to distribute: 0</h6>
                 </div>
+              
                 <hr>
+                
                 <div class="attributes-list">
                     <div class="attribute-item">
                         <div class="column">
@@ -129,6 +146,7 @@
                             <button class="plus-button" onclick="alterAttribute('resistance', +1)">+</button>
                         </div>
                     </div>
+              
                     <div class="attribute-item">
                         <div class="column">
                             <h4>Strength</h4>
@@ -140,6 +158,7 @@
                             <button class="plus-button" onclick="alterAttribute('strength', +1)">+</button>
                         </div>
                     </div>
+                
                     <div class="attribute-item">
                         <div class="column">
                             <h4>Mind</h4>
@@ -151,6 +170,7 @@
                             <button class="plus-button" onclick="alterAttribute('mind', +1)">+</button>
                         </div>
                     </div>
+                  
                     <div class="attribute-item">
                         <div class="column">
                             <h4>Agility</h4>
@@ -174,6 +194,7 @@
                 <h2>INVENTORY</h2>
                 <h2 class="get-player-name">Player Name</h2>
             </div>
+
             <hr>
 
             <!-- Cash in Hand -->
@@ -189,14 +210,15 @@
             <div class="column">
                 <h6>ITEMS</h6>
                 <div id="inventory-items-container" class="column">
-                    <!-- Lines goes Here (by JS) -->
+                    <!-- Items goes here (by JS) -->
                 </div>
             </div>
 
             <hr>
+
             <!-- Pop-up actions -->
             <div class="static-row">
-                <button id="add-item-btn" class="btn-dark expand">Add Item +</button>
+                <button id="add-item-btn" class="expand">Add Item +</button>
                 <button onclick="closeInventory()" class="btn-red">Close</button>
             </div>
         </div>
@@ -211,13 +233,13 @@
                 <h2 id="manage-pokemon-name">No Pokémon Selected</h2>
                 <h2 class="get-player-name">Player Name</h2>
             </div>
+
             <hr>
 
             <!-- Top Panel: Selected Pokémon Basic Info -->
             <div class="column select-pokemon">
                 <div class="pokemon-detail-panel">
                     <div id="detail-img" class="detail-box avatar-box"></div>
-
 
                     <div class="detail-box exp-box static-row">
                         <div class="column">
@@ -233,26 +255,28 @@
                         </div>
                     </div>
 
-                    <div class="detail-box stat-box column align-center">
-                        <span class="panel-label">HP</span>
-                        <div>
-                            <span id="detail-hp-text" class="panel-value">~ / ~</span>
-                            <div class="health-bar-container green-bar">
-                                <div id="detail-life-bar" class="health-bar-fill" style="width: 75%;"></div>
+                    <div class="flex-grow static-row correct-size">
+                        <div class="detail-box stat-box column align-center">
+                            <span class="panel-label">HP</span>
+                            <div>
+                                <span id="detail-hp-text" class="panel-value">~ / ~</span>
+                                <div class="health-bar-container green-bar">
+                                    <div id="detail-life-bar" class="health-bar-fill" style="width: 75%;"></div>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="detail-box stat-box column align-center">
-                        <span class="panel-label">HAPPINESS</span>
-                        <span id="detail-happy-text" class="panel-value">~</span>
+                        <div class="detail-box stat-box column align-center">
+                            <span class="panel-label">HAPPINESS</span>
+                            <span id="detail-happy-text" class="panel-value">~</span>
+                        </div>
                     </div>
                 </div>
 
                 <!--Selected Pokémon Actions -->
                 <div class="action-row">
-                    <button id="add-selected-pokemon" class="btn-dark flex-grow">Move To Party</button>
-                    <button id="edit-selected-pokemon" class="btn-dark flex-grow">Edit</button>
+                    <button id="add-selected-pokemon" class="flex-grow">Move To Party</button>
+                    <button id="edit-selected-pokemon" class="flex-grow">Edit</button>
                     <button id="delete-selected-pokemon" class="btn-red flex-grow">Release</button>
                 </div>
             </div>
@@ -267,14 +291,14 @@
 
             <!-- Pokémon List -->
             <div id="captured-pokemon-list" class="captured-grid">
-                <!-- Lines goes here (by JS) -->
+                <!-- Pokémon goes here (by JS) -->
             </div>
 
             <hr class="dashed-hr">
 
             <!-- Footer Actions -->
             <div class="static-row">
-                <button id="add-pokemon-btn" class="btn-dark flex-grow">Register a new Pokémon</button>
+                <button id="add-pokemon-btn" class="flex-grow">Register a new Pokémon</button>
                 <button onclick="closePokemon()" class="red">Close</button>
             </div>
         </div>
@@ -287,7 +311,7 @@
             <!-- Header -->
             <div class="static-row align-between">
                 <h2>EDIT POKÉMON</h2>
-                <button class="btn-dark" onclick="openAddImage()">Add Image</button>
+                <button class="" onclick="openAddImage()">Add Image</button>
             </div>
             <hr class="dashed-hr">
 
@@ -351,7 +375,7 @@
                         </div>
                     </div>
 
-                    <div class="row align-between">
+                    <div class="static-row">
                         <div class="column flex-grow">
                             <h6>ABILITY</h6>
                             <select id="poke-ability" class="custom-select">
@@ -453,10 +477,9 @@
             <!-- Footer Actions -->
             <div class="action-row">
                 <button onclick="document.getElementById('edit-pokemon-modal').classList.add('hidden')"
-                    class="btn-dark flex-grow">Cancel</button>
+                    class="flex-grow">Cancel</button>
                 <button id="save-pokemon-btn" class="btn-red flex-grow">Save</button>
             </div>
-
         </div>
     </div>
 

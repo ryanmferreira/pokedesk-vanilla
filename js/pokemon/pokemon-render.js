@@ -16,7 +16,7 @@ function renderPokemonTeam() {
         totalPokemons++;
 
         pokemonSlot.innerHTML = `
-            <div class="detail-box avatar-box"><img src="${pokemonInfo.imgUrl}" alt="${pokemonInfo.species}"></div>
+            <div class="detail-box avatar-box"><img class="flex-grow" src="${pokemonInfo.imgUrl}" alt="${pokemonInfo.species}"></div>
             <div class="column pokemon-info">
                 <div class="static-row align-between">
                     <h5>${pokemonInfo.species}</h5>
