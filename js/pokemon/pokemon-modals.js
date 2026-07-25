@@ -17,11 +17,7 @@ function hiddenSelectedPokemon() {
     document.querySelector('.select-pokemon').style.display = 'none';
 }
 
-function openPokemon(pokeArray = null) {
-    if (pokeArray) {
-        characterState.capturedPokemon = pokeArray;
-    }
-
+function openPokemon() {
     renderCapturedPokemons();
     pokemonModal?.classList.remove('hidden');
 }

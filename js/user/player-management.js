@@ -84,6 +84,7 @@ function alterAttribute(attributeName, quantity) {
     }
 
     const attrDisplay = document.getElementById(`attr-${attributeName}`);
+  
     if (attrDisplay) {
         attrDisplay.textContent = characterState.attributes[attributeName];
     }
@@ -121,7 +122,7 @@ function loadPlayerInfo() {
     const nameInput = document.getElementById('character-name');
     const raceInput = document.getElementById('character-race');
     const classInput = document.getElementById('character-class');
-    // CORRIGIDO: O ID correto conforme seu HTML é inventory-cash
+
     const cashInput = document.getElementById('inventory-cash');
 
     if (nameInput) nameInput.value = characterState.name ?? '';
@@ -204,11 +205,7 @@ function removeItem(index) {
 /* ==========================================================================
    MODAL AND UI CONTROL
    ========================================================================== */
-function openInventory(itemsArray = null) {
-    if (itemsArray) {
-        characterState.inventory = itemsArray;
-    }
-
+function openInventory() {
     renderInventory();
     inventoryModal?.classList.remove('hidden');
 }
