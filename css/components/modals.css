@@ -335,10 +335,13 @@
     background-color: var(--green-color);
 }
 
+.blue-bar .health-bar-fill {
+    background-color: var(--blue-color);
+}
+
 .red-bar .health-bar-fill {
     background-color: var(--red-color);
 }
-
 
 /* ==========================================================================
    MODAL 3: EDIT POKÉMON (BOSS FINAL)
