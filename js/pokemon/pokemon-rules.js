@@ -41,6 +41,7 @@ function updateLevel() {
     }
 
     const currentXP = totalXP.value;
+    
     const level = calculateLevel(currentXP);
 
     if (currentLvlDisplay) {

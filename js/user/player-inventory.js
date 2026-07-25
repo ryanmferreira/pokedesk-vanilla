@@ -1,9 +1,11 @@
 /* ==========================================================================
    INVENTORY MANAGEMENT
    ========================================================================== */
-   
+
 function renderInventory() {
-    if (!itemsContainerElement) return;
+    if (!itemsContainerElement) {
+        return;
+    }
 
     itemsContainerElement.innerHTML = '';
 

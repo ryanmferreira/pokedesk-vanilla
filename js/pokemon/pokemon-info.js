@@ -74,7 +74,10 @@ const abilities = [
 
 const populateSelect = (selectId, items, includeNone = false) => {
     const select = document.getElementById(selectId);
-    if (!select) return;
+
+    if (!select) {
+        return
+    };
 
     if (includeNone) {
         const noneOpt = document.createElement("option");

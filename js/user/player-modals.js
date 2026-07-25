@@ -1,6 +1,7 @@
 /* ==========================================================================
    MODAL AND UI CONTROL
    ========================================================================== */
+
 function openInventory() {
     renderInventory();
     inventoryModal?.classList.remove('hidden');

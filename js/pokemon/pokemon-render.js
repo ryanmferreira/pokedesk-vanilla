@@ -1,12 +1,14 @@
 /* ==========================================================================
    CAPTURED POKEMON MANAGEMENT
    ========================================================================== */
+
 function renderPokemonTeam() {
     if (!teamPokemonElement) {
         return;
     }
 
     teamPokemonElement.innerHTML = '';
+
     let totalPokemons = 0;
 
     for (const pokemonInfo of characterState.team) {
@@ -50,7 +52,7 @@ function renderPokemonTeam() {
     }
 
     if (teamSizeElement) {
-        teamSizeElement.textContent = totalPokemons + "/6";
+        teamSizeElement.textContent = totalPokemons + " / 6";
     }
 }
 
@@ -101,8 +103,8 @@ function renderCapturedPokemons() {
 
 function renderPokemonAttacks(pokemon) {
     if (!pokemonAttacksElement) {
-        return
-    };
+        return;
+    }
 
     pokemonAttacksElement.innerHTML = '';
 

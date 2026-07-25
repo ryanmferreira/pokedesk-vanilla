@@ -50,9 +50,9 @@ function updatePlayerHP() {
     const currentHp = characterState.hp ?? 0;
     const maxHp = characterMaxHp || 1;
 
-    if (currentHpElement) currentHpElement.textContent = currentHp;
-    if (hpStatusElement) hpStatusElement.textContent = `${currentHp}/${maxHp}`;
-    if (maxHpElement) maxHpElement.textContent = maxHp;
+    if (currentHpElement) { currentHpElement.textContent = currentHp; }
+    if (hpStatusElement) { hpStatusElement.textContent = `${currentHp}/${maxHp}`; }
+    if (maxHpElement) { maxHpElement.textContent = maxHp; }
 
     const percentage = Math.max(0, Math.min(100, Math.round((currentHp / maxHp) * 100)));
 
@@ -61,6 +61,7 @@ function updatePlayerHP() {
     }
 
     const hpDonut = document.querySelector('.hp-donut');
+
     if (hpDonut) {
         hpDonut.style.setProperty('--percentage', `${percentage}%`);
     }
@@ -70,6 +71,7 @@ function alterAttribute(attributeName, quantity) {
     if (!characterState?.attributes) return;
 
     let currentUsedPoints = 0;
+
     for (let key in characterState.attributes) {
         currentUsedPoints += characterState.attributes[key];
     }
@@ -78,7 +80,7 @@ function alterAttribute(attributeName, quantity) {
         return;
     }
 
-    characterState.attributes[attributeName] = (characterState.attributes[attributeName] || 1) + quantity;
+    characterState.attributes[attributeName] = (characterState.attributes[attributeName]) + quantity;
 
     if (characterState.attributes[attributeName] < 1) {
         characterState.attributes[attributeName] = 1;
@@ -101,7 +103,8 @@ function alterHP(quantity) {
 
     if (characterState.hp > characterMaxHp) {
         characterState.hp = characterMaxHp;
-    } else if (characterState.hp < 0) {
+    }
+    else if (characterState.hp < 0) {
         characterState.hp = 0;
     }
 
@@ -113,27 +116,26 @@ function alterHP(quantity) {
    LOAD / SAVE PLAYER STATUS
    ========================================================================== */
 
-function updatePlayerInfo() {
+function getPlayerInfo() {
     if (characterName) { characterState.name = characterName.value; }
     if (characterRace) { characterState.race = characterRace.value; }
     if (characterClass) { characterState.class = characterClass.value; }
     if (characterCash) { characterState.cash = parseFloat(characterCash.value) || 0; }
 
     updatePlayerHP();
-    updateAllPlayerNames();
+    updatePlayerName();
 }
 
-function loadPlayerInfo() {
+function setPlayerInfo() {
     const nameInput = document.getElementById('character-name');
     const raceInput = document.getElementById('character-race');
     const classInput = document.getElementById('character-class');
-
     const cashInput = document.getElementById('inventory-cash');
 
-    if (nameInput) nameInput.value = characterState.name ?? '';
-    if (raceInput) raceInput.value = characterState.race ?? '';
-    if (classInput) classInput.value = characterState.class ?? '';
-    if (cashInput) cashInput.value = characterState.cash ?? 0;
+    if (nameInput) { nameInput.value = characterState.name ?? ''; }
+    if (raceInput) { raceInput.value = characterState.race ?? ''; }
+    if (classInput) { classInput.value = characterState.class ?? ''; }
+    if (cashInput) { cashInput.value = characterState.cash ?? 0; }
 
     if (characterState.attributes) {
         for (const [attr, val] of Object.entries(characterState.attributes)) {
@@ -143,14 +145,14 @@ function loadPlayerInfo() {
     }
 
     updatePlayerHP();
-    updateAllPlayerNames();
+    updatePlayerName();
 
-    console.log("Informations loaded successfully!", characterState);
+    console.log("Informations loaded successfully!\n", characterState);
 }
 
-function updateAllPlayerNames() {
+function updatePlayerName() {
     const nameElements = document.querySelectorAll('.get-player-name');
-    const nameToDisplay = (characterState.name || 'Aldric').toUpperCase();
+    const nameToDisplay = (characterState.name || 'Player').toUpperCase();
 
     nameElements.forEach(el => {
         el.textContent = nameToDisplay;
@@ -171,13 +173,13 @@ document.getElementById('add-item-btn')?.addEventListener('click', () => {
 });
 
 characterName?.addEventListener('change', () => {
-    updatePlayerInfo();
+    getPlayerInfo();
 });
 
 characterRace?.addEventListener('change', () => {
-    updatePlayerInfo();
+    getPlayerInfo();
 });
 
 characterClass?.addEventListener('change', () => {
-    updatePlayerInfo();
+    getPlayerInfo();
 });

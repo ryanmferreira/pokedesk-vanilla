@@ -26,7 +26,7 @@ let characterState = {
     ],
     "capturedPokemon": [
         {
-            "species": "Sparchik",
+            "species": "Sparchic",
             "gender": "Male",
             "type1": "Fire",
             "type2": "Ice",

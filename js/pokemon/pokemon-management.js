@@ -261,7 +261,7 @@ function getAttackElements(index) {
     };
 }
 
-function updatePokemonInfo() {
+function getPokemonInfo() {
     if (!currentPokemon) {
         return;
     }
@@ -378,7 +378,7 @@ document.getElementById('edit-selected-pokemon')?.addEventListener('click', () =
 });
 
 document.getElementById('save-pokemon-btn')?.addEventListener('click', () => {
-    updatePokemonInfo();
+    getPokemonInfo();
 });
 
 document.getElementById('add-xp')?.addEventListener('click', () => {
