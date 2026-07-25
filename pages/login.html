@@ -9,7 +9,7 @@
     <link rel="shortcut icon" href="../favicon.svg" type="image/x-icon">
 
     <link rel="stylesheet" href="../css/global-styles.css">
-    <link rel="stylesheet" href="../css/login.css">
+    <link rel="stylesheet" href="../css/pages/login.css">
     <link rel="stylesheet" href="../css/layout.css">
 </head>
 
@@ -20,7 +20,7 @@
                 <h2>WELCOME</h2>
                 <hr>
                 <p>Log in to proceed to the platform.</p>
-                <button>Log In With Google</button>
+                <button id="login-with-google">Log In With Google</button>
             </div>
 
             <div class="container red">
@@ -30,6 +30,8 @@
     </main>
 
     <script src="../js/global-scripts.js"></script>
+    <script type="module" src="../js/database/firebase.js"></script>
+    <script type="module" src="../js/database/auth.js"></script>
 </body>
 
 </html>
