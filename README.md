@@ -1,5 +1,5 @@
 # PokeDESK
-> Early-stage development
+> In development
 
 PokeDESK is a platform for Pokémon tabletop RPGs. Currently, it relies on hardcoded rules, but it continues to expand (evolving alongside our new requirements). Built using only vanilla web technologies.
 
@@ -34,7 +34,7 @@ PokeDESK is a platform for Pokémon tabletop RPGs. Currently, it relies on hardc
 │       ├── player-inventory.js
 │       ├── player-management.js
 │       ├── player-modals.js
-│       └── state.js
+│       └── player-state.js
 ├── LICENSE
 ├── pages
 │   ├── home.html
