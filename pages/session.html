@@ -23,17 +23,17 @@
             <h1>Hello, Ryan!</h1>
             <h6>Player</h6>
         </div>
-      
+
         <hr>
-      
+
         <div>
             <button onclick="openInventory(null)">Inventory</button>
             <button onclick="openPokemon(null)">PC</button>
             <button>Diary</button>
         </div>
-        
+
         <div class="expand"></div>
-        
+
         <div class="mobile-menu-dropdown">
             <button type="button" disabled>Reload</button>
             <button type="button" disabled>Save changes</button>
@@ -45,9 +45,9 @@
         <!-- Header -->
         <div class="container header-card">
             <h2 class="get-player-name">Player Name</h2>
-         
+
             <hr>
-           
+
             <div class="static-row align-between">
                 <h3>Character Sheet</h3>
                 <span class="last-saved">Last Saved - 22:22</span>
@@ -60,20 +60,20 @@
             <!-- Basic Information -->
             <div class="container flex-grow">
                 <h2>Basic information</h2>
-             
+
                 <hr>
-            
+
                 <div class="column">
                     <h6>Name</h6>
                     <input id="character-name" type="text">
                 </div>
-             
+
                 <div class="static-row">
                     <div class="column">
                         <h6>Class</h6>
                         <input id="character-class" type="text">
                     </div>
-             
+
                     <div class="column">
                         <h6>Race</h6>
                         <input id="character-race" type="text">
@@ -84,9 +84,9 @@
             <!-- Player Health -->
             <div class="container flex-grow">
                 <h2>Player Health</h2>
-             
+
                 <hr>
-             
+
                 <div class="static-row health-layout">
                     <div class="hp-donut" style="--percentage: 100%;">
                         <div class="donut-text">
@@ -94,12 +94,12 @@
                             <small id="hp-status">5/5</small>
                         </div>
                     </div>
-                 
+
                     <div class="column maximum-health-box">
                         <h6>Max HP</h6>
                         <h1 id="max-hp">5</h1>
                     </div>
-                  
+
                     <div class="column current-health-box">
                         <h6>Current HP</h6>
                         <div class="static-row counter-control">
@@ -117,9 +117,9 @@
                     <h2>Pokémon Party</h2>
                     <h2 id="team-size">1/6</h2>
                 </div>
-             
+
                 <hr>
-             
+
                 <div id="pokemon-grid" class="pokemon-grid flex-grow">
                     <!-- Lines goes here -->
                 </div>
@@ -131,9 +131,9 @@
                     <h2>Attributes</h2>
                     <h6 class="points-label">Points to distribute: 0</h6>
                 </div>
-              
+
                 <hr>
-                
+
                 <div class="attributes-list">
                     <div class="attribute-item">
                         <div class="column">
@@ -146,7 +146,7 @@
                             <button class="plus-button" onclick="alterAttribute('resistance', +1)">+</button>
                         </div>
                     </div>
-              
+
                     <div class="attribute-item">
                         <div class="column">
                             <h4>Strength</h4>
@@ -158,7 +158,7 @@
                             <button class="plus-button" onclick="alterAttribute('strength', +1)">+</button>
                         </div>
                     </div>
-                
+
                     <div class="attribute-item">
                         <div class="column">
                             <h4>Mind</h4>
@@ -170,7 +170,7 @@
                             <button class="plus-button" onclick="alterAttribute('mind', +1)">+</button>
                         </div>
                     </div>
-                  
+
                     <div class="attribute-item">
                         <div class="column">
                             <h4>Agility</h4>
@@ -496,6 +496,8 @@
 
     <script src="../js/user/state.js"></script>
     <script src="../js/user/player-management.js"></script>
+    <script src="../js/user/player-modals.js"></script>
+    <script src="../js/user/player-inventory.js"></script>
 
     <script src="../js/pokemon/pokemon-info.js"></script>
     <script src="../js/pokemon/pokemon-rules.js"></script>

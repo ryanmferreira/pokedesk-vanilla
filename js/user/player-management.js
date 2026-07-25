@@ -34,6 +34,7 @@ let characterMaxHp = calculateMaxHP();
 /* ==========================================================================
    PLAYER MANAGEMENT
    ========================================================================== */
+
 function calculateMaxHP() {
     const resistance = characterState?.attributes?.resistance || 1;
     return baseHp + (resistance * 5);
@@ -84,13 +85,13 @@ function alterAttribute(attributeName, quantity) {
     }
 
     const attrDisplay = document.getElementById(`attr-${attributeName}`);
-  
+
     if (attrDisplay) {
         attrDisplay.textContent = characterState.attributes[attributeName];
     }
 
     updatePlayerHP();
-    debugPlayer();
+    printPlayer()();
 }
 
 function alterHP(quantity) {
@@ -105,14 +106,18 @@ function alterHP(quantity) {
     }
 
     updatePlayerHP();
-    debugPlayer();
+    printPlayer()();
 }
 
+/* ==========================================================================
+   LOAD / SAVE PLAYER STATUS
+   ========================================================================== */
+
 function updatePlayerInfo() {
-    if (characterName) characterState.name = characterName.value;
-    if (characterRace) characterState.race = characterRace.value;
-    if (characterClass) characterState.class = characterClass.value;
-    if (characterCash) characterState.cash = parseFloat(characterCash.value) || 0;
+    if (characterName) { characterState.name = characterName.value; }
+    if (characterRace) { characterState.race = characterRace.value; }
+    if (characterClass) { characterState.class = characterClass.value; }
+    if (characterCash) { characterState.cash = parseFloat(characterCash.value) || 0; }
 
     updatePlayerHP();
     updateAllPlayerNames();
@@ -152,71 +157,14 @@ function updateAllPlayerNames() {
     });
 }
 
-function debugPlayer() {
+function printPlayer() {
     console.log("Player: ", characterState);
-}
-
-/* ==========================================================================
-   INVENTORY MANAGEMENT
-   ========================================================================== */
-function renderInventory() {
-    if (!itemsContainerElement) return;
-
-    itemsContainerElement.innerHTML = '';
-
-    for (let index in characterState.inventory) {
-        const item = characterState.inventory[index];
-        const itemRow = document.createElement('div');
-        itemRow.className = 'inventory-item-row';
-
-        itemRow.innerHTML = `
-            <div class="inventory-section">
-                <input type="text" class="inventory-item-input" value="${item.name || ''}" onchange="updateItemName(${index}, this.value)">
-                <input type="number" class="inventory-qty-input" value="${item.quantity || 1}" min="1" onchange="updateItemQty(${index}, this.value)">
-            </div>
-            <button class="item-delete-btn" onclick="removeItem(${index})">×</button>
-        `;
-
-        itemsContainerElement.appendChild(itemRow);
-    }
-}
-
-function updateCash(value) {
-    characterState.cash = parseFloat(value) || 0;
-}
-
-function updateItemName(index, value) {
-    if (characterState.inventory[index]) {
-        characterState.inventory[index].name = value;
-    }
-}
-
-function updateItemQty(index, value) {
-    if (characterState.inventory[index]) {
-        characterState.inventory[index].quantity = parseInt(value, 10) || 1;
-    }
-}
-
-function removeItem(index) {
-    characterState.inventory.splice(index, 1);
-    renderInventory();
-}
-
-/* ==========================================================================
-   MODAL AND UI CONTROL
-   ========================================================================== */
-function openInventory() {
-    renderInventory();
-    inventoryModal?.classList.remove('hidden');
-}
-
-function closeInventory() {
-    inventoryModal?.classList.add('hidden');
 }
 
 /* ==========================================================================
    EVENT LISTENERS
    ========================================================================== */
+
 document.getElementById('add-item-btn')?.addEventListener('click', () => {
     characterState.inventory.push({ name: '', quantity: 1 });
     renderInventory();
