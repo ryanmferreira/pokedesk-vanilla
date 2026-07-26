@@ -65,11 +65,14 @@ function renderCapturedPokemons() {
 
     let isParty = false;
 
+    const team = characterState.team || [];
+    const box = characterState.capturedPokemon || [];
+
     if (pokemonLocationSelect && pokemonLocationSelect.value) {
         isParty = pokemonLocationSelect.value.toLowerCase() === "party";
     }
 
-    const pokemonLocation = isParty ? characterState.team : characterState.capturedPokemon;
+    const pokemonLocation = isParty ? team : box;
 
     for (const pokemonInfo of pokemonLocation) {
         const pokemonSlot = document.createElement('button');

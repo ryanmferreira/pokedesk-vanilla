@@ -3,6 +3,7 @@
 
 PokeDESK is a platform for Pokémon tabletop RPGs. Currently, it relies on hardcoded rules, but it continues to expand (evolving alongside our new requirements). Built using only vanilla web technologies.
 
+## File Structure
 ```plaintext
 .
 ├── assets
@@ -21,20 +22,26 @@ PokeDESK is a platform for Pokémon tabletop RPGs. Currently, it relies on hardc
 ├── index.html
 ├── js
 │   ├── database
-│   │   └── firebase.js
+│   │   ├── auth-service.js
+│   │   ├── auth-state.js
+│   │   ├── character-service.js
+│   │   ├── database.js
+│   │   ├── firebase-config.js
+│   │   └── session-service.js
 │   ├── global-scripts.js
-│   ├── pokemon
-│   │   ├── pokemon-info.js
-│   │   ├── pokemon-management.js
-│   │   ├── pokemon-modals.js
-│   │   ├── pokemon-render.js
-│   │   └── pokemon-rules.js
-│   ├── session.js
-│   └── user
-│       ├── player-inventory.js
-│       ├── player-management.js
-│       ├── player-modals.js
-│       └── player-state.js
+│   ├── pages
+│   │   └── session.js
+│   ├── player
+│   │   ├── player-inventory.js
+│   │   ├── player-management.js
+│   │   ├── player-modals.js
+│   │   └── player-state.js
+│   └── pokemon
+│       ├── pokemon-info.js
+│       ├── pokemon-management.js
+│       ├── pokemon-modals.js
+│       ├── pokemon-render.js
+│       └── pokemon-rules.js
 ├── LICENSE
 ├── pages
 │   ├── home.html
@@ -42,5 +49,5 @@ PokeDESK is a platform for Pokémon tabletop RPGs. Currently, it relies on hardc
 │   └── session.html
 └── README.md
 
-11 directories, 26 files
+12 directories, 31 files
 ```
