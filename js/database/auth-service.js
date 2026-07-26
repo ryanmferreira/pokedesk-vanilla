@@ -6,12 +6,16 @@ const logOutButton = document.getElementById('log-out');
 
 async function saveUserToDatabase(user) {
     try {
-        await set(ref(database, `users/${user.uid}`), {
+        const userData = {
             name: user.displayName,
             email: user.email,
             photoURL: user.photoURL,
             lastLogin: Date.now(),
-        });
+        };
+
+        const userRef = ref(database, `users/${user.uid}`);
+
+        await set(userRef, userData);
 
         console.log("User saved to database Successfully!");
     } catch (error) {
@@ -43,6 +47,17 @@ async function handleLogIn() {
     } catch (error) {
         console.error("Error on log in with Google: ", error.code, error.message);
         alert(`Failed to log in with Google: ${error.message}`);
+    }
+}
+
+export function getUserData() {
+    const user = auth.currentUser;
+
+    if (user) {
+        return user;
+    } else {
+        console.error("No user logged in.");
+        return null;
     }
 }
 

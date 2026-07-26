@@ -16,10 +16,14 @@ nav {
     min-width: 20%;
 }
 
-nav > div {
+nav>div {
     gap: 16px;
     display: flex;
     flex-direction: column;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .nav-header {

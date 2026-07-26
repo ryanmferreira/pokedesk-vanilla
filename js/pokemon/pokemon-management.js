@@ -145,7 +145,6 @@ function handlePokemonDelete() {
     const index = characterState.capturedPokemon.indexOf(currentPokemon);
     characterState.capturedPokemon.splice(index, 1);
 
-
     renderCapturedPokemons();
     clearSelection();
 }
@@ -203,8 +202,15 @@ function addPokemon() {
 }
 
 function isPokemonInTeam() {
-    const indexInTeam = characterState.team.indexOf(currentPokemon);
-    const indexInBox = characterState.capturedPokemon.indexOf(currentPokemon);
+    if (!currentPokemon) {
+        return { inTeam: false, teamIndex: -1, boxIndex: -1 };
+    }
+
+    const team = characterState.team || [];
+    const box = characterState.capturedPokemon || [];
+
+    const indexInTeam = team.indexOf(currentPokemon);
+    const indexInBox = box.indexOf(currentPokemon);
 
     return {
         inTeam: indexInTeam !== -1,
@@ -217,6 +223,9 @@ function moveToTeam() {
     if (!currentPokemon) {
         return;
     }
+
+    if (!characterState.team) characterState.team = [];
+    if (!characterState.capturedPokemon) characterState.capturedPokemon = [];
 
     const { inTeam, teamIndex, boxIndex } = isPokemonInTeam();
 
@@ -296,12 +305,12 @@ function getPokemonInfo() {
             var index = currentPokemon.attacks.indexOf(attack);
             const els = getAttackElements(index);
 
-            if (els.name) attack.name = els.name.value;
-            if (els.pwr) attack.pwr = parseInt(els.pwr.value, 10);
-            if (els.pp) attack.pp = parseInt(els.pp.value, 10);
-            if (els.effect) attack.effect = els.effect.value;
-            if (els.type) attack.type = els.type.value;
-            if (els.haveEffect) attack.haveEffect = els.haveEffect.checked;
+            if (els.name) { attack.name = els.name.value; }
+            if (els.pwr) { attack.pwr = parseInt(els.pwr.value, 10); }
+            if (els.pp) { attack.pp = parseInt(els.pp.value, 10); }
+            if (els.effect) { attack.effect = els.effect.value; }
+            if (els.type) { attack.type = els.type.value; }
+            if (els.haveEffect) { attack.haveEffect = els.haveEffect.checked; }
         }
     }
 

@@ -93,7 +93,7 @@ function alterAttribute(attributeName, quantity) {
     }
 
     updatePlayerHP();
-    printPlayer()();
+    printPlayer();
 }
 
 function alterHP(quantity) {
@@ -109,7 +109,7 @@ function alterHP(quantity) {
     }
 
     updatePlayerHP();
-    printPlayer()();
+    printPlayer();
 }
 
 /* ==========================================================================

@@ -35,8 +35,8 @@
         <div class="expand"></div>
 
         <div class="mobile-menu-dropdown">
-            <button type="button" disabled>Reload</button>
-            <button type="button" disabled>Save changes</button>
+            <button id="reload-button" type="button">Reload</button>
+            <button id="save-button" type="button">Save changes</button>
             <button type="button">Leave the Session</button>
         </div>
     </nav>
@@ -492,7 +492,9 @@
         </div>
     </div>
 
-    <script src="../js/session.js"></script>
+    <script src="../js/pages/session.js"></script>
+
+    <script type="module" src="../js/database/character-service.js"></script>
 
     <script src="../js/player/player-state.js"></script>
     <script src="../js/player/player-management.js"></script>
