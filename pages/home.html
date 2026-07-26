@@ -26,7 +26,7 @@
         </div>
         <div class="expand"></div>
         <div>
-            <button>⤶ Logout</button>
+            <button onclick="handleSignOut()">⤶ Logout</button>
         </div>
     </nav>
 
@@ -55,7 +55,8 @@
     </main>
 
     <script src="../js/global-scripts.js"></script>
-    <script type="module" src="../js/database/check-login.js"></script>
+    <script type="module" src="../js/database/auth-service.js"></script>
+    <script type="module" src="../js/database/auth-state.js"></script>
 </body>
 
 </html>
