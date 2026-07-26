@@ -1,12 +1,12 @@
-// auth-service.js
-import { auth, signOut, googleProvider, signInWithPopup, db } from "./firebase-config.js";
-import { ref, set } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js";
+import { database, ref, set } from "./database.js";
+import { auth, signOut, googleProvider, signInWithPopup } from "./firebase-config.js";
 
-const loginButton = document.getElementById('login-with-google');
+const logInButton = document.getElementById('login-with-google');
+const logOutButton = document.getElementById('log-out');
 
 async function saveUserToDatabase(user) {
     try {
-        await set(ref(db, `users/${user.uid}`), {
+        await set(ref(database, `users/${user.uid}`), {
             name: user.displayName,
             email: user.email,
             photoURL: user.photoURL,
@@ -30,22 +30,30 @@ export async function handleSignOut() {
     }
 }
 
-window.handleSignOut = handleSignOut;
+async function handleLogIn() {
+    try {
+        const result = await signInWithPopup(auth, googleProvider);
+        const user = result.user;
 
-if (loginButton) {
-    loginButton.addEventListener('click', async () => {
-        try {
-            const result = await signInWithPopup(auth, googleProvider);
-            const user = result.user;
+        await saveUserToDatabase(user);
 
-            await saveUserToDatabase(user);
+        console.log("Logged user:", user);
 
-            console.log("Logged user:", user);
+        window.location.href = "../../pages/home.html";
+    } catch (error) {
+        console.error("Error on log in with Google: ", error.code, error.message);
+        alert(`Failed to log in with Google: ${error.message}`);
+    }
+}
 
-            window.location.href = "./home.html";
-        } catch (error) {
-            console.error("Error on log in with Google: ", error.code, error.message);
-            alert(`Failed to log in with Google: ${error.message}`);
-        }
+if (logInButton) {
+    logInButton.addEventListener('click', async () => {
+        handleLogIn();
+    });
+}
+
+if (logOutButton) {
+    logOutButton.addEventListener('click', async () => {
+        handleSignOut();
     });
 }
