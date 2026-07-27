@@ -1,0 +1,68 @@
+/* ==========================================================================
+   MODAL: USER PROFILE
+   ========================================================================== */
+
+.user-profile-card {
+    width: 600px;
+    max-width: 90vw;
+}
+
+.profile-header-row {
+    justify-content: space-between;
+    align-items: center;
+}
+
+.profile-title {
+    font-size: 16px;
+}
+
+.profile-body-column {
+    gap: 16px;
+}
+
+.profile-identity-row {
+    align-items: center;
+    gap: 16px;
+}
+
+.profile-avatar-wrapper {
+    width: 72px;
+    height: 72px;
+    border: 2px dashed var(--input-contrast-color);
+}
+
+.profile-avatar-img {
+    border-radius: 0;
+}
+
+.profile-name-column {
+    gap: 4px;
+}
+
+.profile-name-value {
+    font-size: 20px;
+}
+
+.profile-info-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.profile-detail-box {
+    gap: 4px;
+}
+
+.profile-break-text {
+    font-size: 14px;
+    word-break: break-all;
+}
+
+.profile-small-text {
+    font-size: 14px;
+}
+
+@media screen and (max-width: 600px) {
+    .profile-info-grid {
+        grid-template-columns: 1fr !important;
+    }
+}

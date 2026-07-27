@@ -11,9 +11,13 @@
     <link rel="stylesheet" href="../css/global-styles.css">
     <link rel="stylesheet" href="../css/components/sidebar.css">
     <link rel="stylesheet" href="../css/layout.css">
+
+    <link rel="stylesheet" href="../css/components/modals.css">
+    <link rel="stylesheet" href="../css/components/user-profile.css">
 </head>
 
 <body>
+    <!-- NAV BAR -->
     <nav>
         <button id="open-mobile-menu" type="button" class="mobile-menu-toggle">☰ Menu</button>
 
@@ -26,7 +30,7 @@
 
         <div>
             <button>Home</button>
-            <button>Profile</button>
+            <button id="open-profile">Profile</button>
         </div>
 
         <div class="expand"></div>
@@ -36,6 +40,7 @@
         </div>
     </nav>
 
+    <!-- MAIN PAGE ELEMENTS -->
     <main>
         <div class="row">
             <div class="container flex-grow">
@@ -45,6 +50,7 @@
                 <input type="text" name="" id="create-session-name">
                 <button id="create-session">Create</button>
             </div>
+
             <div class="container flex-grow">
                 <h2>Join a session</h2>
                 <hr>
@@ -53,15 +59,86 @@
                 <button id="join-session">Join</button>
             </div>
         </div>
+
         <div class="container flex-grow">
             <h2>Created Sessions</h2>
             <hr>
             <button>No previous sessions</button>
         </div>
+
+        <div class="container flex-grow">
+            <h2>Last user session</h2>
+            <hr>
+            <button>No previous sessions</button>
+        </div>
     </main>
+
+    <!-- MODAL: USER PROFILE -->
+    <div id="user-profile-modal" class="modal-overlay hidden">
+        <div class="container modal-card user-profile-card">
+
+            <!-- Modal Header -->
+            <div class="row profile-header-row">
+                <span class="section-title profile-title">User Profile</span>
+            </div>
+
+            <hr>
+
+            <!-- Modal Body -->
+            <div class="column profile-body-column">
+
+                <!-- Avatar and Main Name -->
+                <div class="row profile-identity-row">
+                    <div class="avatar-box profile-avatar-wrapper">
+                        <img id="profile-modal-avatar" src="" alt="User Avatar" class="profile-avatar-img">
+                    </div>
+                    <div class="column profile-name-column">
+                        <span class="panel-label">Display Name</span>
+                        <span id="profile-modal-name" class="panel-value profile-name-value">Loading...</span>
+                    </div>
+                </div>
+
+                <!-- Detailed Information Grid -->
+                <div class="grid profile-info-grid">
+
+                    <div class="detail-box column profile-detail-box">
+                        <span class="panel-label">Email</span>
+                        <span id="profile-modal-email" class="panel-value profile-break-text"></span>
+                    </div>
+
+                    <div class="detail-box column profile-detail-box">
+                        <span class="panel-label">User ID</span>
+                        <span id="profile-modal-uid" class="panel-value profile-break-text"></span>
+                    </div>
+
+                    <div class="detail-box column profile-detail-box">
+                        <span class="panel-label">Email Verified</span>
+                        <span id="profile-modal-verified" class="panel-value profile-small-text"></span>
+                    </div>
+
+                    <div class="detail-box column profile-detail-box">
+                        <span class="panel-label">Last Login</span>
+                        <span id="profile-modal-last-login" class="panel-value profile-small-text"></span>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <hr>
+
+            <!-- Footer with Actions -->
+            <div class="action-row">
+                <button type="button" id="profile-modal-close-action" class="btn-dark expand">Close</button>
+            </div>
+
+        </div>
+    </div>
 
     <script src="../js/global-scripts.js"></script>
     <script type="module" src="../js/pages/home.js"></script>
+
+    <script type="module" src="../js/components/user-profile.js"></script>
 
     <script type="module" src="../js/service/auth-service.js"></script>
     <script type="module" src="../js/service/session-service.js"></script>

@@ -85,6 +85,7 @@
 }
 
 .inventory-qty-input {
+    appearance: textfield;
     -moz-appearance: textfield;
 }
 
