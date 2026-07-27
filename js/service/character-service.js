@@ -26,7 +26,7 @@ export async function saveCharacter(user, characterData) {
         const characterToSave = {
             id: characterId,
             userId: user.uid,
-            sessionId: characterData.sessionId || null,
+            sessionId: getSession(),
             campaignRole: characterData.campaignRole || "Player",
             points: characterData.points || 0,
             name: characterData.name || "",

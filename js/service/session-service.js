@@ -75,3 +75,8 @@ export function setSession(sessionId) {
 export function getSession() {
     return localStorage.getItem("currentSession") || "";
 }
+
+export function leaveSesion() {
+    localStorage.removeItem("currentSession")
+    window.location.href = "../../pages/home.html";
+};

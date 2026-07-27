@@ -9,9 +9,11 @@ function renderPokemonParty() {
 
     teamPokemonElement.innerHTML = '';
 
+    const { team } = checkPokemons();
+
     let totalPokemons = 0;
 
-    for (const pokemonInfo of characterState.team) {
+    for (const pokemonInfo of team) {
         const pokemonSlot = document.createElement('button');
         pokemonSlot.classList = 'pokemon-slot active-slot';
 
