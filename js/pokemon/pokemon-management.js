@@ -72,31 +72,27 @@ function debugPokemon() {
 }
 
 function updateLifeBar(pokemon) {
-    const maxHp = pokemon?.status?.hp;
+    let maxHp = getMaxHp(pokemon);
     const currentHp = pokemon?.hp;
+
     const percentage = Math.max(0, Math.min(100, Math.round((currentHp / maxHp) * 100)));
 
     return `${percentage}%`;
 }
 
+function getMaxHp(pokemon) {
+    let { level } = calculateLevel(pokemon.xp, pokemon.levelSpeed)
+    return (pokemon.status.hp / 5) + level;
+}
+
 function updateXpBar(pokemon) {
-    var currentXp = pokemon.xp || 0;
-    var currentVel = pokemon.levelSpeed || 'fast';
-    var currentLevel = calculateLevel(currentXp, currentVel);
+    let { level, currentXpInLevel, costForNextLevel } = calculateLevel(pokemon.xp, pokemon.levelSpeed);
 
-    var baseXp = getXpQuantity(5, currentVel);
-
-    var xpCurrentLevel = getXpQuantity(currentLevel, currentVel) - baseXp;
-    var xpNextLevel = getXpQuantity(currentLevel + 1, currentVel) - baseXp;
-
-    var xpInCurrentLevel = currentXp - xpCurrentLevel;
-    var xpSpanForNextLevel = xpNextLevel - xpCurrentLevel;
-
-    if (xpSpanForNextLevel <= 0) {
+    if (costForNextLevel <= 0) {
         return '100.00%';
     }
 
-    var percentage = (xpInCurrentLevel / xpSpanForNextLevel) * 100;
+    var percentage = (currentXpInLevel / costForNextLevel) * 100;
     var clampedPercentage = Math.max(0, Math.min(100, percentage));
 
     return `${clampedPercentage.toFixed(2)}%`;
@@ -120,11 +116,13 @@ function loadCurrentPokemonInfo() {
 
     event.currentTarget.classList.add('selected');
 
+    const { level } = calculateLevel(currentPokemon.xp, currentPokemon.levelSpeed);
+
     selectedXpDetails.textContent = currentPokemon.xp;
-    selectedLvlDetails.textContent = calculateLevel(currentPokemon.xp, currentPokemon.levelSpeed);
+    selectedLvlDetails.textContent = level;
 
     selectedHappinessDetails.textContent = currentPokemon.happiness;
-    selectedHealthDetails.textContent = `${currentPokemon.hp} / ${currentPokemon.status?.hp || '?'}`;
+    selectedHealthDetails.textContent = `${currentPokemon.hp} / ${getMaxHp(currentPokemon) || '?'}`;
     selectedNameDetails.textContent = currentPokemon === null ? "No Pokémon Selected" : currentPokemon.species;
 
     selectedImgDetails.innerHTML = `<img src="${currentPokemon.imgUrl}" alt="${currentPokemon.species}">`;
@@ -299,8 +297,10 @@ function getPokemonInfo() {
     currentPokemon.item = pokemonItem?.value;
     currentPokemon.imgUrl = pokemonImage?.value;
 
+    let { level } = calculateLevel(currentPokemon.xp, currentPokemon.levelSpeed)
+
     currentPokemon.xp = parseInt(totalXP?.value, 10);
-    currentPokemon.level = calculateLevel(currentPokemon.xp, currentPokemon.levelSpeed);
+    currentPokemon.level = level;
     currentPokemon.happiness = parseInt(pokemonHapiness?.textContent, 10);
     currentPokemon.hp = parseInt(pokemonHealth?.value, 10);
 

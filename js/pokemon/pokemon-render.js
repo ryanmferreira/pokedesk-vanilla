@@ -19,18 +19,20 @@ function renderPokemonParty() {
 
         totalPokemons++;
 
+        let { level } = calculateLevel(pokemonInfo.xp, pokemonInfo.levelSpeed)
+
         pokemonSlot.innerHTML = `
             <div class="detail-box avatar-box"><img class="flex-grow" src="${pokemonInfo.imgUrl}" alt="${pokemonInfo.species}"></div>
             <div class="column pokemon-info">
                 <div class="static-row align-between">
                     <h5>${pokemonInfo.species}</h5>
-                    <span>LVL ${calculateLevel(pokemonInfo.xp, pokemonInfo.levelSpeed)}</span>
+                    <span>LVL ${level}</span>
                 </div>
                 <div class="health-bar-container">
                     <div class="health-bar-fill" style="width: ${updateLifeBar(pokemonInfo)}"></div>
                 </div>
                 <div class="static-row align-between tiny-text">
-                    <span>HP ${pokemonInfo.hp} / ${pokemonInfo.status.hp}</span>
+                    <span>HP ${pokemonInfo.hp} / ${getMaxHp(pokemonInfo)}</span>
                     <span>Happiness ${pokemonInfo.happiness}/10</span>
                 </div>
             </div>
@@ -79,19 +81,21 @@ function renderCapturedPokemons() {
         const pokemonSlot = document.createElement('button');
         pokemonSlot.className = 'captured-item';
 
+        const { level, remain } = calculateLevel(pokemonInfo.xp, pokemonInfo.levelSpeed)
+
         pokemonSlot.innerHTML = `
         <div class="detail-box avatar-box"><img src="${pokemonInfo.imgUrl}" alt="${pokemonInfo.species}"></div>
             <div class="item-info column">
                 <div class="static-row align-between">
                     <span class="poke-item-name">${pokemonInfo.species}</span>
-                    <span class="poke-item-lvl">LVL ${calculateLevel(pokemonInfo.xp, pokemonInfo.levelSpeed)}</span>
+                    <span class="poke-item-lvl">LVL ${level}</span>
                     
                 </div>
                 <div class="health-bar-container green-bar">
                     <div class="health-bar-fill" style="width: ${updateLifeBar(pokemonInfo)};"></div>
                 </div>
                 <div class="static-row align-between tiny-text">
-                    <span>HP<br> ${pokemonInfo.hp} / ${pokemonInfo.status.hp}</span>
+                    <span>HP<br> ${pokemonInfo.hp} / ${getMaxHp(pokemonInfo)}</span>
                     <span>HAPPINESS<br> ${pokemonInfo.happiness} / 10</span>
                 </div>
             </div>
