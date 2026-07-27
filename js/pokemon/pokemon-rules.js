@@ -1,7 +1,8 @@
 /* ==========================================================================
    LEVEL & XP RULES
    ========================================================================== */
-function getXpQuantity(level, velocity) {
+
+   function getXpQuantity(level, velocity) {
     var levelSpeed = velocity.toLowerCase();
 
     switch (levelSpeed) {
@@ -35,20 +36,6 @@ function calculateLevel(xpTotal, velocityParam = null) {
     return Math.max(5, level);
 }
 
-function updateLevel() {
-    if (!totalXP) {
-        return;
-    }
-
-    const currentXP = totalXP.value;
-    
-    const level = calculateLevel(currentXP);
-
-    if (currentLvlDisplay) {
-        currentLvlDisplay.textContent = level;
-    }
-}
-
 function addXP() {
     if (!totalXP || !xpToAddInput) {
         return;
@@ -61,4 +48,18 @@ function addXP() {
     xpToAddInput.value = '';
 
     updateLevel();
+}
+
+function updateLevel() {
+    if (!totalXP) {
+        return;
+    }
+
+    const currentXP = totalXP.value;
+
+    const level = calculateLevel(currentXP);
+
+    if (currentLvlDisplay) {
+        currentLvlDisplay.textContent = level;
+    }
 }

@@ -1,8 +1,19 @@
-import { database, ref, set } from "./database.js";
-import { auth, signOut, googleProvider, signInWithPopup } from "./firebase-config.js";
+import { database, ref, set } from "../database/database.js";
+import { auth, signOut, googleProvider, signInWithPopup } from "../database/firebase-config.js";
 
 const logInButton = document.getElementById('login-with-google');
 const logOutButton = document.getElementById('log-out');
+
+export function getUserData() {
+    const user = auth.currentUser;
+
+    if (user) {
+        return user;
+    } else {
+        console.error("No user logged in.");
+        return null;
+    }
+}
 
 async function saveUserToDatabase(user) {
     try {
@@ -34,7 +45,7 @@ export async function handleSignOut() {
     }
 }
 
-async function handleLogIn() {
+export async function handleLogIn() {
     try {
         const result = await signInWithPopup(auth, googleProvider);
         const user = result.user;
@@ -47,17 +58,6 @@ async function handleLogIn() {
     } catch (error) {
         console.error("Error on log in with Google: ", error.code, error.message);
         alert(`Failed to log in with Google: ${error.message}`);
-    }
-}
-
-export function getUserData() {
-    const user = auth.currentUser;
-
-    if (user) {
-        return user;
-    } else {
-        console.error("No user logged in.");
-        return null;
     }
 }
 

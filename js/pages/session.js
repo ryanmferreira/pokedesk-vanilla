@@ -1,8 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
     setPlayerInfo();
-
-    renderPokemonTeam();
-    renderCapturedPokemons();
 });
 
 function toggleMobileMenu() {

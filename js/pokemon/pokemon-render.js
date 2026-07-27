@@ -2,7 +2,7 @@
    CAPTURED POKEMON MANAGEMENT
    ========================================================================== */
 
-function renderPokemonTeam() {
+function renderPokemonParty() {
     if (!teamPokemonElement) {
         return;
     }
@@ -151,4 +151,9 @@ function renderPokemonAttacks(pokemon) {
 
         pokemonAttacksElement.appendChild(attackSlot);
     }
+}
+
+function renderAllPokemon() {
+    renderPokemonParty();
+    renderCapturedPokemons();
 }

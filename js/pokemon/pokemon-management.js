@@ -243,8 +243,7 @@ function moveToTeam() {
     }
 
     updateTeamButton();
-    renderPokemonTeam();
-    renderCapturedPokemons();
+    renderAllPokemon();
 
     clearSelection();
 }
@@ -316,8 +315,7 @@ function getPokemonInfo() {
 
     handlePokemonSelect(currentPokemon);
 
-    renderCapturedPokemons();
-    renderPokemonTeam();
+    renderAllPokemon();
 
     closeEditPokemon();
 }
@@ -395,8 +393,7 @@ document.getElementById('add-xp')?.addEventListener('click', () => {
 });
 
 pokemonLocationSelect?.addEventListener('change', () => {
-    renderPokemonTeam();
-    renderCapturedPokemons();
+    renderAllPokemon();
     clearSelection();
 });
 

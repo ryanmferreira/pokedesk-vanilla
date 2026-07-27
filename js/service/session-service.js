@@ -1,4 +1,4 @@
-import { database, ref, set } from "./database";
+import { database, ref, set } from "../database/database";
 
 async function createSession(session) {
     set(ref(database, 'sessions/' + session.id), {

@@ -93,7 +93,6 @@ function alterAttribute(attributeName, quantity) {
     }
 
     updatePlayerHP();
-    printPlayer();
 }
 
 function alterHP(quantity) {
@@ -109,7 +108,6 @@ function alterHP(quantity) {
     }
 
     updatePlayerHP();
-    printPlayer();
 }
 
 /* ==========================================================================
@@ -159,10 +157,6 @@ function updatePlayerName() {
     });
 }
 
-function printPlayer() {
-    console.log("Player: ", characterState);
-}
-
 /* ==========================================================================
    EVENT LISTENERS
    ========================================================================== */
@@ -172,14 +166,10 @@ document.getElementById('add-item-btn')?.addEventListener('click', () => {
     renderInventory();
 });
 
-characterName?.addEventListener('change', () => {
-    getPlayerInfo();
-});
+const inputs = [characterRace, characterName, characterClass];
 
-characterRace?.addEventListener('change', () => {
-    getPlayerInfo();
-});
-
-characterClass?.addEventListener('change', () => {
-    getPlayerInfo();
-});
+for (const input of inputs) {
+    input.addEventListener('change', () => {
+        getPlayerInfo();
+    });
+}

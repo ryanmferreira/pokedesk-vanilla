@@ -11,8 +11,8 @@ function hiddenSelectedPokemon() {
 }
 
 function openPokemon() {
-    renderCapturedPokemons();
     pokemonModal?.classList.remove('hidden');
+    renderCapturedPokemons();
 }
 
 function closePokemon() {
@@ -20,12 +20,9 @@ function closePokemon() {
     clearSelection();
 }
 
-
 function openEditPokemon() {
-    if (editPokemonModal) {
-        editPokemonModal.classList.remove('hidden');
-        updateAllEffectInputs();
-    }
+    editPokemonModal.classList.remove('hidden');
+    updateAllEffectInputs();
 }
 
 function closeEditPokemon() {
@@ -41,9 +38,9 @@ function closeAddImage() {
 }
 
 function clearSelection() {
-    selectedNameDetails.textContent = "No Pokémon Selected";
     currentPokemon = null;
     hiddenSelectedPokemon();
+    selectedNameDetails.textContent = "No Pokémon Selected";
 }
 
 function toggleEffectInput(checkbox) {

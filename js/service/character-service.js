@@ -1,7 +1,12 @@
-import { database, ref, set, push, update, onValue } from "./database.js";
+import { database, ref, set, push, update, onValue } from "../database/database.js";
 import { getUserData } from "./auth-service.js";
 
 import { query, orderByChild, onChildAdded, equalTo } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js";
+
+import { auth, onAuthStateChanged } from "../database/firebase-config.js";
+
+const handleSaveButton = document.getElementById('save-button');
+const handleReloadButton = document.getElementById('reload-button');
 
 export async function saveCharacter(user, characterData) {
     try {
@@ -50,14 +55,18 @@ export async function loadCharacter(characterRef, userId) {
 
     onChildAdded(orderedQuery, (snapshot) => {
         const character = snapshot.val();
-        console.log("Personagem encontrado:", snapshot.key, character);
+        console.log("Character found:", snapshot.key, character);
 
         setCharacterData(character);
     });
 }
 
-const handleSaveButton = document.getElementById('save-button');
-const handleReloadButton = document.getElementById('reload-button');
+function setCharacterData(data) {
+    console.log("Set player data.", data);
+    characterState = data;
+    setPlayerInfo();
+    renderAllPokemon();
+}
 
 handleSaveButton.addEventListener('click', async () => {
     handleSaveButton.disabled = true;
@@ -105,8 +114,9 @@ handleReloadButton.addEventListener('click', async () => {
     }
 });
 
-function setCharacterData(data) {
-    console.log(data);
-    characterState = data;
-    setPlayerInfo();
-}
+document.addEventListener('DOMContentLoaded', () => {
+    onAuthStateChanged(auth, (user) => {
+        const characterRef = ref(database, 'characters/');
+        loadCharacter(characterRef, auth.currentUser.uid);
+    });
+});
