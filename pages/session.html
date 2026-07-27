@@ -357,13 +357,6 @@
                         </div>
                     </div>
 
-                    <div class="column">
-                        <h6>CAPTURED BY</h6>
-                        <select id="poke-pokeball-used" class="custom-select">
-                            <option selected disabled value="">Select a Pokeball...</option>
-                        </select>
-                    </div>
-
                     <div class="static-row">
                         <div class="column">
                             <h6>EQUIPPED ITEM</h6>
@@ -375,31 +368,15 @@
                         </div>
                     </div>
 
-                    <div class="static-row">
-                        <div class="column flex-grow">
-                            <h6>ABILITY</h6>
-                            <select id="poke-ability" class="custom-select">
-                                <option selected disabled value="">Select Ability...</option>
-                            </select>
-                        </div>
-                        <div class="column flex-grow">
-                            <h6>NATURE</h6>
-                            <select id="poke-nature" class="custom-select">
-                                <option selected disabled value="">Select Nature...</option>
-                            </select>
-                        </div>
-                        <div class="column align-center">
-                            <h6>HAPPINESS</h6>
-                            <div class="static-row counter-control">
-                                <button class="btn-qty-control" onclick="alterPokemonHappiness(-1)">-</button>
-                                <span id="poke-happiness" class="panel-value">1</span>
-                                <button class="btn-qty-control" onclick="alterPokemonHappiness(+1)">+</button>
-                            </div>
-                        </div>
+                    <div class="column">
+                        <h6>CAPTURED BY</h6>
+                        <select id="poke-pokeball-used" class="custom-select">
+                            <option selected disabled value="">Select a Pokeball...</option>
+                        </select>
                     </div>
 
                     <!-- Section: Progression -->
-                    <h3 class="section-title" style="margin-top: 12px;">PROGRESSION</h3>
+                    <h3 class="section-title">PROGRESSION</h3>
                     <hr class="dashed-hr">
 
                     <div class="static-row">
@@ -433,10 +410,28 @@
                         </div>
                     </div>
 
-                </div>
-
-                <!-- RIGHT COLUMN -->
-                <div class="column">
+                    <div class="static-row">
+                        <div class="column flex-grow">
+                            <h6>ABILITY</h6>
+                            <select id="poke-ability" class="custom-select">
+                                <option selected disabled value="">Select Ability...</option>
+                            </select>
+                        </div>
+                        <div class="column flex-grow">
+                            <h6>NATURE</h6>
+                            <select id="poke-nature" class="custom-select">
+                                <option selected disabled value="">Select Nature...</option>
+                            </select>
+                        </div>
+                        <div class="column align-center">
+                            <h6>HAPPINESS</h6>
+                            <div class="static-row counter-control">
+                                <button class="btn-qty-control" onclick="alterPokemonHappiness(-1)">-</button>
+                                <span id="poke-happiness" class="panel-value">1</span>
+                                <button class="btn-qty-control" onclick="alterPokemonHappiness(+1)">+</button>
+                            </div>
+                        </div>
+                    </div>
 
                     <!-- Section: Status -->
                     <h3 class="section-title red-text">STATUS</h3>
@@ -462,12 +457,16 @@
                         </div>
                     </div>
 
+                </div>
+
+                <!-- RIGHT COLUMN -->
+                <div class="column">
                     <!-- Section: Attacks -->
-                    <h3 class="section-title red-text" style="margin-top: 12px;">ATTACKS</h3>
+                    <h3 class="section-title red-text">ATTACKS</h3>
                     <hr class="red-text">
 
                     <div id="attacks-grid" class="attacks-grid">
-
+                        <!-- Attacks goes here (by JS) -->
                     </div>
                 </div>
             </div>

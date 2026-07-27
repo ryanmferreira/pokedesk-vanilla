@@ -128,13 +128,20 @@ function renderPokemonAttacks(pokemon) {
                     <h6>ATTACK</h6>
                     <input id="attack-name-${index}" type="text" class="inventory-item-input">
                 </div>
-                <div class="column" style="width: 40px;">
+            </div>
+
+            <div class="static-row">
+                <div class="column">
                     <h6>PWR</h6>
                     <input id="attack-power-${index}" type="text" class="inventory-item-input text-center">
                 </div>
-                <div class="column" style="width: 40px;">
+                <div class="column">
+                    <h6>ACC</h6>
+                    <input id="attack-acc-points-${index}" type="text" class="inventory-item-input text-center">
+                </div>
+                <div class="column">
                     <h6>PP</h6>
-                    <input id="attack-power-points-${index}" type="text" class="inventory-item-input text-center">
+                    <input id="attack-acc-points-${index}" type="text" class="inventory-item-input text-center">
                 </div>
             </div>
 
@@ -148,7 +155,7 @@ function renderPokemonAttacks(pokemon) {
             <hr class="red-text">
 
             <h6>HAVE EFFECT?</h6>
-            <div class="static-row align-center">
+            <div class="static-row">
                 <input id="attack-have-effect-${index}" type="checkbox" class="custom-checkbox" onchange="toggleEffectInput(this)">
                 <input id="attack-effect-${index}" type="text" class="inventory-item-input">
             </div>

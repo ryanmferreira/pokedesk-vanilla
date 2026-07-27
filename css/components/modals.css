@@ -480,6 +480,7 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;
+    flex-grow: 1;
 }
 
 .attack-card {
@@ -498,6 +499,8 @@
 .custom-checkbox {
     width: 32px;
     height: 32px;
+    max-width: 32px;
+    max-height: 32px;
     accent-color: var(--red-color);
     cursor: pointer;
 }

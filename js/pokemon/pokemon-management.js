@@ -86,7 +86,7 @@ function getMaxHp(pokemon) {
 }
 
 function updateXpBar(pokemon) {
-    let { level, currentXpInLevel, costForNextLevel } = calculateLevel(pokemon.xp, pokemon.levelSpeed);
+    let { currentXpInLevel, costForNextLevel } = calculateLevel(pokemon.xp, pokemon.levelSpeed);
 
     if (costForNextLevel <= 0) {
         return '100.00%';
@@ -187,10 +187,10 @@ function addPokemon() {
             spd: 5
         },
         attacks: [
-            { name: 'Attack name', type: '', pp: 0, pwr: 0, haveEffect: false, effect: 'Regular Damage' },
-            { name: 'Attack name', type: '', pp: 0, pwr: 0, haveEffect: false, effect: 'Regular Damage' },
-            { name: 'Attack name', type: '', pp: 0, pwr: 0, haveEffect: false, effect: 'Regular Damage' },
-            { name: 'Attack name', type: '', pp: 0, pwr: 0, haveEffect: false, effect: 'Regular Damage' },
+            { name: 'Attack name', type: '', pp: 0, pwr: 0, acc: 0, haveEffect: false, effect: 'Regular Damage' },
+            { name: 'Attack name', type: '', pp: 0, pwr: 0, acc: 0, haveEffect: false, effect: 'Regular Damage' },
+            { name: 'Attack name', type: '', pp: 0, pwr: 0, acc: 0, haveEffect: false, effect: 'Regular Damage' },
+            { name: 'Attack name', type: '', pp: 0, pwr: 0, acc: 0, haveEffect: false, effect: 'Regular Damage' },
         ],
         imgUrl: 'https://raw.githubusercontent.com/ryanmferreira/pokedesk-vanilla/refs/heads/main/assets/icons/pokeball.svg'
     });
@@ -275,6 +275,7 @@ function getAttackElements(index) {
         name: document.getElementById(`attack-name-${index}`),
         pwr: document.getElementById(`attack-power-${index}`),
         pp: document.getElementById(`attack-power-points-${index}`),
+        acc: document.getElementById(`attack-acc-points-${index}`),
         haveEffect: document.getElementById(`attack-have-effect-${index}`),
         effect: document.getElementById(`attack-effect-${index}`),
         type: document.getElementById(`attack-type-${index}`)
@@ -321,6 +322,7 @@ function getPokemonInfo() {
             if (els.name) { attack.name = els.name.value; }
             if (els.pwr) { attack.pwr = parseInt(els.pwr.value, 10); }
             if (els.pp) { attack.pp = parseInt(els.pp.value, 10); }
+            if (els.acc) { attack.acc = parseInt(els.acc.value, 10); }
             if (els.effect) { attack.effect = els.effect.value; }
             if (els.type) { attack.type = els.type.value; }
             if (els.haveEffect) { attack.haveEffect = els.haveEffect.checked; }
@@ -369,6 +371,7 @@ function setCurrentPokemonInfo() {
             if (els.name) { els.name.value = attack.name || ''; }
             if (els.pwr) { els.pwr.value = attack.pwr ?? 0; }
             if (els.pp) { els.pp.value = attack.pp ?? 0; }
+            if (els.acc) { els.acc.value = attack.acc ?? 0; }
             if (els.effect) { els.effect.value = attack.effect || ''; }
             if (els.type) { els.type.value = attack.type || ''; }
             if (els.haveEffect) { els.haveEffect.checked = Boolean(attack.haveEffect); }
