@@ -2,7 +2,7 @@
    LEVEL & XP RULES
    ========================================================================== */
 
-   function getXpQuantity(level, velocity) {
+function getXpQuantity(level, velocity) {
     var levelSpeed = velocity.toLowerCase();
 
     switch (levelSpeed) {

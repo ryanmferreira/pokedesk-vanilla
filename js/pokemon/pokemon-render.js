@@ -65,8 +65,7 @@ function renderCapturedPokemons() {
 
     let isParty = false;
 
-    const team = characterState.team || [];
-    const box = characterState.capturedPokemon || [];
+    const { team, box } = checkPokemons();
 
     if (pokemonLocationSelect && pokemonLocationSelect.value) {
         isParty = pokemonLocationSelect.value.toLowerCase() === "party";

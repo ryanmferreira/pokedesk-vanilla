@@ -165,7 +165,9 @@ function alterPokemonHappiness(quantity) {
 }
 
 function addPokemon() {
-    characterState.capturedPokemon.push({
+    const { box } = checkPokemons();
+
+    box.push({
         species: 'Pokémon Name',
         gender: '',
         type1: '',
@@ -206,8 +208,7 @@ function isPokemonInTeam() {
         return { inTeam: false, teamIndex: -1, boxIndex: -1 };
     }
 
-    const team = characterState.team || [];
-    const box = characterState.capturedPokemon || [];
+    const { team, box } = checkPokemons();
 
     const indexInTeam = team.indexOf(currentPokemon);
     const indexInBox = box.indexOf(currentPokemon);
@@ -219,27 +220,40 @@ function isPokemonInTeam() {
     };
 }
 
+function checkPokemons() {
+    if (!characterState.team) {
+        characterState.team = [];
+    }
+
+    if (!characterState.capturedPokemon) {
+        characterState.capturedPokemon = [];
+    }
+
+    return {
+        team: characterState.team,
+        box: characterState.capturedPokemon,
+    };
+}
+
 function moveToTeam() {
     if (!currentPokemon) {
         return;
     }
 
-    if (!characterState.team) characterState.team = [];
-    if (!characterState.capturedPokemon) characterState.capturedPokemon = [];
-
+    const { team, box } = checkPokemons();
     const { inTeam, teamIndex, boxIndex } = isPokemonInTeam();
 
     if (inTeam) {
-        const pokemonToMove = characterState.team.splice(teamIndex, 1)[0];
-        characterState.capturedPokemon.push(pokemonToMove);
+        const pokemonToMove = team.splice(teamIndex, 1)[0];
+        box.push(pokemonToMove);
     } else {
-        if (characterState.team.length >= 6) {
+        if (team.length >= 6) {
             alert("Team already full!");
             return;
         }
 
-        const pokemonToMove = characterState.capturedPokemon.splice(boxIndex, 1)[0];
-        characterState.team.push(pokemonToMove);
+        const pokemonToMove = box.splice(boxIndex, 1)[0];
+        team.push(pokemonToMove);
     }
 
     updateTeamButton();
@@ -368,6 +382,7 @@ function setCurrentPokemonInfo() {
 /* ==========================================================================
    EVENT LISTENERS
    ========================================================================== */
+
 document.getElementById('add-pokemon-btn')?.addEventListener('click', () => {
     addPokemon();
 });
