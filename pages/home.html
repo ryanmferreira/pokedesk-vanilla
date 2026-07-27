@@ -15,16 +15,22 @@
 
 <body>
     <nav>
+        <button id="open-mobile-menu" type="button" class="mobile-menu-toggle">☰ Menu</button>
+
         <div class="nav-header">
-            <h1>Hello, Ryan!</h1>
+            <h1 id="user-name">Hello Visitor!</h1>
             <h6>NOT IN A SESSION</h6>
         </div>
+
         <hr>
+
         <div>
             <button>Home</button>
             <button>Profile</button>
         </div>
+
         <div class="expand"></div>
+
         <div>
             <button id="log-out">⤶ Logout</button>
         </div>
@@ -55,6 +61,8 @@
     </main>
 
     <script src="../js/global-scripts.js"></script>
+    <script type="module" src="../js/pages/home.js"></script>
+
     <script type="module" src="../js/service/auth-service.js"></script>
     <script type="module" src="../js/service/session-service.js"></script>
     <script type="module" src="../js/database/auth-state.js"></script>
