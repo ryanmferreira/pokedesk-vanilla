@@ -141,7 +141,7 @@ function renderPokemonAttacks(pokemon) {
                 </div>
                 <div class="column">
                     <h6>PP</h6>
-                    <input id="attack-acc-points-${index}" type="text" class="inventory-item-input text-center">
+                    <input id="attack-pp-points-${index}" type="text" class="inventory-item-input text-center">
                 </div>
             </div>
 

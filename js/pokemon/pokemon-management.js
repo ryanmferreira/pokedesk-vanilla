@@ -274,7 +274,7 @@ function getAttackElements(index) {
     return {
         name: document.getElementById(`attack-name-${index}`),
         pwr: document.getElementById(`attack-power-${index}`),
-        pp: document.getElementById(`attack-power-points-${index}`),
+        pp: document.getElementById(`attack-pp-points-${index}`),
         acc: document.getElementById(`attack-acc-points-${index}`),
         haveEffect: document.getElementById(`attack-have-effect-${index}`),
         effect: document.getElementById(`attack-effect-${index}`),
