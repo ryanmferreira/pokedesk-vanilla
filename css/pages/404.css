@@ -1,0 +1,51 @@
+.error-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    padding: var(--default-padding);
+    background-color: var(--background-color);
+}
+
+.error-card {
+    width: 100%;
+    max-width: 420px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.error-code {
+    color: var(--red-color);
+    font-size: 32px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.error-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--input-contrast-color);
+    margin: 0;
+}
+
+.error-subtitle {
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--input-contrast-color);
+    margin: 0;
+}
+
+.error-text {
+    font-size: 13px;
+    line-height: 140%;
+    color: var(--input-contrast-color);
+    margin: 0;
+}
+
+.error-text code {
+    background-color: var(--background-color);
+    color: var(--white-color);
+    padding: 2px 4px;
+    font-family: inherit;
+    font-size: 12px;
+}

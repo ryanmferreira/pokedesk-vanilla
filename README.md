@@ -6,42 +6,49 @@ PokeDESK is a platform for Pokémon tabletop RPGs. Currently, it relies on hardc
 ## File Structure
 ```plaintext
 .
+├── 404.html
 ├── assets
 │   └── icons
 │       └── pokeball.svg
 ├── css
 │   ├── components
 │   │   ├── modals.css
-│   │   └── sidebar.css
+│   │   ├── sidebar.css
+│   │   └── user-profile.css
 │   ├── global-styles.css
 │   ├── layout.css
 │   └── pages
 │       ├── login.css
 │       └── session.css
 ├── favicon.svg
+├── firebase.json
 ├── index.html
 ├── js
+│   ├── components
+│   │   └── user-profile.js
 │   ├── database
-│   │   ├── auth-service.js
 │   │   ├── auth-state.js
-│   │   ├── character-service.js
 │   │   ├── database.js
-│   │   ├── firebase-config.js
-│   │   └── session-service.js
+│   │   └── firebase-config.js
 │   ├── global-scripts.js
 │   ├── pages
+│   │   ├── home.js
 │   │   └── session.js
 │   ├── player
 │   │   ├── player-inventory.js
 │   │   ├── player-management.js
 │   │   ├── player-modals.js
 │   │   └── player-state.js
-│   └── pokemon
-│       ├── pokemon-info.js
-│       ├── pokemon-management.js
-│       ├── pokemon-modals.js
-│       ├── pokemon-render.js
-│       └── pokemon-rules.js
+│   ├── pokemon
+│   │   ├── pokemon-info.js
+│   │   ├── pokemon-management.js
+│   │   ├── pokemon-modals.js
+│   │   ├── pokemon-render.js
+│   │   └── pokemon-rules.js
+│   └── service
+│       ├── auth-service.js
+│       ├── character-service.js
+│       └── session-service.js
 ├── LICENSE
 ├── pages
 │   ├── home.html
@@ -49,5 +56,5 @@ PokeDESK is a platform for Pokémon tabletop RPGs. Currently, it relies on hardc
 │   └── session.html
 └── README.md
 
-12 directories, 31 files
+14 directories, 36 files
 ```
