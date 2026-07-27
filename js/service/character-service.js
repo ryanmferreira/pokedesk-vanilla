@@ -5,6 +5,8 @@ import { query, orderByChild, onChildAdded, equalTo } from "https://www.gstatic.
 
 import { auth, onAuthStateChanged } from "../database/firebase-config.js";
 
+import { getSession } from "./session-service.js";
+
 const handleSaveButton = document.getElementById('save-button');
 const handleReloadButton = document.getElementById('reload-button');
 
@@ -50,15 +52,29 @@ export async function saveCharacter(user, characterData) {
     }
 }
 
-export async function loadCharacter(characterRef, userId) {
-    const orderedQuery = query(characterRef, orderByChild('userId'), equalTo(userId));
+export async function loadCharacter(userId) {
+    const currentSession = getSession();
+    const characterRef = ref(database, 'characters/');
 
-    onChildAdded(orderedQuery, (snapshot) => {
-        const character = snapshot.val();
-        console.log("Character found:", snapshot.key, character);
+    console.log("Current session:", currentSession);
 
-        setCharacterData(character);
-    });
+    if (currentSession != null && currentSession !== "") {
+        const orderedQuery = query(characterRef, orderByChild('userId'), equalTo(userId));
+
+        console.log("Session: ", currentSession);
+
+        onChildAdded(orderedQuery, (snapshot) => {
+            const character = snapshot.val();
+
+            if (character && character.sessionId === currentSession) {
+                console.log("Character found:", snapshot.key, character);
+                setCharacterData(character);
+            }
+        });
+    }
+    else {
+        window.location.href = "../../index.html";
+    }
 }
 
 function setCharacterData(data) {
@@ -100,9 +116,7 @@ handleReloadButton.addEventListener('click', async () => {
             return;
         }
 
-        const characterRef = ref(database, 'characters/');
-
-        loadCharacter(characterRef, user.uid);
+        loadCharacter(user.uid);
 
         alert("Character loaded!");
     } catch (error) {
@@ -116,7 +130,6 @@ handleReloadButton.addEventListener('click', async () => {
 
 document.addEventListener('DOMContentLoaded', () => {
     onAuthStateChanged(auth, (user) => {
-        const characterRef = ref(database, 'characters/');
-        loadCharacter(characterRef, auth.currentUser.uid);
+        loadCharacter(auth.currentUser.uid);
     });
 });
