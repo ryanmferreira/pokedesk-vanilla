@@ -1,5 +1,5 @@
-import { database, ref, set, push } from "../database/database.js";
-import { getUserData } from "./auth-service.js";
+import { database, ref, set, push } from "/js/database/database.js";
+import { getUserData } from "/js/service/auth-service.js";
 
 const createSessionButton = document.getElementById('create-session');
 const createSessionNameInput = document.getElementById('create-session-name');

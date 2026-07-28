@@ -1,4 +1,4 @@
-import { leaveSesion } from "../service/session-service.js";
+import { leaveSesion } from "/js/service/session-service.js";
 
 const leaveSessionButton = document.getElementById('leave-session');
 

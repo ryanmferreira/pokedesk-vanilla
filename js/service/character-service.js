@@ -1,5 +1,5 @@
-import { database, ref, set, push, update, onValue } from "../database/database.js";
-import { getUserData } from "./auth-service.js";
+import { database, ref, set, push, update, onValue } from "/js/database/database.js";
+import { getUserData } from "/js/service/auth-service.js";
 
 import { query, orderByChild, onChildAdded, equalTo } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js";
 
