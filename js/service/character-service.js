@@ -5,7 +5,7 @@ import { query, orderByChild, onChildAdded, equalTo } from "https://www.gstatic.
 
 import { auth, onAuthStateChanged } from "../database/firebase-config.js";
 
-import { getSession } from "./session-service.js";
+import { getSession, getLastSessions } from "./session-service.js";
 
 const handleSaveButton = document.getElementById('save-button');
 const handleReloadButton = document.getElementById('reload-button');
@@ -54,9 +54,13 @@ export async function saveCharacter(user, characterData) {
 
 export async function loadCharacter(userId) {
     const currentSession = getSession();
+
+    const { sessions } = getLastSessions();
+
     const characterRef = ref(database, 'characters/');
 
-    console.log("Current session:", currentSession);
+    console.log("Current session: ", currentSession);
+    console.log(sessions);
 
     if (currentSession != null && currentSession !== "") {
         const orderedQuery = query(characterRef, orderByChild('userId'), equalTo(userId));
