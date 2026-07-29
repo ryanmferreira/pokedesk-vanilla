@@ -20,14 +20,14 @@
         <button id="open-mobile-menu" type="button" class="mobile-menu-toggle">☰ Menu</button>
 
         <div class="nav-header">
-            <h1>Hello, Ryan!</h1>
+            <h1 id="user-name">Hello, Ryan!</h1>
             <h6 id="session-name">Session Name</h6>
         </div>
 
         <hr>
 
         <div>
-            <button onclick="openInventory(null)">Inventory</button>
+            <button onclick="openInventory(null)">Bag</button>
             <button onclick="openPokemon(null)">PC</button>
             <button>Diary</button>
         </div>
@@ -492,6 +492,7 @@
     </div>
 
     <script type="module" src="/js/pages/session.js"></script>
+    <script type="module" src="/js/pages/home.js"></script>
 
     <script type="module" src="/js/database/auth-state.js"></script>
     <script type="module" src="/js/service/character-service.js"></script>

@@ -4,11 +4,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Game Master Dashboard</title>
+
+    <link rel="shortcut icon" href="/favicon.svg" type="image/x-icon">
+
+    <link rel="stylesheet" href="/css/pages/game-master.css">
+    <link rel="stylesheet" href="/css/layout.css">
+    <link rel="stylesheet" href="/css/components/sidebar.css">
+    <link rel="stylesheet" href="/css/components/modals.css">
+    <link rel="stylesheet" href="/css/global-styles.css">
 </head>
 
 <body>
+    <nav>
+        <button id="open-mobile-menu" type="button" class="mobile-menu-toggle">☰ Menu</button>
 
+        <div class="nav-header">
+            <h1 id="user-name">Hello, Ryan!</h1>
+            <h6 id="session-name">Session Name</h6>
+        </div>
+
+        <hr>
+
+        <div>
+        </div>
+
+        <div class="expand"></div>
+
+        <div class="mobile-menu-dropdown">
+            <button id="leave-session" type="button">Leave the Session</button>
+        </div>
+    </nav>
+
+    <main></main>
+
+    <script type="module" src="/js/pages/home.js"></script>
+
+    <script type="module" src="/js/pages/session.js"></script>
+    <script type="module" src="/js/pages/home.js"></script>
+
+    <script type="module" src="/js/database/auth-state.js"></script>
+
+    <script type="module" src="/js/pages/game-master.js"></script>
+
+    <script src="/js/global-scripts.js"></script>
 </body>
 
 </html>

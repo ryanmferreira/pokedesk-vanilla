@@ -28,7 +28,7 @@ export async function saveCharacter(user, characterData) {
             userId: user.uid,
             sessionId: getSession(),
             campaignRole: characterData.campaignRole || "Player",
-            points: characterData.points || 0,
+            points: characterData.points || 8,
             name: characterData.name || "",
             class: characterData.class || "",
             race: characterData.race || "",

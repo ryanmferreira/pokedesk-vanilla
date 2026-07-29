@@ -3,7 +3,7 @@ let characterState = {
     'userId': 0,
     'sessionId': 0,
     'campaignRole': 0,
-    'points': 0,
+    'points': 8,
     'name': '',
     'class': '',
     'race': '',

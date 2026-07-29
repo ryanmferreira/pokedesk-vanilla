@@ -63,9 +63,50 @@ export async function joinSession(sessionId) {
         return;
     }
 
+    const user = getUserData();
+
     setSession(sessionId);
+
+    const sessionInfo = await getSessionInfo();
+
+    if (!sessionInfo) {
+        alert("Sessão não encontrada!");
+        return;
+    }
+
+    let location;
+
+    if (sessionInfo.owner === user.uid) {
+        location = "/pages/game-master.html";
+    } else {
+        location = "/pages/session.html";
+    }
+
     console.log("Sessão salva:", getSession());
-    window.location.href = "../../pages/session.html";
+
+    window.location.href = location;
+}
+
+export function getAllSessionCharacters(callback) {
+    const currentSessionId = getSession();
+    const dbRef = ref(database, 'characters/');
+
+    return onValue(dbRef, (snapshot) => {
+        const sessionCharacters = [];
+
+        snapshot.forEach((childSnapshot) => {
+            const childData = childSnapshot.val();
+
+            if (childData.sessionId === currentSessionId) {
+                sessionCharacters.push({
+                    id: childSnapshot.key,
+                    ...childData
+                });
+            }
+        });
+
+        callback(sessionCharacters);
+    });
 }
 
 export function setSession(sessionId) {
