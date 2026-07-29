@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log("Logged-in User UID: ", user.uid);
         } else {
             console.log("No user logged in...");
-            window.location.href = "../../pages/login.html";
+            window.location.href = "/pages/login.html";
         }
     });
 });

@@ -70,13 +70,14 @@ export async function joinSession(sessionId) {
     const sessionInfo = await getSessionInfo();
 
     if (!sessionInfo) {
-        alert("Sessão não encontrada!");
+        alert("Session not founded!");
         return;
     }
 
     let location;
 
     if (sessionInfo.owner === user.uid) {
+        alert("Entering as Game Master!")
         location = "/pages/game-master.html";
     } else {
         location = "/pages/session.html";
@@ -89,9 +90,9 @@ export async function joinSession(sessionId) {
 
 export function getAllSessionCharacters(callback) {
     const currentSessionId = getSession();
-    const dbRef = ref(database, 'characters/');
+    const databaseRef = ref(database, 'characters/');
 
-    return onValue(dbRef, (snapshot) => {
+    return onValue(databaseRef, (snapshot) => {
         const sessionCharacters = [];
 
         snapshot.forEach((childSnapshot) => {
@@ -158,7 +159,7 @@ export function getSession() {
 
 export function leaveSesion() {
     localStorage.removeItem("currentSession");
-    window.location.href = "../../pages/home.html";
+    window.location.href = "/pages/home.html";
 };
 
 createSessionButton?.addEventListener('click', () => {
