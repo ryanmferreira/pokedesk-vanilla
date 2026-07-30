@@ -110,6 +110,14 @@ function alterHP(quantity) {
     updatePlayerHP();
 }
 
+function checkPlayerItems() {
+    if (!characterState.inventory) {
+        characterState.inventory = [];
+    }
+
+    return characterState.inventory;
+}
+
 /* ==========================================================================
    LOAD / SAVE PLAYER STATUS
    ========================================================================== */

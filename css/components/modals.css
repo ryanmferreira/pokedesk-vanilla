@@ -68,14 +68,21 @@
 }
 
 .inventory-qty-input {
-    width: 32px;
     height: 32px;
+    
+    field-sizing: content; 
+    
+    min-width: 32px; 
+    
+    max-width: 64px; 
+    
     text-align: center;
     font-weight: bold;
     background-color: var(--background-color);
     color: var(--white-color);
     padding: var(--default-tiny-button-padding);
     border: none;
+    box-sizing: border-box;
 }
 
 .inventory-qty-input::-webkit-outer-spin-button,
