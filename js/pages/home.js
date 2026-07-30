@@ -39,6 +39,7 @@ async function renderLastSessions() {
 
             sessionsButton.addEventListener('click', () => {
                 joinSession(session);
+                setLastSessions(session);
             });
 
             lastSessionsDiv.appendChild(sessionsButton);

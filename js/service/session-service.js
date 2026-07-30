@@ -123,7 +123,15 @@ export function setSession(sessionId) {
 export function setLastSessions(sessionId) {
     const { sessions, counter } = getLastSessions();
 
-    if (sessions.includes(sessionId)) {
+    const index = sessions.indexOf(sessionId);
+
+    if (sessions.includes(sessionId) && index !== -1) {
+        [sessions[index], sessions[0]] = [sessions[0], sessions[index]];
+
+        for (let i = 0; i < sessions.length; i++) {
+            localStorage.setItem(`lastSession-${i}`, sessions[i]);
+        }
+
         return;
     }
 
