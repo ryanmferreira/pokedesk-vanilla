@@ -25,7 +25,7 @@ function renderInventory() {
 
         itemRow.querySelector('.item-delete-btn').addEventListener('click', () => {
             const index = characterState.inventory.indexOf(item);
-           
+
             if (index !== -1) {
                 characterState.inventory.splice(index, 1);
             }
@@ -35,4 +35,8 @@ function renderInventory() {
 
         itemsContainerElement.appendChild(itemRow);
     }
+}
+
+function updateCash(value) {
+    characterState.cash = parseFloat(value) || 0;
 }
