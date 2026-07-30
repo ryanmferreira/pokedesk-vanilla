@@ -1,5 +1,6 @@
-
 import { onAuthStateChanged, auth } from "/js/database/firebase-config.js";
+
+import { getLastSessions, getSessionInfo, joinSession } from "/js/service/session-service.js";
 
 document.addEventListener('DOMContentLoaded', () => {
     onAuthStateChanged(auth, (user) => {
@@ -12,7 +13,35 @@ document.addEventListener('DOMContentLoaded', () => {
             if (greetingsNameElement) {
                 greetingsNameElement.textContent = `Hello, ${firstName}!`;
             }
+
+            renderLastSessions();
         }
     });
 });
 
+async function renderLastSessions() {
+    const lastSessionsDiv = document.getElementById('last-sessions');
+
+    if (lastSessionsDiv) {
+        const { sessions } = getLastSessions();
+
+        console.log(sessions);
+
+        for (const session of sessions) {
+            const sessionsButton = document.createElement('button');
+            sessionsButton.className = 'flex-grow';
+
+            const sessionInfo = await getSessionInfo(session);
+
+            console.log(sessionInfo)
+
+            sessionsButton.innerText = sessionInfo.name;
+
+            sessionsButton.addEventListener('click', () => {
+                joinSession(session);
+            });
+
+            lastSessionsDiv.appendChild(sessionsButton);
+        }
+    }
+}

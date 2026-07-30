@@ -46,8 +46,8 @@ export async function createSession(sessionName) {
     }
 }
 
-export async function getSessionInfo() {
-    const sessionRef = ref(database, 'sessions/' + getSession());
+export async function getSessionInfo(session) {
+    const sessionRef = ref(database, 'sessions/' + session);
     const snapshot = await get(sessionRef);
 
     if (snapshot.exists()) {
@@ -67,7 +67,7 @@ export async function joinSession(sessionId) {
 
     setSession(sessionId);
 
-    const sessionInfo = await getSessionInfo();
+    const sessionInfo = await getSessionInfo(getSession());
 
     if (!sessionInfo) {
         alert("Session not founded!");
@@ -83,7 +83,7 @@ export async function joinSession(sessionId) {
         location = "/pages/session.html";
     }
 
-    console.log("Sessão salva:", getSession());
+    console.log("Session saved:", getSession());
 
     window.location.href = location;
 }
@@ -111,28 +111,24 @@ export function getAllSessionCharacters(callback) {
 }
 
 export function setSession(sessionId) {
-    const currentSession = getSession();
-
-    if (!currentSession || currentSession === "null" || currentSession === "undefined" || currentSession === sessionId) {
-        localStorage.setItem("currentSession", sessionId);
+    if (!sessionId || sessionId === "null" || sessionId === "undefined") {
         return;
     }
 
-    let counter = parseInt(localStorage.getItem('lastSessionsCounter')) || 0;
-    let sessions = [];
-
-    for (let i = 0; i < counter; i++) {
-        sessions.push(localStorage.getItem('lastSession-' + i));
-    }
-
-    if (!sessions.includes(currentSession)) {
-        localStorage.setItem('lastSession-' + counter, currentSession);
-
-        counter++;
-        localStorage.setItem('lastSessionsCounter', counter);
-    }
+    setLastSessions(sessionId);
 
     localStorage.setItem("currentSession", sessionId);
+}
+
+export function setLastSessions(sessionId) {
+    const { sessions, counter } = getLastSessions();
+
+    if (sessions.includes(sessionId)) {
+        return;
+    }
+
+    localStorage.setItem('lastSession-' + counter, sessionId);
+    localStorage.setItem('lastSessionsCounter', counter + 1);
 }
 
 export function getLastSessions() {
