@@ -6,6 +6,8 @@
 const itemsContainerElement = document.getElementById('inventory-items-container');
 const characterImageElement = document.getElementById('character-image-element');
 
+const avaliablePoints = document.getElementById('points-label');
+
 // Player Health Displays
 const maxHpElement = document.getElementById('max-hp');
 const currentHpElement = document.getElementById('hp-display');
@@ -73,22 +75,38 @@ function updatePlayerHP() {
 }
 
 function alterAttribute(attributeName, quantity) {
-    if (!characterState?.attributes) return;
+    if (!characterState?.attributes) {
+        return;
+    }
 
     let currentUsedPoints = 0;
-
     for (let key in characterState.attributes) {
         currentUsedPoints += characterState.attributes[key];
     }
 
-    if (quantity > 0 && currentUsedPoints >= (characterState.points + 4)) {
+    const maxPointsAllowed = characterState.points + 4;
+
+    if (quantity > 0 && currentUsedPoints >= maxPointsAllowed) {
         return;
     }
 
-    characterState.attributes[attributeName] = (characterState.attributes[attributeName]) + quantity;
+    const currentValue = characterState.attributes[attributeName] || 0;
+    const newValue = currentValue + quantity;
 
-    if (characterState.attributes[attributeName] < 1) {
-        characterState.attributes[attributeName] = 1;
+    if (newValue < 1) {
+        return;
+    }
+
+    characterState.attributes[attributeName] = newValue;
+
+    let updatedUsedPoints = 0;
+
+    for (let key in characterState.attributes) {
+        updatedUsedPoints += characterState.attributes[key];
+    }
+
+    if (avaliablePoints) {
+        avaliablePoints.innerText = `Points to distribute: ${maxPointsAllowed - updatedUsedPoints}`;
     }
 
     const attrDisplay = document.getElementById(`attr-${attributeName}`);
@@ -131,7 +149,7 @@ function getPlayerInfo() {
     if (characterName) { characterState.name = characterName.value; }
     if (characterRace) { characterState.race = characterRace.value; }
     if (characterClass) { characterState.class = characterClass.value; }
-    if (characterCash) { characterState.cash = parseFloat(characterCash.value) || 0; }
+    if (characterCash) { characterState.cash = parseFloat(characterCash.value); }
     if (characterImageInput) { characterState.image = characterImageInput.value; }
 
     updatePlayerImage();
@@ -155,13 +173,17 @@ function setPlayerInfo() {
     if (characterState.attributes) {
         for (const [attr, val] of Object.entries(characterState.attributes)) {
             const attrDisplay = document.getElementById(`attr-${attr}`);
-            if (attrDisplay) attrDisplay.textContent = val;
+            
+            if (attrDisplay) {
+                attrDisplay.textContent = val;
+            }
         }
     }
 
     updatePlayerImage();
     updatePlayerHP();
     updatePlayerName();
+    alterAttribute('resistance', 0);
 }
 
 function updatePlayerName() {
@@ -187,6 +209,7 @@ function openCharacterAddImage() {
     if (characterImageInput) {
         characterImageInput.value = characterState.image || '';
     }
+
     addCharacterImageModal?.classList.remove('hidden');
 }
 
@@ -198,14 +221,6 @@ function closeCharacterAddImage() {
     updatePlayerImage();
     addCharacterImageModal?.classList.add('hidden');
 }
-
-/* ==========================================================================
-   EXPOSIÇÃO GLOBAL (Para chamadas inline no HTML)
-   ========================================================================== */
-window.alterHP = alterHP;
-window.alterAttribute = alterAttribute;
-window.openCharacterAddImage = openCharacterAddImage;
-window.closeCharacterAddImage = closeCharacterAddImage;
 
 /* ==========================================================================
    EVENT LISTENERS
