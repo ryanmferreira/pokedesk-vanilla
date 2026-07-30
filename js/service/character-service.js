@@ -1,10 +1,9 @@
-import { database, ref, set, push, update, onValue } from "/js/database/database.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js"
+import { ref, set, push, update, onValue, query, orderByChild, onChildAdded, equalTo } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js";
+
+import { auth } from "../database/firebase-config.js";
+import { database } from "/js/database/database.js";
 import { getUserData } from "/js/service/auth-service.js";
-
-import { query, orderByChild, onChildAdded, equalTo } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js";
-
-import { auth, onAuthStateChanged } from "../database/firebase-config.js";
-
 import { getSession, getLastSessions } from "./session-service.js";
 
 const handleSaveButton = document.getElementById('save-button');
@@ -77,7 +76,7 @@ export async function loadCharacter(userId) {
         });
     }
     else {
-        window.location.href = "../../index.html";
+        window.location.href = "/index.html";
     }
 }
 

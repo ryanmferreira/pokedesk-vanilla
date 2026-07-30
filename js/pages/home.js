@@ -1,12 +1,12 @@
-import { onAuthStateChanged, auth } from "/js/database/firebase-config.js";
+import { auth } from "/js/database/firebase-config.js";
 
-import { getLastSessions, getSessionInfo, joinSession } from "/js/service/session-service.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js"
+
+import { getLastSessions, getSessionInfo, joinSession, setLastSessions } from "/js/service/session-service.js";
 
 document.addEventListener('DOMContentLoaded', () => {
     onAuthStateChanged(auth, (user) => {
         if (user) {
-            console.log(user);
-
             const greetingsNameElement = document.getElementById('user-name');
             const firstName = user.displayName.split(' ', 1);
 
@@ -35,7 +35,7 @@ async function renderLastSessions() {
 
             console.log(sessionInfo)
 
-            sessionsButton.innerText = sessionInfo.name;
+            sessionsButton.innerText = sessionInfo?.name;
 
             sessionsButton.addEventListener('click', () => {
                 joinSession(session);

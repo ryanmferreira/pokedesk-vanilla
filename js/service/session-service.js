@@ -1,5 +1,7 @@
-import { database, ref, set, get, push, onValue } from "/js/database/database.js";
+import { database } from "/js/database/database.js";
 import { getUserData } from "/js/service/auth-service.js";
+
+import { ref, set, get, push, onValue } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js"
 
 const createSessionButton = document.getElementById('create-session');
 const createSessionNameInput = document.getElementById('create-session-name');
@@ -46,8 +48,8 @@ export async function createSession(sessionName) {
     }
 }
 
-export async function getSessionInfo(session) {
-    const sessionRef = ref(database, 'sessions/' + session);
+export async function getSessionInfo(sessionId) {
+    const sessionRef = ref(database, 'sessions/' + sessionId);
     const snapshot = await get(sessionRef);
 
     if (snapshot.exists()) {

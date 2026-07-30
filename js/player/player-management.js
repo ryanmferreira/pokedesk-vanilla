@@ -174,10 +174,6 @@ document.getElementById('add-item-btn')?.addEventListener('click', () => {
     renderInventory();
 });
 
-const inputs = [characterRace, characterName, characterClass];
-
-for (const input of inputs) {
-    input.addEventListener('change', () => {
-        getPlayerInfo();
-    });
-}
+characterName?.addEventListener('change', () => {
+    getPlayerInfo();
+});

@@ -36,17 +36,46 @@
         </div>
     </nav>
 
-    <main></main>
+    <main>
+        <div class="container">
+            <div class="row">
+                <h1 id="gm-session-name" class="flex-grow">Session Name</h1>
+                <button id="copy-session-id" class="red">Copy Session ID</button>
+            </div>
+
+            <hr>
+
+            <div class="row">
+                <h4>Session ID: </h4>
+                <h4 id="gm-session-id"></h4>
+            </div>
+        </div>
+
+        <div id="players" class="grid"></div>
+    </main>
+
+    <!-- INSPECTION MODAL -->
+    <div id="inspect-modal" class="modal-overlay hidden">
+        <div class="modal-card container">
+            <div class="static-row align-between">
+                <div class="column">
+                    <h2 id="modal-char-name">Character Name</h2>
+                    <span id="modal-char-info" class="tiny-text">Race • Class</span>
+                </div>
+                <button id="close-inspect-modal" type="button" class="item-delete-btn">×</button>
+            </div>
+
+            <hr>
+
+            <div id="modal-char-content" class="column" style="overflow-y: auto; max-height: 70vh; gap: 12px;">
+                <!-- Lines goes here (by JS) -->
+            </div>
+        </div>
+    </div>
 
     <script type="module" src="/js/pages/home.js"></script>
-
-    <script type="module" src="/js/pages/session.js"></script>
-    <script type="module" src="/js/pages/home.js"></script>
-
     <script type="module" src="/js/database/auth-state.js"></script>
-
     <script type="module" src="/js/pages/game-master.js"></script>
-
     <script src="/js/global-scripts.js"></script>
 </body>
 
