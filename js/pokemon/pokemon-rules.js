@@ -2,6 +2,11 @@
    LEVEL & XP RULES
    ========================================================================== */
 
+function getMaxHp(pokemon) {
+    let { level } = calculateLevel(pokemon.xp, pokemon.levelSpeed)
+    return (pokemon.status.hp / 5) + level;
+}
+
 function getVelocityModifier(velocity) {
     switch ((velocity || 'fast').toLowerCase()) {
         case "fast": return 0.8;

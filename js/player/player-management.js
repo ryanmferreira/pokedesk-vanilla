@@ -27,10 +27,6 @@ const strengthElement = document.getElementById('attr-strength');
 const minElement = document.getElementById('attr-mind');
 const agilityElement = document.getElementById('attr-agility');
 
-// Modals
-const inventoryModal = document.getElementById('inventory-modal');
-const addCharacterImageModal = document.getElementById('add-character-image-modal');
-
 // Player Base Values
 const baseHp = 0;
 let characterMaxHp = calculateMaxHP();

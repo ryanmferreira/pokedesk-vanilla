@@ -62,11 +62,6 @@ const selectedHappinessDetails = document.getElementById('detail-happy-text');
 const selectedHealthDetails = document.getElementById('detail-hp-text');
 const selectedHealthBarDetails = document.getElementById('detail-life-bar');
 
-// ===== Modal =====
-const pokemonModal = document.getElementById('pokemon-management-modal');
-const editPokemonModal = document.getElementById('edit-pokemon-modal');
-const addImageModal = document.getElementById('add-image-modal');
-
 function debugPokemon() {
     console.log(characterState.capturedPokemon.attacks)
 }
@@ -78,11 +73,6 @@ function updateLifeBar(pokemon) {
     const percentage = Math.max(0, Math.min(100, Math.round((currentHp / maxHp) * 100)));
 
     return `${percentage}%`;
-}
-
-function getMaxHp(pokemon) {
-    let { level } = calculateLevel(pokemon.xp, pokemon.levelSpeed)
-    return (pokemon.status.hp / 5) + level;
 }
 
 function updateXpBar(pokemon) {

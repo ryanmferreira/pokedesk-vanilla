@@ -8,7 +8,7 @@ const sessionNameElement = document.getElementById('gm-session-name');
 const sessionIdElement = document.getElementById('gm-session-id');
 
 const inspectModal = document.getElementById('inspect-modal');
-const closeModalBtn = document.getElementById('close-inspect-modal');
+const closeModalButton = document.getElementById('close-inspect-modal');
 const modalCharName = document.getElementById('modal-char-name');
 const modalCharInfo = document.getElementById('modal-char-info');
 const modalCharContent = document.getElementById('modal-char-content');
@@ -211,7 +211,7 @@ function renderSessionCharacters() {
     });
 }
 
-closeModalBtn?.addEventListener('click', closeInspectModal);
+closeModalButton?.addEventListener('click', closeInspectModal);
 
 inspectModal?.addEventListener('click', (e) => {
     if (e.target === inspectModal) {
@@ -226,8 +226,8 @@ document.addEventListener('keydown', (e) => {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-    renderSessionInfo();
     renderSessionCharacters();
+    renderSessionInfo();
 });
 
 leaveSessionButton?.addEventListener('click', () => {

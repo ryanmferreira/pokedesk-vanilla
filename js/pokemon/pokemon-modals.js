@@ -2,6 +2,11 @@
    MODAL AND UI CONTROL
    ========================================================================== */
 
+// ===== Modal =====
+const editPokemonModal = document.getElementById('edit-pokemon-modal');
+const addImageModal = document.getElementById('add-image-modal');
+const pokemonModal = document.getElementById('pokemon-management-modal');
+
 function showSelectedPokemon() {
     document.querySelector('.select-pokemon').style.display = 'flex';
 }
