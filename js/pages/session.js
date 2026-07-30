@@ -17,6 +17,8 @@ async function renderSessionInfo() {
     if (showSessionName) {
         showSessionName.innerText = sessionInfo.name;
     }
+
+    document.title = sessionInfo.name;
 }
 
 renderSessionInfo();
