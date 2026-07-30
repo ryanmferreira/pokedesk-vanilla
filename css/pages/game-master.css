@@ -16,6 +16,14 @@
 
 #modal-char-content .inventory-item-row .detail-box {
     border-right: none;
+    min-width: 0;
+}
+
+#modal-char-content .inventory-item-row .poke-item-name {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 #modal-char-content .inventory-qty-input {
@@ -29,6 +37,7 @@
     justify-content: center;
     font-weight: bold;
     font-size: 12px;
+    flex-shrink: 0;
 }
 
 button.pokemon-slot {
@@ -54,6 +63,17 @@ button.pokemon-slot:active {
     transform: translateY(1px);
 }
 
+button.pokemon-slot .pokemon-info {
+    min-width: 0;
+}
+
+button.pokemon-slot .pokemon-info h5 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 0;
+}
+
 .inspect-columns {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -76,11 +96,64 @@ button.pokemon-slot:active {
     font-size: 18px;
     cursor: pointer;
     padding: 0;
+    flex-shrink: 0;
 }
 
 #close-inspect-modal:hover {
     background: var(--red-color);
     color: var(--white-color) !important;
+}
+
+.card-stats-row {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+}
+
+.card-stats-row .stat-box {
+    flex: 1;
+    min-width: 0;
+    text-align: center;
+}
+
+.role-stat-box {
+    min-width: 90px;
+    max-width: 120px;
+    flex-shrink: 0;
+    text-align: center;
+}
+
+.role-stat-box .role-text {
+    font-size: 13px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.container.characters .column {
+    min-width: 0;
+}
+
+.container.characters h2,
+#modal-char-content h3 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 0;
+}
+
+.container.characters .tiny-text,
+#modal-char-content .tiny-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+}
+
+.container.characters .stat-box,
+#modal-char-content .stat-box {
+    flex-shrink: 0;
 }
 
 @media screen and (max-width: 700px) {

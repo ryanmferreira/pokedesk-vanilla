@@ -26,6 +26,7 @@ export async function saveCharacter(user, characterData) {
             id: characterId,
             userId: user.uid,
             sessionId: getSession(),
+            image: characterData.image || "",
             campaignRole: characterData.campaignRole || "Player",
             points: characterData.points || 8,
             name: characterData.name || "",
@@ -37,7 +38,7 @@ export async function saveCharacter(user, characterData) {
             inventory: characterData.inventory || [],
             capturedPokemon: characterData.capturedPokemon || [],
             team: characterData.team || [],
-            diary: characterData.diary || ""
+            diary: characterData.diary || []
         };
 
         await set(characterRef, characterToSave);

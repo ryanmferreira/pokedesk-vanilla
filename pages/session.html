@@ -54,29 +54,41 @@
             </div>
         </div>
 
-        <!-- Grid Principal -->
+        <!-- Main Grid -->
         <div class="grid main-grid expand">
 
             <!-- Basic Information -->
-            <div class="container flex-grow">
-                <h2>Basic information</h2>
+            <div class="container">
+                <div class="row align-between">
+                    <h2 class="flex-grow">Basic information</h2>
+                    <button id="add-image-button">Add Image</button>
+                </div>
 
                 <hr>
 
-                <div class="column">
-                    <h6>Name</h6>
-                    <input id="character-name" type="text">
-                </div>
-
                 <div class="static-row">
                     <div class="column">
-                        <h6>Class</h6>
-                        <input id="character-class" type="text">
+                        <h6>Photo</h6>
+                        <img id="character-image-element" class="player-image" alt="Player Image">
                     </div>
 
-                    <div class="column">
-                        <h6>Race</h6>
-                        <input id="character-race" type="text">
+                    <div class="flex-grow">
+                        <div class="column">
+                            <h6>Name</h6>
+                            <input id="character-name" type="text">
+                        </div>
+
+                        <div class="static-row flex-grow">
+                            <div class="column">
+                                <h6>Class</h6>
+                                <input id="character-class" type="text">
+                            </div>
+
+                            <div class="column">
+                                <h6>Race</h6>
+                                <input id="character-race" type="text">
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -482,12 +494,29 @@
         </div>
     </div>
 
+    <!-- Add Pokémon Image -->
     <div id="add-image-modal" class="modal-overlay hidden">
         <div class="modal-card container">
             <h2>Image URL</h2>
+
             <hr>
-            <input id="add-image-input" type="text" name="" id="">
+
+            <input id="add-image-input" type="text" name="">
+
             <button onclick="closeAddImage()">Close</button>
+        </div>
+    </div>
+
+    <!-- Add Character Image -->
+    <div id="add-character-image-modal" class="modal-overlay hidden">
+        <div class="modal-card container">
+            <h2>Image URL</h2>
+
+            <hr>
+
+            <input id="character-image" type="text" name="">
+
+            <button onclick="closeCharacterAddImage()">Close</button>
         </div>
     </div>
 

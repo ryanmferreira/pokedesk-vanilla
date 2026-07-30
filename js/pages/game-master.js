@@ -19,8 +19,19 @@ function openInspectModal(char) {
     modalCharName.innerText = char.name || 'Unnamed Character';
     modalCharInfo.innerText = `${char.race || 'Race'} • ${char.class || 'Class'}`;
 
+    const charImageSrc = char.image || '/assets/icons/pokeball.svg';
+
     modalCharContent.innerHTML = `
-        <!-- STATS PRINCIPAIS -->
+        <div class="static-row align-center" style="gap: 16px;">
+            <div class="avatar-box" style="width: 72px; height: 72px; flex-shrink: 0;">
+                <img class="player-image" src="${charImageSrc}" alt="${char.name || 'Player'}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+            </div>
+            <div class="column flex-grow" style="min-width: 0;">
+                <h3>${char.name || 'Unnamed Character'}</h3>
+                <span class="tiny-text">${char.race || 'Race'} • ${char.class || 'Class'}</span>
+            </div>
+        </div>
+
         <div class="correct-size">
             <div class="detail-box column stat-box">
                 <span class="panel-label">HP</span>
@@ -36,7 +47,6 @@ function openInspectModal(char) {
             </div>
         </div>
 
-        <!-- ATRIBUTOS -->
         <div class="correct-size">
             <div class="detail-box column stat-box">
                 <span class="panel-label">STR</span>
@@ -58,16 +68,13 @@ function openInspectModal(char) {
 
         <hr>
 
-        <!-- SEÇÃO LADO A LADO -->
         <div class="inspect-columns">
-            
-            <!-- INVENTÁRIO -->
             <div class="inspect-column-box">
                 <span class="section-title">Inventory (${char.inventory?.length || 0})</span>
                 <div class="column" style="gap: 8px;">
                     ${(char.inventory && char.inventory.length > 0)
             ? char.inventory.map(item => `
-                            <div class="inventory-item-row">
+                            <div class="inventory-item-row static-row align-between">
                                 <div class="detail-box flex-grow">
                                     <span class="poke-item-name">${item.name || 'Item'}</span>
                                 </div>
@@ -79,39 +86,41 @@ function openInspectModal(char) {
                 </div>
             </div>
 
-            <!-- TIME POKÉMON (COMO BOTÕES) -->
             <div class="inspect-column-box">
                 <span class="section-title">Pokémon Team (${char.team?.length || 0})</span>
                 <div class="column" style="gap: 8px;">
                     ${(char.team && char.team.length > 0)
-            ? char.team.map((p, index) => `
+            ? char.team.map((p, index) => {
+                const maxHp = p.maxHp || p.hp || 1;
+                const hpPercent = Math.max(0, Math.min(100, Math.round(((p.hp || 0) / maxHp) * 100)));
+                return `
                             <button type="button" class="pokemon-slot active-slot" data-index="${index}">
-                                <div class="avatar-box" style="width: 42px; height: 42px;">
-                                    <img src="${p.imgUrl || ''}" alt="${p.species || 'Pokémon'}">
+                                <div class="avatar-box" style="width: 42px; height: 42px; flex-shrink: 0;">
+                                    <img src="${p.imgUrl || '/assets/icons/pokeball.svg'}" alt="${p.species || 'Pokémon'}">
                                 </div>
-                                <div class="pokemon-info">
+                                <div class="pokemon-info flex-grow">
                                     <div class="static-row align-between">
                                         <h5>${p.species || 'Unknown'}</h5>
                                         <span class="tiny-text">LVL ${p.level || 1}</span>
                                     </div>
                                     <div class="health-bar-container" style="height: 5px;">
-                                        <div class="health-bar-fill" style="width: 100%;"></div>
+                                        <div class="health-bar-fill" style="width: ${hpPercent}%;"></div>
                                     </div>
                                     <span class="tiny-text">HP ${p.hp || 0}</span>
                                 </div>
                             </button>
-                        `).join('')
+                        `;
+            }).join('')
             : '<div class="pokemon-slot empty-slot">(+) No Pokémon in party</div>'
         }
                 </div>
             </div>
-
         </div>
     `;
 
     const pokeButtons = modalCharContent.querySelectorAll('button.pokemon-slot');
     pokeButtons.forEach(btn => {
-        btn.addEventListener('click', (e) => {
+        btn.addEventListener('click', () => {
             const pokeIndex = btn.getAttribute('data-index');
             const selectedPokemon = char.team[pokeIndex];
             console.log('Selected Pokémon:', selectedPokemon);
@@ -151,35 +160,43 @@ function renderSessionCharacters() {
             const characterCard = document.createElement('div');
             characterCard.classList = 'container characters';
 
+            const imageSrc = char.image || '/assets/icons/pokeball.svg';
+
             characterCard.innerHTML = `
-                <!-- HEADER -->
-                <div class="static-row align-between">
-                    <div class="column">
+                <div class="static-row align-between" style="gap: 12px; align-items: center;">
+                    <div class="avatar-box" style="width: 52px; height: 52px; flex-shrink: 0;">
+                        <img class="player-image" src="${imageSrc}" alt="${char.name || 'Player'}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+                    </div>
+
+                    <div class="column flex-grow" style="min-width: 0;">
                         <h2>${char.name || 'Unnamed Character'}</h2>
                         <span class="tiny-text">${char.race || 'Race'} • ${char.class || 'Class'}</span>
                     </div>
-                    <div class="detail-box column stat-box">
-                        <span class="panel-label">HP</span>
-                        <span class="panel-value">${char.hp || 0}</span>
+
+                    <div class="detail-box column stat-box role-stat-box">
+                        <span class="panel-label">ROLE</span>
+                        <span class="panel-value role-text">${char.campaignRole || 'PLAYER'}</span>
                     </div>
                 </div>
 
                 <hr>
 
-                <!-- MAIN STATS -->
-                <div class="static-row align-between">
-                    <div>
-                        <span class="panel-label">Points:</span>
+                <div class="static-row card-stats-row">
+                    <div class="detail-box column stat-box flex-grow">
+                        <span class="panel-label">HP</span>
+                        <span class="panel-value">${char.hp || 0}</span>
+                    </div>
+                    <div class="detail-box column stat-box flex-grow">
+                        <span class="panel-label">POINTS</span>
                         <span class="panel-value">${char.points || 0}</span>
                     </div>
-                    <div>
-                        <span class="panel-label">Cash:</span>
+                    <div class="detail-box column stat-box flex-grow">
+                        <span class="panel-label">CASH</span>
                         <span class="panel-value">$${char.cash || 0}</span>
                     </div>
                 </div>
 
-                <!-- ACTION BUTTON -->
-                <div class="action-row">
+                <div class="action-row" style="margin-top: 12px;">
                     <button type="button" class="inspect-btn btn-dark expand">Inspect Character</button>
                 </div>
             `;

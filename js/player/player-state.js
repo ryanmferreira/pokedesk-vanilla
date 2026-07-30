@@ -1,8 +1,9 @@
 let characterState = {
     'id': '',
+    'image': '',
     'userId': 0,
     'sessionId': 0,
-    'campaignRole': 0,
+    'campaignRole': '',
     'points': 8,
     'name': '',
     'class': '',

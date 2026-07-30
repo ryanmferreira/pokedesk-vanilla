@@ -4,6 +4,7 @@
 
 // Player Elements Container
 const itemsContainerElement = document.getElementById('inventory-items-container');
+const characterImageElement = document.getElementById('character-image-element');
 
 // Player Health Displays
 const maxHpElement = document.getElementById('max-hp');
@@ -15,8 +16,8 @@ const hpStatusElement = document.getElementById('hp-status');
 const characterName = document.getElementById('character-name');
 const characterRace = document.getElementById('character-race');
 const characterClass = document.getElementById('character-class');
-
 const characterCash = document.getElementById('inventory-cash');
+const characterImageInput = document.getElementById('character-image');
 
 // Player Attribute Displays (text)
 const resistanceElement = document.getElementById('attr-resistance');
@@ -26,10 +27,14 @@ const agilityElement = document.getElementById('attr-agility');
 
 // Modals
 const inventoryModal = document.getElementById('inventory-modal');
+const addCharacterImageModal = document.getElementById('add-character-image-modal');
 
 // Player Base Values
 const baseHp = 0;
 let characterMaxHp = calculateMaxHP();
+
+// Buttons
+const addCharacterImage = document.getElementById('add-image-button');
 
 /* ==========================================================================
    PLAYER MANAGEMENT
@@ -47,7 +52,7 @@ function updateMaxHP() {
 function updatePlayerHP() {
     updateMaxHP();
 
-    const currentHp = characterState.hp ?? 0;
+    const currentHp = characterState?.hp ?? 0;
     const maxHp = characterMaxHp || 1;
 
     if (currentHpElement) { currentHpElement.textContent = currentHp; }
@@ -127,7 +132,9 @@ function getPlayerInfo() {
     if (characterRace) { characterState.race = characterRace.value; }
     if (characterClass) { characterState.class = characterClass.value; }
     if (characterCash) { characterState.cash = parseFloat(characterCash.value) || 0; }
+    if (characterImageInput) { characterState.image = characterImageInput.value; }
 
+    updatePlayerImage();
     updatePlayerHP();
     updatePlayerName();
 }
@@ -137,11 +144,13 @@ function setPlayerInfo() {
     const raceInput = document.getElementById('character-race');
     const classInput = document.getElementById('character-class');
     const cashInput = document.getElementById('inventory-cash');
+    const imageInput = document.getElementById('character-image');
 
     if (nameInput) { nameInput.value = characterState.name ?? ''; }
     if (raceInput) { raceInput.value = characterState.race ?? ''; }
     if (classInput) { classInput.value = characterState.class ?? ''; }
     if (cashInput) { cashInput.value = characterState.cash ?? 0; }
+    if (imageInput) { imageInput.value = characterState.image ?? ''; }
 
     if (characterState.attributes) {
         for (const [attr, val] of Object.entries(characterState.attributes)) {
@@ -150,10 +159,9 @@ function setPlayerInfo() {
         }
     }
 
+    updatePlayerImage();
     updatePlayerHP();
     updatePlayerName();
-
-    console.log("Informations loaded successfully!\n", characterState);
 }
 
 function updatePlayerName() {
@@ -165,15 +173,57 @@ function updatePlayerName() {
     });
 }
 
+function updatePlayerImage() {
+    if (characterImageElement) {
+        characterImageElement.src = characterState.image || '';
+    }
+}
+
+/* ==========================================================================
+   MODAL IMAGE CONTROLS
+   ========================================================================== */
+
+function openCharacterAddImage() {
+    if (characterImageInput) {
+        characterImageInput.value = characterState.image || '';
+    }
+    addCharacterImageModal?.classList.remove('hidden');
+}
+
+function closeCharacterAddImage() {
+    if (characterImageInput) {
+        characterState.image = characterImageInput.value;
+    }
+
+    updatePlayerImage();
+    addCharacterImageModal?.classList.add('hidden');
+}
+
+/* ==========================================================================
+   EXPOSIÇÃO GLOBAL (Para chamadas inline no HTML)
+   ========================================================================== */
+window.alterHP = alterHP;
+window.alterAttribute = alterAttribute;
+window.openCharacterAddImage = openCharacterAddImage;
+window.closeCharacterAddImage = closeCharacterAddImage;
+
 /* ==========================================================================
    EVENT LISTENERS
    ========================================================================== */
 
 document.getElementById('add-item-btn')?.addEventListener('click', () => {
+    if (!characterState.inventory) characterState.inventory = [];
     characterState.inventory.push({ name: '', quantity: 1 });
-    renderInventory();
+    if (typeof renderInventory === 'function') {
+        renderInventory();
+    }
 });
 
-characterName?.addEventListener('change', () => {
-    getPlayerInfo();
+characterName?.addEventListener('change', getPlayerInfo);
+characterRace?.addEventListener('change', getPlayerInfo);
+characterClass?.addEventListener('change', getPlayerInfo);
+characterCash?.addEventListener('change', getPlayerInfo);
+
+addCharacterImage?.addEventListener('click', () => {
+    openCharacterAddImage();
 });
