@@ -38,7 +38,6 @@ export async function createSession(sessionName) {
 
         console.log("session created succesfully! ID:", sessionId);
 
-        setSession(sessionId);
         joinSession(sessionId);
 
         return sessionData;
