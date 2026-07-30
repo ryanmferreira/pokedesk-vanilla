@@ -28,10 +28,15 @@ async function renderLastSessions() {
         console.log(sessions);
 
         for (const session of sessions) {
+
             const sessionsButton = document.createElement('button');
             sessionsButton.className = 'flex-grow';
 
             const sessionInfo = await getSessionInfo(session);
+
+            if (!sessionInfo) {
+                break;
+            }
 
             console.log(sessionInfo)
 

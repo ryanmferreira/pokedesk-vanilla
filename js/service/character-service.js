@@ -26,6 +26,7 @@ export async function saveCharacter(user, characterData) {
             id: characterId,
             userId: user.uid,
             sessionId: getSession(),
+            lastSaved: Date.now(),
             image: characterData.image || "",
             campaignRole: characterData.campaignRole || "Player",
             points: characterData.points || 8,
@@ -98,6 +99,8 @@ handleSaveButton.addEventListener('click', async () => {
 
         characterState.id = savedCharacter.id;
 
+        window.updateLastSaved();
+        
         alert("Character Saved!");
     } catch (error) {
         console.error("Error on saving character:", error);

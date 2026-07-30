@@ -8,6 +8,8 @@ const characterImageElement = document.getElementById('character-image-element')
 
 const avaliablePoints = document.getElementById('points-label');
 
+const lastSavedElement = document.getElementById('last-saved');
+
 // Player Health Displays
 const maxHpElement = document.getElementById('max-hp');
 const currentHpElement = document.getElementById('hp-display');
@@ -148,10 +150,36 @@ function getPlayerInfo() {
     if (characterCash) { characterState.cash = parseFloat(characterCash.value); }
     if (characterImageInput) { characterState.image = characterImageInput.value; }
 
+    updateLastSaved();
     updatePlayerImage();
     updatePlayerHP();
     updatePlayerName();
 }
+
+function updateLastSaved() {
+    if (!lastSavedElement || !characterState?.lastSaved) {
+        if (lastSavedElement) lastSavedElement.textContent = '';
+        return;
+    }
+
+    const date = new Date(characterState.lastSaved);
+
+    if (isNaN(date.getTime())) {
+        lastSavedElement.textContent = '';
+        return;
+    }
+
+    lastSavedElement.textContent = "Last saved: " + date.toLocaleString("pt-BR", {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false
+    });
+}
+
+window.updateLastSaved = updateLastSaved;
 
 function setPlayerInfo() {
     const nameInput = document.getElementById('character-name');
@@ -166,10 +194,12 @@ function setPlayerInfo() {
     if (cashInput) { cashInput.value = characterState.cash ?? 0; }
     if (imageInput) { imageInput.value = characterState.image ?? ''; }
 
+    updateLastSaved();
+
     if (characterState.attributes) {
         for (const [attr, val] of Object.entries(characterState.attributes)) {
             const attrDisplay = document.getElementById(`attr-${attr}`);
-            
+
             if (attrDisplay) {
                 attrDisplay.textContent = val;
             }
