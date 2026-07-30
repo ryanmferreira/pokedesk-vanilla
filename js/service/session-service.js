@@ -39,7 +39,7 @@ export async function createSession(sessionName) {
         console.log("session created succesfully! ID:", sessionId);
 
         setSession(sessionId);
-        window.location.href = "/pages/session.html";
+        joinSession(sessionId);
 
         return sessionData;
     } catch (error) {
