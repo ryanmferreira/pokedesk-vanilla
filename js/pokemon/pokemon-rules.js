@@ -4,7 +4,8 @@
 
 function getMaxHp(pokemon) {
     let { level } = calculateLevel(pokemon.xp, pokemon.levelSpeed)
-    return (pokemon.status.hp / 5) + level;
+
+    return Math.floor(0.01 * (pokemon.status.hp * 2) * level) + level + 10;
 }
 
 function getVelocityModifier(velocity) {
@@ -19,7 +20,7 @@ function getVelocityModifier(velocity) {
 }
 
 function getXpToNextLevel(currentLevel, modifier) {
-    return Math.floor(modifier * currentLevel * currentLevel);
+    return Math.floor(modifier * (100 + currentLevel * 20));
 }
 
 function getBaseXpForLevel(targetLevel, modifier) {
@@ -34,6 +35,7 @@ function getBaseXpForLevel(targetLevel, modifier) {
 
 function calculateLevel(xpInputTotal, velocityParam = null) {
     const modifier = getVelocityModifier(velocityParam || pokeLevelVelocity?.value);
+
     const xpInput = parseInt(xpInputTotal, 10) || 0;
 
     const baseXpForLevel5 = getBaseXpForLevel(5, modifier);
