@@ -29,8 +29,7 @@
 
         <hr>
 
-        <div>
-        </div>
+        <div></div>
 
         <div class="expand"></div>
 
@@ -43,13 +42,16 @@
         <div class="container">
             <div class="row">
                 <h1 id="gm-session-name" class="flex-grow">Session Name</h1>
-                <button id="copy-session-id" class="red">Copy Session ID</button>
+
+                <button id="copy-session-id" class="red">
+                    Copy Session ID
+                </button>
             </div>
 
             <hr>
 
             <div class="row">
-                <h4>Session ID: </h4>
+                <h4>Session ID:</h4>
                 <h4 id="gm-session-id"></h4>
             </div>
         </div>
@@ -59,31 +61,38 @@
 
     <!-- INSPECTION MODAL -->
     <div id="inspect-modal" class="modal-overlay hidden">
-        <div class="modal-card container">
+        <div class="modal-card container gm-inspect-modal">
             <div class="static-row align-between">
                 <div class="column">
                     <h2 id="modal-char-name">Character Name</h2>
-                    <span id="modal-char-info" class="tiny-text">Race • Class</span>
+
+                    <span id="modal-char-info" class="tiny-text">
+                        Race • Class
+                    </span>
                 </div>
-                <button id="close-inspect-modal" type="button" class="item-delete-btn">×</button>
+
+                <button id="close-inspect-modal" type="button" class="item-delete-btn">
+                    ×
+                </button>
             </div>
 
             <hr>
 
-            <div id="modal-char-content" class="column" style="overflow-y: auto; max-height: 70vh; gap: 12px;">
-                <!-- Lines goes here (by JS) -->
+            <div id="modal-char-content" class="gm-modal-content">
+                <!-- Character information rendered by JS -->
             </div>
         </div>
     </div>
 
-    <!-- POKÉMON ATTACKS MODAL -->
+    <!-- POKÉMON INFORMATION MODAL -->
     <div id="pokemon-attacks-modal" class="modal-overlay hidden">
-        <div class="modal-card container">
+        <div class="modal-card container gm-pokemon-modal">
             <div class="static-row align-between">
                 <div class="column">
                     <h2 id="attacks-pokemon-name">Pokémon</h2>
+
                     <span id="attacks-pokemon-info" class="tiny-text">
-                        Attacks
+                        Pokémon Information
                     </span>
                 </div>
 
@@ -94,8 +103,8 @@
 
             <hr>
 
-            <div id="pokemon-attacks-content" class="column" style="overflow-y: auto; max-height: 70vh; gap: 10px;">
-                <!-- Attacks rendered by JS -->
+            <div id="pokemon-attacks-content" class="gm-modal-content">
+                <!-- Pokémon information rendered by JS -->
             </div>
         </div>
     </div>

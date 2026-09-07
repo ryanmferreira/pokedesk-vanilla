@@ -1,3 +1,7 @@
+import { auth } from "/js/database/firebase-config.js";
+
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js"
+
 import { leaveSesion, getSessionInfo, getSession } from "/js/service/session-service.js";
 
 import { showLoading, hideLoading } from "/js/components/loading.js";
@@ -28,5 +32,18 @@ async function renderSessionInfo() {
         hideLoading();
     }
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    onAuthStateChanged(auth, async (user) => {
+        if (user) {
+            const greetingsNameElement = document.getElementById('user-name');
+            const firstName = user.displayName.split(' ', 1);
+
+            if (greetingsNameElement) {
+                greetingsNameElement.textContent = `Hello, ${firstName}!`;
+            }
+        }
+    });
+});
 
 renderSessionInfo();

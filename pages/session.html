@@ -297,10 +297,10 @@
 
             <!-- Inferior Section: Captured -->
             <h3 class="section-title">CAPTURED POKÉMON</h3>
-            <select class="custom-select" name="" id="pokemon-location-change">
+            <select class="custom-select" id="pokemon-location-change">
                 <option value="Box">Box</option>
                 <option value="Party">Party</option>
-                <option value="Party">All</option>
+                <option value="All">All</option>
             </select>
             <hr class="dashed-hr">
 
@@ -521,6 +521,47 @@
 
             <button onclick="closeCharacterAddImage()">Close</button>
         </div>
+    </div>
+
+    <!-- ==========================================================================
+     POKÉMON INFO MODAL
+     ========================================================================== -->
+
+    <div id="pokemon-info-modal" class="modal-overlay hidden">
+
+        <div class="modal-card pokemon-info-modal-card container">
+
+            <!-- Header -->
+            <div class="static-row align-between pokemon-info-header">
+
+                <div class="column pokemon-info-title">
+                    <h2 id="info-pokemon-name">Pokémon</h2>
+
+                    <span id="info-pokemon-types" class="tiny-text">
+                        Type
+                    </span>
+                </div>
+
+                <button id="close-pokemon-info-modal" type="button" class="item-delete-btn"
+                    aria-label="Close Pokémon information">
+                    ×
+                </button>
+
+            </div>
+
+            <hr>
+
+            <!-- Main content -->
+            <div id="pokemon-info-content" class="pokemon-info-body">
+
+                <!--
+                Conteúdo preenchido pelo JavaScript.
+            -->
+
+            </div>
+
+        </div>
+
     </div>
 
     <script type="module" src="/js/player/player-state.js"></script>

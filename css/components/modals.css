@@ -69,13 +69,13 @@
 
 .inventory-qty-input {
     height: 32px;
-    
-    field-sizing: content; 
-    
-    min-width: 32px; 
-    
-    max-width: 64px; 
-    
+
+    field-sizing: content;
+
+    min-width: 32px;
+
+    max-width: 64px;
+
     text-align: center;
     font-weight: bold;
     background-color: var(--background-color);
@@ -511,6 +511,290 @@
     max-height: 32px;
     accent-color: var(--red-color);
     cursor: pointer;
+}
+
+/* ==========================================================================
+   MODAL 4: POKÉMON INFO
+   ========================================================================== */
+
+.pokemon-info-modal-card {
+    width: 70%;
+    max-width: 900px;
+    max-height: 90vh;
+}
+
+.pokemon-info-header {
+    min-width: 0;
+}
+
+.pokemon-info-title {
+    min-width: 0;
+}
+
+.pokemon-info-title h2 {
+    font-size: 18px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.pokemon-info-body {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-width: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 4px;
+}
+
+/* --------------------------------------------------------------------------
+   Pokémon summary
+   -------------------------------------------------------------------------- */
+
+.pokemon-summary {
+    display: grid;
+    grid-template-columns: 86px 1fr;
+    gap: 12px;
+    width: 100%;
+    min-width: 0;
+}
+
+.pokemon-summary .avatar-box {
+    width: 86px;
+    height: 86px;
+}
+
+.pokemon-summary-info {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    min-width: 0;
+}
+
+.pokemon-summary-item {
+    border: 2px dashed var(--input-contrast-color);
+    padding: 6px 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.pokemon-summary-item .panel-label {
+    font-size: 9px;
+}
+
+.pokemon-summary-item .panel-value {
+    font-size: 13px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* --------------------------------------------------------------------------
+   Stats
+   -------------------------------------------------------------------------- */
+
+.pokemon-stats {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    width: 100%;
+    border: 2px dashed var(--input-contrast-color);
+}
+
+.pokemon-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 4px;
+    min-width: 0;
+    text-align: center;
+}
+
+.pokemon-stat+.pokemon-stat {
+    border-left: 1px dashed var(--input-contrast-color);
+}
+
+.pokemon-stat-label {
+    font-size: 9px;
+    font-weight: bold;
+    opacity: 0.7;
+}
+
+.pokemon-stat-value {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+/* --------------------------------------------------------------------------
+   Attacks
+   -------------------------------------------------------------------------- */
+
+.pokemon-attacks-section {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+}
+
+.pokemon-attacks-title {
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.pokemon-attacks-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.pokemon-attack-card {
+    border: 2px dashed var(--input-contrast-color);
+    background-color: var(--red-complementar-color);
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+}
+
+.pokemon-attack-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+}
+
+.pokemon-attack-name {
+    font-size: 12px;
+    font-weight: bold;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.pokemon-attack-type {
+    font-size: 9px;
+    font-weight: bold;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.pokemon-attack-data {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4px;
+}
+
+.pokemon-attack-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 4px;
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.pokemon-attack-stat-label {
+    font-size: 8px;
+    font-weight: bold;
+    opacity: 0.7;
+}
+
+.pokemon-attack-stat-value {
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.pokemon-attack-effect {
+    border-top: 1px dashed var(--input-contrast-color);
+    padding-top: 6px;
+    font-size: 9px;
+    line-height: 1.3;
+    text-transform: none;
+}
+
+/* --------------------------------------------------------------------------
+   Responsive
+   -------------------------------------------------------------------------- */
+
+@media screen and (max-width: 800px) {
+
+    .pokemon-info-modal-card {
+        width: 100%;
+    }
+
+    .pokemon-summary {
+        grid-template-columns: 72px 1fr;
+    }
+
+    .pokemon-summary .avatar-box {
+        width: 72px;
+        height: 72px;
+    }
+
+    .pokemon-stats {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .pokemon-stat:nth-child(4) {
+        border-left: none;
+        border-top: 1px dashed var(--input-contrast-color);
+    }
+
+    .pokemon-stat:nth-child(5),
+    .pokemon-stat:nth-child(6) {
+        border-top: 1px dashed var(--input-contrast-color);
+    }
+}
+
+@media screen and (max-width: 600px) {
+
+    .pokemon-summary {
+        grid-template-columns: 1fr;
+    }
+
+    .pokemon-summary .avatar-box {
+        width: 90px;
+        height: 90px;
+        justify-self: center;
+    }
+
+    .pokemon-summary-info {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .pokemon-attacks-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media screen and (max-width: 400px) {
+
+    .pokemon-summary-info {
+        grid-template-columns: 1fr;
+    }
+
+    .pokemon-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .pokemon-stat:nth-child(3) {
+        border-left: none;
+        border-top: 1px dashed var(--input-contrast-color);
+    }
+
+    .pokemon-stat:nth-child(4) {
+        border-left: 1px dashed var(--input-contrast-color);
+    }
+
+    .pokemon-stat:nth-child(5) {
+        border-left: none;
+    }
 }
 
 /* ==========================================================================
