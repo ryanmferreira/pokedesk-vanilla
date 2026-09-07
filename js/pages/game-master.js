@@ -1,14 +1,12 @@
 import { auth } from "/js/database/firebase-config.js";
+
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
-import {
-    getAllSessionCharacters,
-    leaveSesion,
-    getSessionInfo,
-    getSession
-} from "/js/service/session-service.js";
-import { showLoading, hideLoading } from "/js/components/loading.js";
-import { calculateLevel, getMaxHp } from "/js/pokemon/pokemon-rules.js";
+
+import { getAllSessionCharacters, getSession, getSessionInfo, leaveSesion } from "/js/service/session-service.js";
+
+import { hideLoading, showLoading } from "/js/components/loading.js";
 import { updateLifeBar } from "/js/pokemon/pokemon-management.js";
+import { calculateLevel, getMaxHp } from "/js/pokemon/pokemon-rules.js";
 
 /* ==========================================================================
    GLOBAL ELEMENTS
@@ -642,10 +640,12 @@ function renderSessionCharacters() {
                             <span class="tiny-text">${char.race || "Race"} • ${char.class || "Class"}</span>
                         </div>
 
+                        <!--
                         <div class="detail-box column stat-box role-stat-box">
                             <span class="panel-label">ROLE</span>
                             <span class="panel-value role-text">${char.campaignRole || "PLAYER"}</span>
                         </div>
+                        -->
                     </div>
 
                     <hr>
@@ -763,6 +763,11 @@ async function renderSessionInfo() {
 
     copySessionIdButton?.addEventListener("click", () => {
         copyToClipboard(sessionInfo.id);
+
+        copySessionIdButton.textContent = "Copied!";
+        setTimeout(() => {
+            copySessionIdButton.textContent = "Copy Session ID";
+        }, 2000);
     });
 }
 

@@ -45,7 +45,7 @@ const addCharacterImageModal = document.getElementById('add-character-image-moda
    ========================================================================== */
 
 export function calculateMaxHP() {
-    const resistance = characterState?.attributes?.resistance || 1;
+    const resistance = characterState?.attributes?.resistance ?? 0;
     return baseHp + (resistance * 15);
 }
 
