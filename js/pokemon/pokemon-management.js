@@ -18,9 +18,11 @@ const addToTeamButton = document.getElementById('add-selected-pokemon');
 
 // ===== Pokémon Attributtes =====
 export let currentPokemon = null;
+
 export function setCurrentPokemon(pokemon) {
     currentPokemon = pokemon;
 }
+
 export const maxPartySize = 6;
 
 const xpToAddInput = document.getElementById('xp-to-add');

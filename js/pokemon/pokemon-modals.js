@@ -52,7 +52,9 @@ export function closeAddImage() {
 export function clearSelection() {
     setCurrentPokemon(null);
     hiddenSelectedPokemon();
+  
     const nameDetails = selectedNameDetails || document.getElementById('manage-pokemon-name');
+   
     if (nameDetails) {
         nameDetails.textContent = "No Pokémon Selected";
     }

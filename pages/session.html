@@ -298,9 +298,9 @@
             <!-- Inferior Section: Captured -->
             <h3 class="section-title">CAPTURED POKÉMON</h3>
             <select class="custom-select" id="pokemon-location-change">
+                <option value="All">All</option>
                 <option value="Box">Box</option>
                 <option value="Party">Party</option>
-                <option value="All">All</option>
             </select>
             <hr class="dashed-hr">
 
@@ -528,7 +528,6 @@
      ========================================================================== -->
 
     <div id="pokemon-info-modal" class="modal-overlay hidden">
-
         <div class="modal-card pokemon-info-modal-card container">
 
             <!-- Header -->
@@ -543,25 +542,16 @@
                 </div>
 
                 <button id="close-pokemon-info-modal" type="button" class="item-delete-btn"
-                    aria-label="Close Pokémon information">
-                    ×
-                </button>
-
+                    aria-label="Close Pokémon information">×</button>
             </div>
 
             <hr>
 
             <!-- Main content -->
             <div id="pokemon-info-content" class="pokemon-info-body">
-
-                <!--
-                Conteúdo preenchido pelo JavaScript.
-            -->
-
+                <!-- Lines goes here (by JS) -->
             </div>
-
         </div>
-
     </div>
 
     <script type="module" src="/js/player/player-state.js"></script>
