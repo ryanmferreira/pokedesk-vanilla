@@ -576,7 +576,6 @@
     .captured-grid,
     .pokemon-grid {
         grid-template-columns: 1fr;
-        max-height: auto;
     }
 }
 

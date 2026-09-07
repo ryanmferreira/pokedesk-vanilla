@@ -13,6 +13,8 @@ const modalCharName = document.getElementById('modal-char-name');
 const modalCharInfo = document.getElementById('modal-char-info');
 const modalCharContent = document.getElementById('modal-char-content');
 
+import { showLoading, hideLoading } from '/js/components/loading.js';
+
 function openInspectModal(char) {
     if (!inspectModal) return;
 
@@ -137,32 +139,37 @@ function closeInspectModal() {
 }
 
 function renderSessionCharacters() {
+    showLoading('Loading Characters...');
     const mainElement = document.getElementById('players');
 
-    if (!mainElement) return;
+    if (!mainElement) {
+        hideLoading();
+        return;
+    }
 
     getAllSessionCharacters((characters) => {
-        mainElement.innerHTML = '';
+        try {
+            mainElement.innerHTML = '';
 
-        if (!characters || characters.length === 0) {
-            const emptyNotice = document.createElement('div');
-            emptyNotice.className = 'container flex-grow';
-            emptyNotice.innerHTML = `
+            if (!characters || characters.length === 0) {
+                const emptyNotice = document.createElement('div');
+                emptyNotice.className = 'container flex-grow';
+                emptyNotice.innerHTML = `
                 <h2>Session Characters</h2>
                 <hr>
                 <h6>No characters found in this session.</h6>
             `;
-            mainElement.appendChild(emptyNotice);
-            return;
-        }
+                mainElement.appendChild(emptyNotice);
+                return;
+            }
 
-        for (const char of characters) {
-            const characterCard = document.createElement('div');
-            characterCard.classList = 'container characters';
+            for (const char of characters) {
+                const characterCard = document.createElement('div');
+                characterCard.classList = 'container characters';
 
-            const imageSrc = char.image || '/assets/icons/pokeball.svg';
+                const imageSrc = char.image || '/assets/icons/pokeball.svg';
 
-            characterCard.innerHTML = `
+                characterCard.innerHTML = `
                 <div class="static-row align-between" style="gap: 12px; align-items: center;">
                     <div class="avatar-box" style="width: 52px; height: 52px; flex-shrink: 0;">
                         <img class="player-image" src="${imageSrc}" alt="${char.name || 'Player'}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
@@ -201,12 +208,15 @@ function renderSessionCharacters() {
                 </div>
             `;
 
-            const inspectBtn = characterCard.querySelector('.inspect-btn');
-            inspectBtn.addEventListener('click', () => {
-                openInspectModal(char);
-            });
+                const inspectBtn = characterCard.querySelector('.inspect-btn');
+                inspectBtn.addEventListener('click', () => {
+                    openInspectModal(char);
+                });
 
-            mainElement.appendChild(characterCard);
+                mainElement.appendChild(characterCard);
+            }
+        } finally {
+            hideLoading();
         }
     });
 }

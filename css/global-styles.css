@@ -1,6 +1,7 @@
-* {
+*,
+*::before,
+*::after {
     box-sizing: border-box;
-    transition: 0.25s ease-in-out;
 }
 
 :root {
@@ -70,12 +71,19 @@ button {
     border: none;
     padding: var(--default-button-padding);
     background-color: var(--background-color);
-    color: var(--white-color)
+    color: var(--white-color);
+}
+
+button,
+input,
+select {
+    font: inherit;
+    transition: filter 0.25s ease-in-out, transform 0.25s ease-in-out;
 }
 
 @media (pointer: fine) and (hover: hover) {
 
-    select,
+    select:hover,
     input:hover,
     button:hover {
         filter: brightness(125%);
@@ -88,7 +96,7 @@ button:disabled {
     filter: saturate(0%);
 }
 
-select,
+select:active,
 input:active,
 button:active {
     transform: translateY(2px);
@@ -107,6 +115,23 @@ input {
     border-bottom: 2px dashed var(--input-contrast-color);
     width: 100%;
     min-height: 32px;
+    color: var(--input-contrast-color);
+}
+
+:where(button, input, select, [role="button"]):focus-visible {
+    outline: 2px solid var(--red-color);
+    outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+    }
 }
 
 html {

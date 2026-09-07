@@ -1,24 +1,32 @@
 import { leaveSesion, getSessionInfo, getSession } from "/js/service/session-service.js";
 
-const showSessionName = document.getElementById('session-name');
-const leaveSessionButton = document.getElementById('leave-session');
+import { showLoading, hideLoading } from "/js/components/loading.js";
 
-leaveSessionButton?.addEventListener('click', () => {
+const showSessionName = document.getElementById("session-name");
+const leaveSessionButton = document.getElementById("leave-session");
+
+leaveSessionButton?.addEventListener("click", () => {
     leaveSesion();
 });
 
 async function renderSessionInfo() {
-    const sessionInfo = await getSessionInfo(getSession());
+    showLoading("Loading Character...");
 
-    if (!sessionInfo) {
-        return;
+    try {
+        const sessionInfo = await getSessionInfo(getSession());
+
+        if (!sessionInfo) {
+            return;
+        }
+
+        if (showSessionName) {
+            showSessionName.innerText = sessionInfo.name;
+        }
+
+        document.title = sessionInfo.name;
+    } finally {
+        hideLoading();
     }
-
-    if (showSessionName) {
-        showSessionName.innerText = sessionInfo.name;
-    }
-
-    document.title = sessionInfo.name;
 }
 
 renderSessionInfo();

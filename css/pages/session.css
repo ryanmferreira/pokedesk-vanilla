@@ -1,8 +1,3 @@
-.align-between {
-    justify-content: space-between;
-    align-items: center;
-}
-
 .header-card .last-saved {
     border: 2px dashed var(--input-contrast-color);
     padding: 4px 8px;

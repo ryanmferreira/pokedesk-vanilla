@@ -4,17 +4,26 @@ import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.16.0/f
 
 import { getLastSessions, getSessionInfo, joinSession, setLastSessions } from "/js/service/session-service.js";
 
+import { showLoading, hideLoading } from '/js/components/loading.js';
+
 document.addEventListener('DOMContentLoaded', () => {
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-            const greetingsNameElement = document.getElementById('user-name');
-            const firstName = user.displayName.split(' ', 1);
+    showLoading("Loading your sessions...");
 
-            if (greetingsNameElement) {
-                greetingsNameElement.textContent = `Hello, ${firstName}!`;
+    onAuthStateChanged(auth, async (user) => {
+        try {
+            if (user) {
+                const greetingsNameElement = document.getElementById('user-name');
+                const firstName = user.displayName.split(' ', 1);
+
+                if (greetingsNameElement) {
+                    greetingsNameElement.textContent = `Hello, ${firstName}!`;
+                }
+
+                await renderLastSessions();
             }
-
-            renderLastSessions();
+        }
+        finally {
+            hideLoading();
         }
     });
 });
