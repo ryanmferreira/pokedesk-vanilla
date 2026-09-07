@@ -1,14 +1,22 @@
+import { characterState } from "../player/player-state.js";
+
 /* ==========================================================================
    LEVEL & XP RULES
    ========================================================================== */
 
-function getMaxHp(pokemon) {
-    let { level } = calculateLevel(pokemon.xp, pokemon.levelSpeed)
+const pokeLevelVelocity = document.getElementById('poke-level-velocity');
+const totalXP = document.getElementById('poke-total-xp');
+const xpToAddInput = document.getElementById('xp-to-add');
+const currentLvlDisplay = document.getElementById('current-level');
 
-    return Math.floor(0.01 * (pokemon.status.hp * 2) * level) + level + 10;
+export function getMaxHp(pokemon) {
+    if (!pokemon || !pokemon.status) return 10;
+    let { level } = calculateLevel(pokemon.xp, pokemon.levelSpeed);
+
+    return Math.floor(0.01 * ((pokemon.status.hp || 0) * 2) * level) + level + 10;
 }
 
-function getVelocityModifier(velocity) {
+export function getVelocityModifier(velocity) {
     switch ((velocity || 'fast').toLowerCase()) {
         case "fast": return 0.8;
         case "medium": return 1.0;
@@ -19,11 +27,11 @@ function getVelocityModifier(velocity) {
     }
 }
 
-function getXpToNextLevel(currentLevel, modifier) {
+export function getXpToNextLevel(currentLevel, modifier) {
     return Math.floor(modifier * (100 + currentLevel * 20));
 }
 
-function getBaseXpForLevel(targetLevel, modifier) {
+export function getBaseXpForLevel(targetLevel, modifier) {
     let totalXp = 0;
 
     for (let i = 1; i < targetLevel; i++) {
@@ -33,8 +41,9 @@ function getBaseXpForLevel(targetLevel, modifier) {
     return totalXp;
 }
 
-function calculateLevel(xpInputTotal, velocityParam = null) {
-    const modifier = getVelocityModifier(velocityParam || pokeLevelVelocity?.value);
+export function calculateLevel(xpInputTotal, velocityParam = null) {
+    const velocityEl = pokeLevelVelocity || document.getElementById('poke-level-velocity');
+    const modifier = getVelocityModifier(velocityParam || velocityEl?.value);
 
     const xpInput = parseInt(xpInputTotal, 10) || 0;
 
@@ -58,29 +67,43 @@ function calculateLevel(xpInputTotal, velocityParam = null) {
     };
 }
 
-function addXP() {
-    if (!totalXP || !xpToAddInput) {
+export function addXP() {
+    const totalXpEl = totalXP || document.getElementById('poke-total-xp');
+    const xpToAddEl = xpToAddInput || document.getElementById('xp-to-add');
+
+    if (!totalXpEl || !xpToAddEl) {
         return;
     }
 
-    const currentTotal = parseInt(totalXP.value, 10) || 0;
-    const addedXP = parseInt(xpToAddInput.value, 10) || 0;
+    const currentTotal = parseInt(totalXpEl.value, 10) || 0;
+    const addedXP = parseInt(xpToAddEl.value, 10) || 0;
 
-    totalXP.value = currentTotal + addedXP;
-    xpToAddInput.value = '';
+    totalXpEl.value = currentTotal + addedXP;
+    xpToAddEl.value = '';
 
     updateLevel();
 }
 
-function updateLevel() {
-    if (!totalXP) {
+export function updateLevel() {
+    const totalXpEl = totalXP || document.getElementById('poke-total-xp');
+    const lvlDisplayEl = currentLvlDisplay || document.getElementById('current-level');
+
+    if (!totalXpEl) {
         return;
     }
 
-    const currentXP = totalXP.value;
-    const { level } = calculateLevel(currentXP)
+    const currentXP = totalXpEl.value;
+    const { level } = calculateLevel(currentXP);
 
-    if (currentLvlDisplay) {
-        currentLvlDisplay.textContent = level;
+    if (lvlDisplayEl) {
+        lvlDisplayEl.textContent = level;
     }
 }
+
+window.getMaxHp = getMaxHp;
+window.getVelocityModifier = getVelocityModifier;
+window.getXpToNextLevel = getXpToNextLevel;
+window.getBaseXpForLevel = getBaseXpForLevel;
+window.calculateLevel = calculateLevel;
+window.addXP = addXP;
+window.updateLevel = updateLevel;

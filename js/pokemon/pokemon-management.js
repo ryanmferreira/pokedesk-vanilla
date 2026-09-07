@@ -1,3 +1,9 @@
+import { characterState } from "../player/player-state.js";
+import { getMaxHp, calculateLevel, addXP, updateLevel } from "./pokemon-rules.js";
+import { showSelectedPokemon, clearSelection, openEditPokemon, closeEditPokemon } from "./pokemon-modals.js";
+import { renderPokemonAttacks, renderCapturedPokemons, renderAllPokemon } from "./pokemon-render.js";
+import { loadAttackType } from "./pokemon-info.js";
+
 /* ==========================================================================
    STATES AND GLOBAL SELECTORS
    ========================================================================== */
@@ -11,8 +17,11 @@ const teamSizeElement = document.getElementById('team-size');
 const addToTeamButton = document.getElementById('add-selected-pokemon');
 
 // ===== Pokémon Attributtes =====
-let currentPokemon = null;
-let maxPartySize = 6;
+export let currentPokemon = null;
+export function setCurrentPokemon(pokemon) {
+    currentPokemon = pokemon;
+}
+export const maxPartySize = 6;
 
 const xpToAddInput = document.getElementById('xp-to-add');
 const currentLvlDisplay = document.getElementById('current-level');
@@ -62,11 +71,11 @@ const selectedHappinessDetails = document.getElementById('detail-happy-text');
 const selectedHealthDetails = document.getElementById('detail-hp-text');
 const selectedHealthBarDetails = document.getElementById('detail-life-bar');
 
-function debugPokemon() {
+export function debugPokemon() {
     console.log(characterState.capturedPokemon.attacks)
 }
 
-function updateLifeBar(pokemon) {
+export function updateLifeBar(pokemon) {
     let maxHp = getMaxHp(pokemon);
     const currentHp = pokemon?.hp;
 
@@ -75,7 +84,7 @@ function updateLifeBar(pokemon) {
     return `${percentage}%`;
 }
 
-function updateXpBar(pokemon) {
+export function updateXpBar(pokemon) {
     let { currentXpInLevel, costForNextLevel } = calculateLevel(pokemon.xp, pokemon.levelSpeed);
 
     if (costForNextLevel <= 0) {
@@ -88,7 +97,7 @@ function updateXpBar(pokemon) {
     return `${clampedPercentage.toFixed(2)}%`;
 }
 
-function handlePokemonSelect(pokemon) {
+export function handlePokemonSelect(pokemon) {
     console.log(pokemon);
 
     showSelectedPokemon();
@@ -100,11 +109,14 @@ function handlePokemonSelect(pokemon) {
     updateTeamButton();
 }
 
-function loadCurrentPokemonInfo() {
-    const allSlots = capturedPokemonElement.querySelectorAll('.captured-item');
+export function loadCurrentPokemonInfo() {
+    const allSlots = capturedPokemonElement?.querySelectorAll('.captured-item') || [];
     allSlots.forEach(slot => slot.classList.remove('selected'));
 
-    event.currentTarget.classList.add('selected');
+    const currentTarget = window.event?.currentTarget;
+    if (currentTarget && currentTarget.classList) {
+        currentTarget.classList.add('selected');
+    }
 
     const { level } = calculateLevel(currentPokemon.xp, currentPokemon.levelSpeed);
 
@@ -121,13 +133,13 @@ function loadCurrentPokemonInfo() {
     selectedXpBarDetails.style.width = updateXpBar(currentPokemon);
 }
 
-function handlePokemonEdit() {
+export function handlePokemonEdit() {
     console.log("Editing: ", currentPokemon.species);
     loadAttackType();
     setCurrentPokemonInfo();
 }
 
-function handlePokemonDelete() {
+export function handlePokemonDelete() {
     console.log("Deleting: ", currentPokemon.species);
 
     const index = characterState.capturedPokemon.indexOf(currentPokemon);
@@ -137,7 +149,7 @@ function handlePokemonDelete() {
     clearSelection();
 }
 
-function alterPokemonHappiness(quantity) {
+export function alterPokemonHappiness(quantity) {
     let pokeHappiness = parseInt(pokemonHapiness.textContent, 10);
 
     pokeHappiness += quantity;
@@ -152,7 +164,7 @@ function alterPokemonHappiness(quantity) {
     pokemonHapiness.textContent = pokeHappiness;
 }
 
-function addPokemon() {
+export function addPokemon() {
     const { box } = checkPokemons();
 
     box.push({
@@ -191,7 +203,7 @@ function addPokemon() {
     clearSelection();
 }
 
-function isPokemonInTeam() {
+export function isPokemonInTeam() {
     if (!currentPokemon) {
         return { inTeam: false, teamIndex: -1, boxIndex: -1 };
     }
@@ -208,7 +220,7 @@ function isPokemonInTeam() {
     };
 }
 
-function checkPokemons() {
+export function checkPokemons() {
     if (!characterState.team) {
         characterState.team = [];
     }
@@ -223,7 +235,7 @@ function checkPokemons() {
     };
 }
 
-function moveToTeam() {
+export function moveToTeam() {
     if (!currentPokemon) {
         return;
     }
@@ -250,7 +262,7 @@ function moveToTeam() {
     clearSelection();
 }
 
-function updateTeamButton() {
+export function updateTeamButton() {
     const { inTeam } = isPokemonInTeam();
 
     if (inTeam) {
@@ -260,7 +272,7 @@ function updateTeamButton() {
     }
 }
 
-function getAttackElements(index) {
+export function getAttackElements(index) {
     return {
         name: document.getElementById(`attack-name-${index}`),
         pwr: document.getElementById(`attack-power-${index}`),
@@ -272,7 +284,7 @@ function getAttackElements(index) {
     };
 }
 
-function getPokemonInfo() {
+export function getPokemonInfo() {
     if (!currentPokemon) {
         return;
     }
@@ -326,7 +338,7 @@ function getPokemonInfo() {
     closeEditPokemon();
 }
 
-function setCurrentPokemonInfo() {
+export function setCurrentPokemonInfo() {
     if (!currentPokemon) {
         return;
     }
@@ -408,3 +420,20 @@ pokemonLocationSelect?.addEventListener('change', () => {
 pokeLevelVelocity?.addEventListener('change', () => {
     updateLevel();
 });
+
+window.debugPokemon = debugPokemon;
+window.updateLifeBar = updateLifeBar;
+window.updateXpBar = updateXpBar;
+window.handlePokemonSelect = handlePokemonSelect;
+window.loadCurrentPokemonInfo = loadCurrentPokemonInfo;
+window.handlePokemonEdit = handlePokemonEdit;
+window.handlePokemonDelete = handlePokemonDelete;
+window.alterPokemonHappiness = alterPokemonHappiness;
+window.addPokemon = addPokemon;
+window.isPokemonInTeam = isPokemonInTeam;
+window.checkPokemons = checkPokemons;
+window.moveToTeam = moveToTeam;
+window.updateTeamButton = updateTeamButton;
+window.getAttackElements = getAttackElements;
+window.getPokemonInfo = getPokemonInfo;
+window.setCurrentPokemonInfo = setCurrentPokemonInfo;

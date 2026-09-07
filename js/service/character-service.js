@@ -5,6 +5,9 @@ import { auth } from "../database/firebase-config.js";
 import { database } from "/js/database/database.js";
 import { getUserData } from "/js/service/auth-service.js";
 import { getSession, getLastSessions } from "./session-service.js";
+import { characterState, setCharacterState } from "../player/player-state.js";
+import { setPlayerInfo } from "../player/player-management.js";
+import { renderAllPokemon } from "../pokemon/pokemon-render.js";
 
 const handleSaveButton = document.getElementById('save-button');
 const handleReloadButton = document.getElementById('reload-button');
@@ -84,7 +87,7 @@ export async function loadCharacter(userId) {
 
 function setCharacterData(data) {
     console.log("Set player data.", data);
-    characterState = data;
+    setCharacterState(data);
     setPlayerInfo();
     renderAllPokemon();
 }
@@ -100,7 +103,7 @@ handleSaveButton.addEventListener('click', async () => {
         characterState.id = savedCharacter.id;
 
         window.updateLastSaved();
-        
+
         alert("Character Saved!");
     } catch (error) {
         console.error("Error on saving character:", error);

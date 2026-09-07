@@ -1,15 +1,15 @@
-const levelVelocity = [
+export const levelVelocity = [
     "Fast", "Medium", "Slow", "Pseudo-legendary", "Legendary"
 ];
 
-const types = [
+export const types = [
     "Normal", "Fire", "Water", "Electric", "Grass", "Ice",
     "Fighting", "Poison", "Ground", "Flying", "Psychic",
     "Bug", "Rock", "Ghost", "Dragon", "Dark", "Steel",
     "Fairy", "Cosmic", "Light"
 ];
 
-const pokeballs = [
+export const pokeballs = [
     "Ancient Ball", "Beast Ball", "Cosmic Ball", "Cherish Ball", "Custom Ball", "Dive Ball", "Divine Ball",
     "Dream Ball", "Dusk Ball", "Fast Ball", "Feather Ball", "Friend Ball", "Gigaton Ball", "Great Ball",
     "Heal Ball", "Heavy Ball", "Jet Ball", "Leaden Ball", "Level Ball", "Love Ball", "Lure Ball", "Luxury Ball", "Master Ball", "Moon Ball", "Nest Ball",
@@ -17,7 +17,7 @@ const pokeballs = [
     "Safari Ball", "Sport Ball", "Strange Ball", "Timer Ball", "Ultra Ball", "Wing Ball"
 ];
 
-const natures = [
+export const natures = [
     "Adamant", "Bashful", "Bold", "Brave", "Calm",
     "Careful", "Docile", "Gentle", "Hardy", "Hasty",
     "Impish", "Jolly", "Lax", "Lonely", "Mild",
@@ -25,7 +25,7 @@ const natures = [
     "Rash", "Relaxed", "Sassy", "Serious", "Timid"
 ];
 
-const abilities = [
+export const abilities = [
     "Adaptability", "Aerilate", "Aftermath", "Air Lock", "Analytic", "Anger Point", "Anger Shell",
     "Anticipation", "Arena Trap", "Armor Tail", "Aroma Veil", "As One", "Aura Break", "Bad Dreams",
     "Ball Fetch", "Battery", "Battle Armor", "Battle Bond", "Beads of Ruin", "Beast Boost", "Berserk",
@@ -72,7 +72,7 @@ const abilities = [
     "Wonder Skin", "Zen Mode", "Zero to Hero"
 ];
 
-const populateSelect = (selectId, items, includeNone = false) => {
+export const populateSelect = (selectId, items, includeNone = false) => {
     const select = document.getElementById(selectId);
 
     if (!select) {
@@ -101,9 +101,12 @@ document.addEventListener("DOMContentLoaded", () => {
     populateSelect("poke-pokeball-used", pokeballs);
 });
 
-function loadAttackType() {
+export function loadAttackType() {
     for (let i = 0; i < 4; i++) {
         let attackTypeId = `attack-type-${i}`;
         populateSelect(attackTypeId, types);
     }
 }
+
+window.populateSelect = populateSelect;
+window.loadAttackType = loadAttackType;

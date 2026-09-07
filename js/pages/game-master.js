@@ -1,4 +1,7 @@
 import { getAllSessionCharacters, leaveSesion, getSessionInfo, getSession } from "/js/service/session-service.js";
+import { showLoading, hideLoading } from '/js/components/loading.js';
+import { calculateLevel, getMaxHp } from "/js/pokemon/pokemon-rules.js";
+import { updateLifeBar } from "/js/pokemon/pokemon-management.js";
 
 const showSessionName = document.getElementById('session-name');
 const copySessionIdButton = document.getElementById('copy-session-id');
@@ -13,10 +16,10 @@ const modalCharName = document.getElementById('modal-char-name');
 const modalCharInfo = document.getElementById('modal-char-info');
 const modalCharContent = document.getElementById('modal-char-content');
 
-import { showLoading, hideLoading } from '/js/components/loading.js';
-
 function openInspectModal(char) {
-    if (!inspectModal) return;
+    if (!inspectModal) {
+        return;
+    }
 
     modalCharName.innerText = char.name || 'Unnamed Character';
     modalCharInfo.innerText = `${char.race || 'Race'} • ${char.class || 'Class'}`;
@@ -93,8 +96,10 @@ function openInspectModal(char) {
                 <div class="column" style="gap: 8px;">
                     ${(char.team && char.team.length > 0)
             ? char.team.map((p, index) => {
-                const maxHp = p.maxHp || p.hp || 1;
-                const hpPercent = Math.max(0, Math.min(100, Math.round(((p.hp || 0) / maxHp) * 100)));
+                const { level } = calculateLevel(p.xp, p.levelSpeed);
+                const maxHp = getMaxHp(p);
+                const currentHp = p.hp ?? 0;
+                const lifeBarWidth = updateLifeBar(p);
                 return `
                             <button type="button" class="pokemon-slot active-slot" data-index="${index}">
                                 <div class="avatar-box" style="width: 42px; height: 42px; flex-shrink: 0;">
@@ -103,12 +108,15 @@ function openInspectModal(char) {
                                 <div class="pokemon-info flex-grow">
                                     <div class="static-row align-between">
                                         <h5>${p.species || 'Unknown'}</h5>
-                                        <span class="tiny-text">LVL ${p.level || 1}</span>
+                                        <span class="tiny-text">LVL ${level}</span>
                                     </div>
-                                    <div class="health-bar-container" style="height: 5px;">
-                                        <div class="health-bar-fill" style="width: ${hpPercent}%;"></div>
+                                    <div class="health-bar-container green-bar" style="height: 6px;">
+                                        <div class="health-bar-fill" style="width: ${lifeBarWidth};"></div>
                                     </div>
-                                    <span class="tiny-text">HP ${p.hp || 0}</span>
+                                    <div class="static-row align-between tiny-text">
+                                        <span>HP ${currentHp} / ${maxHp}</span>
+                                        ${p.happiness !== undefined ? `<span>Happiness ${p.happiness}/10</span>` : ''}
+                                    </div>
                                 </div>
                             </button>
                         `;

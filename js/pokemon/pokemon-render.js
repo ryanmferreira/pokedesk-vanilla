@@ -1,13 +1,25 @@
+import { characterState } from "../player/player-state.js";
+import { calculateLevel, getMaxHp } from "./pokemon-rules.js";
+import { checkPokemons, updateLifeBar, handlePokemonSelect, maxPartySize } from "./pokemon-management.js";
+import { toggleEffectInput } from "./pokemon-modals.js";
+
 /* ==========================================================================
    CAPTURED POKEMON MANAGEMENT
    ========================================================================== */
 
-function renderPokemonParty() {
-    if (!teamPokemonElement) {
+const teamPokemonElement = document.getElementById('pokemon-grid');
+const teamSizeElement = document.getElementById('team-size');
+const capturedPokemonElement = document.getElementById('captured-pokemon-list');
+const pokemonLocationSelect = document.getElementById('pokemon-location-change');
+const pokemonAttacksElement = document.getElementById('attacks-grid');
+
+export function renderPokemonParty() {
+    const partyEl = teamPokemonElement || document.getElementById('pokemon-grid');
+    if (!partyEl) {
         return;
     }
 
-    teamPokemonElement.innerHTML = '';
+    partyEl.innerHTML = '';
 
     const { team } = checkPokemons();
 
@@ -19,7 +31,7 @@ function renderPokemonParty() {
 
         totalPokemons++;
 
-        let { level } = calculateLevel(pokemonInfo.xp, pokemonInfo.levelSpeed)
+        let { level } = calculateLevel(pokemonInfo.xp, pokemonInfo.levelSpeed);
 
         pokemonSlot.innerHTML = `
             <div class="detail-box avatar-box"><img class="flex-grow" src="${pokemonInfo.imgUrl}" alt="${pokemonInfo.species}"></div>
@@ -42,37 +54,41 @@ function renderPokemonParty() {
             handlePokemonSelect(pokemonInfo);
         });
 
-        teamPokemonElement.appendChild(pokemonSlot);
+        partyEl.appendChild(pokemonSlot);
     }
 
-    let emptySlotsNeeded = maxPartySize - totalPokemons;
+    const partyLimit = maxPartySize || 6;
+    let emptySlotsNeeded = partyLimit - totalPokemons;
 
     for (let i = 0; i < emptySlotsNeeded; i++) {
         const emptySlot = document.createElement('button');
         emptySlot.textContent = '(+) Empty';
         emptySlot.classList = 'pokemon-slot empty-slot';
 
-        teamPokemonElement.appendChild(emptySlot);
+        partyEl.appendChild(emptySlot);
     }
 
-    if (teamSizeElement) {
-        teamSizeElement.textContent = totalPokemons + " / 6";
+    const sizeEl = teamSizeElement || document.getElementById('team-size');
+    if (sizeEl) {
+        sizeEl.textContent = totalPokemons + " / 6";
     }
 }
 
-function renderCapturedPokemons() {
-    if (!capturedPokemonElement) {
+export function renderCapturedPokemons() {
+    const listEl = capturedPokemonElement || document.getElementById('captured-pokemon-list');
+    if (!listEl) {
         return;
     }
 
-    capturedPokemonElement.innerHTML = '';
+    listEl.innerHTML = '';
 
     let isParty = false;
 
     const { team, box } = checkPokemons();
 
-    if (pokemonLocationSelect && pokemonLocationSelect.value) {
-        isParty = pokemonLocationSelect.value.toLowerCase() === "party";
+    const locSelect = pokemonLocationSelect || document.getElementById('pokemon-location-change');
+    if (locSelect && locSelect.value) {
+        isParty = locSelect.value.toLowerCase() === "party";
     }
 
     const pokemonLocation = isParty ? team : box;
@@ -81,7 +97,7 @@ function renderCapturedPokemons() {
         const pokemonSlot = document.createElement('button');
         pokemonSlot.className = 'captured-item';
 
-        const { level, remain } = calculateLevel(pokemonInfo.xp, pokemonInfo.levelSpeed)
+        const { level } = calculateLevel(pokemonInfo.xp, pokemonInfo.levelSpeed);
 
         pokemonSlot.innerHTML = `
         <div class="detail-box avatar-box"><img src="${pokemonInfo.imgUrl}" alt="${pokemonInfo.species}"></div>
@@ -101,20 +117,21 @@ function renderCapturedPokemons() {
             </div>
         `;
 
-        pokemonSlot.addEventListener('click', (event) => {
+        pokemonSlot.addEventListener('click', () => {
             handlePokemonSelect(pokemonInfo);
         });
 
-        capturedPokemonElement.appendChild(pokemonSlot);
+        listEl.appendChild(pokemonSlot);
     }
 }
 
-function renderPokemonAttacks(pokemon) {
-    if (!pokemonAttacksElement) {
+export function renderPokemonAttacks(pokemon) {
+    const attacksEl = pokemonAttacksElement || document.getElementById('attacks-grid');
+    if (!attacksEl || !pokemon || !pokemon.attacks) {
         return;
     }
 
-    pokemonAttacksElement.innerHTML = '';
+    attacksEl.innerHTML = '';
 
     for (const attack of pokemon.attacks) {
         const attackSlot = document.createElement('div');
@@ -161,11 +178,16 @@ function renderPokemonAttacks(pokemon) {
             </div>
         `;
 
-        pokemonAttacksElement.appendChild(attackSlot);
+        attacksEl.appendChild(attackSlot);
     }
 }
 
-function renderAllPokemon() {
+export function renderAllPokemon() {
     renderPokemonParty();
     renderCapturedPokemons();
 }
+
+window.renderPokemonParty = renderPokemonParty;
+window.renderCapturedPokemons = renderCapturedPokemons;
+window.renderPokemonAttacks = renderPokemonAttacks;
+window.renderAllPokemon = renderAllPokemon;

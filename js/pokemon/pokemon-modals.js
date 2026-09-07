@@ -1,3 +1,7 @@
+import { characterState } from "../player/player-state.js";
+import { renderCapturedPokemons } from "./pokemon-render.js";
+import { setCurrentPokemon } from "./pokemon-management.js";
+
 /* ==========================================================================
    MODAL AND UI CONTROL
    ========================================================================== */
@@ -6,49 +10,55 @@
 const editPokemonModal = document.getElementById('edit-pokemon-modal');
 const addImageModal = document.getElementById('add-image-modal');
 const pokemonModal = document.getElementById('pokemon-management-modal');
+const selectedNameDetails = document.getElementById('manage-pokemon-name');
 
-function showSelectedPokemon() {
-    document.querySelector('.select-pokemon').style.display = 'flex';
+export function showSelectedPokemon() {
+    const el = document.querySelector('.select-pokemon');
+    if (el) el.style.display = 'flex';
 }
 
-function hiddenSelectedPokemon() {
-    document.querySelector('.select-pokemon').style.display = 'none';
+export function hiddenSelectedPokemon() {
+    const el = document.querySelector('.select-pokemon');
+    if (el) el.style.display = 'none';
 }
 
-function openPokemon() {
+export function openPokemon() {
     pokemonModal?.classList.remove('hidden');
     renderCapturedPokemons();
 }
 
-function closePokemon() {
+export function closePokemon() {
     pokemonModal?.classList.add('hidden');
     clearSelection();
 }
 
-function openEditPokemon() {
-    editPokemonModal.classList.remove('hidden');
+export function openEditPokemon() {
+    editPokemonModal?.classList.remove('hidden');
     updateAllEffectInputs();
 }
 
-function closeEditPokemon() {
+export function closeEditPokemon() {
     editPokemonModal?.classList.add('hidden');
 }
 
-function openAddImage() {
+export function openAddImage() {
     addImageModal?.classList.remove('hidden');
 }
 
-function closeAddImage() {
+export function closeAddImage() {
     addImageModal?.classList.add('hidden');
 }
 
-function clearSelection() {
-    currentPokemon = null;
+export function clearSelection() {
+    setCurrentPokemon(null);
     hiddenSelectedPokemon();
-    selectedNameDetails.textContent = "No Pokémon Selected";
+    const nameDetails = selectedNameDetails || document.getElementById('manage-pokemon-name');
+    if (nameDetails) {
+        nameDetails.textContent = "No Pokémon Selected";
+    }
 }
 
-function toggleEffectInput(checkbox) {
+export function toggleEffectInput(checkbox) {
     const textInput = checkbox.nextElementSibling;
 
     if (textInput) {
@@ -56,7 +66,19 @@ function toggleEffectInput(checkbox) {
     }
 }
 
-function updateAllEffectInputs() {
+export function updateAllEffectInputs() {
     const checkboxes = document.querySelectorAll('#edit-pokemon-modal .custom-checkbox');
     checkboxes.forEach(checkbox => toggleEffectInput(checkbox));
 }
+
+window.showSelectedPokemon = showSelectedPokemon;
+window.hiddenSelectedPokemon = hiddenSelectedPokemon;
+window.openPokemon = openPokemon;
+window.closePokemon = closePokemon;
+window.openEditPokemon = openEditPokemon;
+window.closeEditPokemon = closeEditPokemon;
+window.openAddImage = openAddImage;
+window.closeAddImage = closeAddImage;
+window.clearSelection = clearSelection;
+window.toggleEffectInput = toggleEffectInput;
+window.updateAllEffectInputs = updateAllEffectInputs;

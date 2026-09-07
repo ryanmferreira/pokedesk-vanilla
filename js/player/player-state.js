@@ -1,4 +1,4 @@
-let characterState = {
+export let characterState = {
     'id': '',
     'image': '',
     'lastSaved': '',
@@ -22,3 +22,7 @@ let characterState = {
     'team': [],
     'diary': []
 };
+
+export function setCharacterState(newState) {
+    Object.assign(characterState, newState);
+}

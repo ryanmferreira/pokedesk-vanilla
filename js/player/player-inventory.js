@@ -1,7 +1,13 @@
-function renderInventory() {
-    if (!itemsContainerElement) return;
+import { characterState } from "./player-state.js";
+import { checkPlayerItems } from "./player-management.js";
 
-    itemsContainerElement.innerHTML = '';
+const itemsContainerElement = document.getElementById('inventory-items-container');
+
+export function renderInventory() {
+    const container = itemsContainerElement || document.getElementById('inventory-items-container');
+    if (!container) return;
+
+    container.innerHTML = '';
 
     for (let item of checkPlayerItems()) {
         const itemRow = document.createElement('div');
@@ -33,10 +39,13 @@ function renderInventory() {
             renderInventory();
         });
 
-        itemsContainerElement.appendChild(itemRow);
+        container.appendChild(itemRow);
     }
 }
 
-function updateCash(value) {
+export function updateCash(value) {
     characterState.cash = parseFloat(value) || 0;
 }
+
+window.renderInventory = renderInventory;
+window.updateCash = updateCash;

@@ -1,3 +1,6 @@
+import { characterState } from "./player-state.js";
+import { renderInventory } from "./player-inventory.js";
+
 /* ==========================================================================
    STATES AND GLOBAL SELECTORS
    ========================================================================== */
@@ -33,23 +36,24 @@ const agilityElement = document.getElementById('attr-agility');
 const baseHp = 0;
 let characterMaxHp = calculateMaxHP();
 
-// Buttons
+// Modals and Buttons
 const addCharacterImage = document.getElementById('add-image-button');
+const addCharacterImageModal = document.getElementById('add-character-image-modal');
 
 /* ==========================================================================
    PLAYER MANAGEMENT
    ========================================================================== */
 
-function calculateMaxHP() {
+export function calculateMaxHP() {
     const resistance = characterState?.attributes?.resistance || 1;
     return baseHp + (resistance * 5);
 }
 
-function updateMaxHP() {
+export function updateMaxHP() {
     characterMaxHp = calculateMaxHP();
 }
 
-function updatePlayerHP() {
+export function updatePlayerHP() {
     updateMaxHP();
 
     const currentHp = characterState?.hp ?? 0;
@@ -72,7 +76,7 @@ function updatePlayerHP() {
     }
 }
 
-function alterAttribute(attributeName, quantity) {
+export function alterAttribute(attributeName, quantity) {
     if (!characterState?.attributes) {
         return;
     }
@@ -116,7 +120,7 @@ function alterAttribute(attributeName, quantity) {
     updatePlayerHP();
 }
 
-function alterHP(quantity) {
+export function alterHP(quantity) {
     updateMaxHP();
 
     characterState.hp = (characterState.hp || 0) + quantity;
@@ -131,7 +135,7 @@ function alterHP(quantity) {
     updatePlayerHP();
 }
 
-function checkPlayerItems() {
+export function checkPlayerItems() {
     if (!characterState.inventory) {
         characterState.inventory = [];
     }
@@ -143,7 +147,7 @@ function checkPlayerItems() {
    LOAD / SAVE PLAYER STATUS
    ========================================================================== */
 
-function getPlayerInfo() {
+export function getPlayerInfo() {
     if (characterName) { characterState.name = characterName.value; }
     if (characterRace) { characterState.race = characterRace.value; }
     if (characterClass) { characterState.class = characterClass.value; }
@@ -156,7 +160,7 @@ function getPlayerInfo() {
     updatePlayerName();
 }
 
-function updateLastSaved() {
+export function updateLastSaved() {
     if (!lastSavedElement || !characterState?.lastSaved) {
         if (lastSavedElement) lastSavedElement.textContent = '';
         return;
@@ -181,7 +185,7 @@ function updateLastSaved() {
 
 window.updateLastSaved = updateLastSaved;
 
-function setPlayerInfo() {
+export function setPlayerInfo() {
     const nameInput = document.getElementById('character-name');
     const raceInput = document.getElementById('character-race');
     const classInput = document.getElementById('character-class');
@@ -212,7 +216,7 @@ function setPlayerInfo() {
     alterAttribute('resistance', 0);
 }
 
-function updatePlayerName() {
+export function updatePlayerName() {
     const nameElements = document.querySelectorAll('.get-player-name');
     const nameToDisplay = (characterState.name || 'Player').toUpperCase();
 
@@ -221,7 +225,7 @@ function updatePlayerName() {
     });
 }
 
-function updatePlayerImage() {
+export function updatePlayerImage() {
     if (characterImageElement) {
         characterImageElement.src = characterState.image || '';
     }
@@ -231,7 +235,7 @@ function updatePlayerImage() {
    MODAL IMAGE CONTROLS
    ========================================================================== */
 
-function openCharacterAddImage() {
+export function openCharacterAddImage() {
     if (characterImageInput) {
         characterImageInput.value = characterState.image || '';
     }
@@ -239,7 +243,7 @@ function openCharacterAddImage() {
     addCharacterImageModal?.classList.remove('hidden');
 }
 
-function closeCharacterAddImage() {
+export function closeCharacterAddImage() {
     if (characterImageInput) {
         characterState.image = characterImageInput.value;
     }
@@ -255,9 +259,7 @@ function closeCharacterAddImage() {
 document.getElementById('add-item-btn')?.addEventListener('click', () => {
     if (!characterState.inventory) characterState.inventory = [];
     characterState.inventory.push({ name: '', quantity: 1 });
-    if (typeof renderInventory === 'function') {
-        renderInventory();
-    }
+    renderInventory();
 });
 
 characterName?.addEventListener('change', getPlayerInfo);
@@ -268,3 +270,16 @@ characterCash?.addEventListener('change', getPlayerInfo);
 addCharacterImage?.addEventListener('click', () => {
     openCharacterAddImage();
 });
+
+window.calculateMaxHP = calculateMaxHP;
+window.updateMaxHP = updateMaxHP;
+window.updatePlayerHP = updatePlayerHP;
+window.alterAttribute = alterAttribute;
+window.alterHP = alterHP;
+window.checkPlayerItems = checkPlayerItems;
+window.getPlayerInfo = getPlayerInfo;
+window.setPlayerInfo = setPlayerInfo;
+window.updatePlayerName = updatePlayerName;
+window.updatePlayerImage = updatePlayerImage;
+window.openCharacterAddImage = openCharacterAddImage;
+window.closeCharacterAddImage = closeCharacterAddImage;
