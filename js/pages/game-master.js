@@ -5,7 +5,7 @@ import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.16.0/f
 import { getAllSessionCharacters, getSession, getSessionInfo, leaveSesion } from "/js/service/session-service.js";
 
 import { hideLoading, showLoading } from "/js/components/loading.js";
-import { updateLifeBar } from "/js/pokemon/pokemon-management.js";
+import { updateLifeBar, updateXpBar } from "/js/pokemon/pokemon-management.js";
 import { calculateLevel, getMaxHp } from "/js/pokemon/pokemon-rules.js";
 
 /* ==========================================================================
@@ -54,13 +54,9 @@ function openPokemonAttacksModal(pokemon) {
     const currentHp = pokemon.hp ?? 0;
     const status = pokemon.status || {};
 
-    const types = [pokemon.type1, pokemon.type2]
-        .filter(type => type && type !== "None")
-        .join(" / ");
+    const types = [pokemon.type1, pokemon.type2].filter(type => type && type !== "None").join(" / ");
 
-    const attacks = Array.isArray(pokemon.attacks)
-        ? pokemon.attacks.filter(attack => attack && attack.name && attack.name.trim() !== "")
-        : [];
+    const attacks = Array.isArray(pokemon.attacks) ? pokemon.attacks.filter(attack => attack && attack.name && attack.name.trim() !== "") : [];
 
     /* ---------------------------------------------------------------------
        HEADER
@@ -138,6 +134,19 @@ function openPokemonAttacksModal(pokemon) {
 
             <div class="health-bar-container green-bar">
                 <div class="health-bar-fill" style="width: ${updateLifeBar(pokemon)};"></div>
+            </div>
+        </div>
+
+        <!-- ================================================================
+             XP BAR
+             ================================================================ -->
+        <div class="column">
+            <div class="static-row align-between">
+                <span class="panel-label">XP</span>
+            </div>
+
+            <div class="health-bar-container blue-bar">
+                <div class="health-bar-fill" style="width: ${updateXpBar(pokemon)};"></div>
             </div>
         </div>
 

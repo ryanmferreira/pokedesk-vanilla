@@ -389,12 +389,9 @@
         width: 100px;
         height: 100px;
     }
-
 }
 
-
 @media screen and (max-width: 500px) {
-
     .gm-pokemon-information .correct-size {
         flex-wrap: wrap;
     }
@@ -406,5 +403,4 @@
     .gm-status-values span {
         font-size: 10px;
     }
-
 }

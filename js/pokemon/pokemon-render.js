@@ -210,6 +210,19 @@ export function openPokemonInfoModal(pokemonInfo) {
         </div>
 
         <!-- ================================================================
+             XP BAR
+             ================================================================ -->
+        <div class="column">
+            <div class="static-row align-between">
+                <span class="panel-label">XP</span>
+            </div>
+
+            <div class="health-bar-container blue-bar">
+                <div class="health-bar-fill" style="width: ${updateXpBar(pokemonInfo)};"></div>
+            </div>
+        </div>
+
+        <!-- ================================================================
              DETAILS
              ================================================================ -->
         <div class="gm-pokemon-details">
