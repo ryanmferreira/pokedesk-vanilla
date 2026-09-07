@@ -653,7 +653,7 @@ function renderSessionCharacters() {
                     <div class="static-row card-stats-row">
                         <div class="detail-box column stat-box flex-grow">
                             <span class="panel-label">HP</span>
-                            <span class="panel-value">${char.hp ?? 0}</span>
+                            <span class="panel-value">${char.hp ?? 0} / ${char.attributes.resistance * 15} </span>
                         </div>
 
                         <div class="detail-box column stat-box flex-grow">
@@ -713,7 +713,9 @@ pokemonAttacksModal?.addEventListener("click", event => {
    ========================================================================== */
 
 document.addEventListener("keydown", event => {
-    if (event.key !== "Escape") return;
+    if (event.key !== "Escape") {
+        return;
+    }
 
     if (!pokemonAttacksModal?.classList.contains("hidden")) {
         closePokemonAttacksModal();
@@ -773,10 +775,15 @@ document.addEventListener("DOMContentLoaded", () => {
     renderSessionInfo();
 
     onAuthStateChanged(auth, async user => {
-        if (!user) return;
+        if (!user) {
+            return;
+        }
 
         const greetingsNameElement = document.getElementById("user-name");
-        if (!greetingsNameElement) return;
+
+        if (!greetingsNameElement) {
+            return;
+        }
 
         const firstName = user.displayName ? user.displayName.split(" ", 1)[0] : "Visitor";
         greetingsNameElement.textContent = `Hello, ${firstName}!`;
