@@ -1,6 +1,6 @@
 import { characterState } from "../player/player-state.js";
 import { calculateLevel, getMaxHp } from "./pokemon-rules.js";
-import { checkPokemons, updateLifeBar, handlePokemonSelect, maxPartySize } from "./pokemon-management.js";
+import { checkPokemons, updateLifeBar, handlePokemonSelect, handlePokemonEdit, maxPartySize } from "./pokemon-management.js";
 import { toggleEffectInput } from "./pokemon-modals.js";
 
 /* ==========================================================================
@@ -60,7 +60,6 @@ export function renderPokemonParty() {
             </div>
         `;
 
-        // Abre o modal de informações ao clicar
         pokemonSlot.addEventListener('click', () => {
             openPokemonInfoModal(pokemonInfo);
         });
@@ -103,24 +102,31 @@ export function openPokemonInfoModal(pokemonInfo) {
     const nameEl = document.getElementById('info-pokemon-name');
     const typesEl = document.getElementById('info-pokemon-types');
 
-    if (!modal || !content || !nameEl || !typesEl || !pokemonInfo) return;
+    const editPokemonBtn = document.getElementById('edit-pokemon-btn');
+
+    if (!modal || !content || !nameEl || !typesEl || !pokemonInfo) {
+        return;
+    }
+
+    editPokemonBtn?.addEventListener('click', () => {
+        closePokemonInfoModal?.click();
+        handlePokemonSelect(pokemonInfo);
+        handlePokemonEdit();
+    });
 
     /* ---------------------------------------------------------------------
        BASIC INFORMATION
        --------------------------------------------------------------------- */
 
     const { level } = calculateLevel(pokemonInfo.xp, pokemonInfo.levelSpeed);
+
     const maxHp = getMaxHp(pokemonInfo);
     const currentHp = pokemonInfo.hp ?? 0;
     const status = pokemonInfo.status || {};
 
-    const types = [pokemonInfo.type1, pokemonInfo.type2]
-        .filter(type => type && type !== "None")
-        .join(" / ");
+    const types = [pokemonInfo.type1, pokemonInfo.type2].filter(type => type && type !== "None").join(" / ");
 
-    const attacks = Array.isArray(pokemonInfo.attacks)
-        ? pokemonInfo.attacks.filter(attack => attack && attack.name && attack.name.trim() !== "")
-        : [];
+    const attacks = Array.isArray(pokemonInfo.attacks) ? pokemonInfo.attacks.filter(attack => attack && attack.name && attack.name.trim() !== "") : [];
 
     /* ---------------------------------------------------------------------
        HEADER
@@ -320,7 +326,9 @@ export function openPokemonInfoModal(pokemonInfo) {
 
 export function renderCapturedPokemons() {
     const listEl = capturedPokemonElement || document.getElementById('captured-pokemon-list');
-    if (!listEl) return;
+    if (!listEl) {
+        return;
+    }
 
     listEl.innerHTML = '';
 
