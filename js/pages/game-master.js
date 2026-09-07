@@ -16,6 +16,97 @@ const modalCharName = document.getElementById('modal-char-name');
 const modalCharInfo = document.getElementById('modal-char-info');
 const modalCharContent = document.getElementById('modal-char-content');
 
+const pokemonAttacksModal = document.getElementById('pokemon-attacks-modal');
+const closePokemonAttacksModalButton = document.getElementById('close-pokemon-attacks-modal');
+
+const attacksPokemonName = document.getElementById('attacks-pokemon-name');
+
+const attacksPokemonInfo = document.getElementById('attacks-pokemon-info');
+
+const pokemonAttacksContent = document.getElementById('pokemon-attacks-content');
+
+function openPokemonAttacksModal(pokemon) {
+    if (!pokemonAttacksModal || !pokemon) {
+        return;
+    }
+
+    attacksPokemonName.innerText = pokemon.species || 'Unknown Pokémon';
+
+    attacksPokemonInfo.innerText =
+        `${pokemon.type1 || 'Unknown'}${pokemon.type2 && pokemon.type2 !== 'None'
+            ? ` • ${pokemon.type2}`
+            : ''}`;
+
+    const attacks = pokemon.attacks || [];
+
+    const validAttacks = attacks.filter(attack =>
+        attack &&
+        attack.name &&
+        attack.name.trim() !== ''
+    );
+
+    if (validAttacks.length === 0) {
+        pokemonAttacksContent.innerHTML = `
+            <span class="tiny-text">
+                This Pokémon has no attacks.
+            </span>
+        `;
+    } else {
+        pokemonAttacksContent.innerHTML = validAttacks.map(attack => `
+            <div class="detail-box column" style="gap: 8px;">
+
+                <div class="static-row align-between">
+                    <h3>${attack.name}</h3>
+
+                    <span class="tiny-text">
+                        ${attack.type || 'Unknown'}
+                    </span>
+                </div>
+
+                <div class="correct-size">
+
+                    <div class="detail-box column stat-box">
+                        <span class="panel-label">POWER</span>
+                        <span class="panel-value">
+                            ${attack.pwr ?? 0}
+                        </span>
+                    </div>
+
+                    <div class="detail-box column stat-box">
+                        <span class="panel-label">ACC</span>
+                        <span class="panel-value">
+                            ${attack.acc ?? 0}%
+                        </span>
+                    </div>
+
+                    <div class="detail-box column stat-box">
+                        <span class="panel-label">PP</span>
+                        <span class="panel-value">
+                            ${attack.pp ?? 0}
+                        </span>
+                    </div>
+
+                </div>
+
+                ${attack.effect
+                ? `
+                        <div class="column">
+                            <span class="panel-label">EFFECT</span>
+                            <span class="tiny-text">
+                                ${attack.effect}
+                            </span>
+                        </div>
+                    `
+                : ''
+            }
+
+            </div>
+        `).join('');
+    }
+
+    pokemonAttacksModal.classList.remove('hidden');
+}
+
 function openInspectModal(char) {
     if (!inspectModal) {
         return;
@@ -77,63 +168,61 @@ function openInspectModal(char) {
             <div class="inspect-column-box">
                 <span class="section-title">Inventory (${char.inventory?.length || 0})</span>
                 <div class="column" style="gap: 8px;">
-                    ${(char.inventory && char.inventory.length > 0)
-            ? char.inventory.map(item => `
+                    ${(char.inventory && char.inventory.length > 0) ? char.inventory.map(item => `
                             <div class="inventory-item-row static-row align-between">
                                 <div class="detail-box flex-grow">
                                     <span class="poke-item-name">${item.name || 'Item'}</span>
                                 </div>
                                 <div class="inventory-qty-input">${item.quantity || 1}</div>
                             </div>
-                        `).join('')
-            : '<span class="tiny-text">No items in inventory.</span>'
-        }
+                        `).join('') : '<span class="tiny-text">No items in inventory.</span>'}
                 </div>
             </div>
 
             <div class="inspect-column-box">
                 <span class="section-title">Pokémon Team (${char.team?.length || 0})</span>
                 <div class="column" style="gap: 8px;">
-                    ${(char.team && char.team.length > 0)
-            ? char.team.map((p, index) => {
-                const { level } = calculateLevel(p.xp, p.levelSpeed);
-                const maxHp = getMaxHp(p);
-                const currentHp = p.hp ?? 0;
-                const lifeBarWidth = updateLifeBar(p);
-                return `
-                            <button type="button" class="pokemon-slot active-slot" data-index="${index}">
-                                <div class="avatar-box" style="width: 42px; height: 42px; flex-shrink: 0;">
-                                    <img src="${p.imgUrl || '/assets/icons/pokeball.svg'}" alt="${p.species || 'Pokémon'}">
-                                </div>
-                                <div class="pokemon-info flex-grow">
-                                    <div class="static-row align-between">
-                                        <h5>${p.species || 'Unknown'}</h5>
-                                        <span class="tiny-text">LVL ${level}</span>
-                                    </div>
-                                    <div class="health-bar-container green-bar" style="height: 6px;">
-                                        <div class="health-bar-fill" style="width: ${lifeBarWidth};"></div>
-                                    </div>
-                                    <div class="static-row align-between tiny-text">
-                                        <span>HP ${currentHp} / ${maxHp}</span>
-                                        ${p.happiness !== undefined ? `<span>Happiness ${p.happiness}/10</span>` : ''}
-                                    </div>
-                                </div>
-                            </button>
-                        `;
-            }).join('')
-            : '<div class="pokemon-slot empty-slot">(+) No Pokémon in party</div>'
-        }
+                    ${(char.team && char.team.length > 0) ? char.team.map((p, index) => {
+        const { level } = calculateLevel(p.xp, p.levelSpeed);
+        const maxHp = getMaxHp(p);
+        const currentHp = p.hp ?? 0;
+        const lifeBarWidth = updateLifeBar(p);
+        return `
+                <button type="button" class="pokemon-slot active-slot" data-index="${index}">
+                    <div class="avatar-box" style="width: 42px; height: 42px; flex-shrink: 0;">
+                        <img src="${p.imgUrl || '/assets/icons/pokeball.svg'}" alt="${p.species || 'Pokémon'}">
+                    </div>
+                    <div class="pokemon-info flex-grow">
+                        <div class="static-row align-between">
+                            <h5>${p.species || 'Unknown'}</h5>
+                            <span class="tiny-text">LVL ${level}</span>
+                        </div>
+                        <div class="health-bar-container green-bar" style="height: 6px;">
+                            <div class="health-bar-fill" style="width: ${lifeBarWidth};"></div>
+                        </div>
+                        <div class="static-row align-between tiny-text">
+                            <span>HP ${currentHp} / ${maxHp}</span>
+                            ${p.happiness !== undefined ? `<span>Happiness ${p.happiness}/10</span>` : ''}
+                        </div>
+                    </div>
+
+                    <h6>Click to see details</h6>
+                    </button>
+            `;
+    }).join('') : '<div class="pokemon-slot empty-slot">(+) No Pokémon in party</div>'}
                 </div>
             </div>
         </div>
     `;
 
     const pokeButtons = modalCharContent.querySelectorAll('button.pokemon-slot');
+
     pokeButtons.forEach(btn => {
         btn.addEventListener('click', () => {
             const pokeIndex = btn.getAttribute('data-index');
             const selectedPokemon = char.team[pokeIndex];
-            console.log('Selected Pokémon:', selectedPokemon);
+
+            openPokemonAttacksModal(selectedPokemon);
         });
     });
 
@@ -143,6 +232,12 @@ function openInspectModal(char) {
 function closeInspectModal() {
     if (inspectModal) {
         inspectModal.classList.add('hidden');
+    }
+}
+
+function closePokemonAttacksModal() {
+    if (pokemonAttacksModal) {
+        pokemonAttacksModal.classList.add('hidden');
     }
 }
 
@@ -230,6 +325,8 @@ function renderSessionCharacters() {
 }
 
 closeModalButton?.addEventListener('click', closeInspectModal);
+
+closePokemonAttacksModalButton?.addEventListener('click', closePokemonAttacksModal);
 
 inspectModal?.addEventListener('click', (e) => {
     if (e.target === inspectModal) {

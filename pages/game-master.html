@@ -76,6 +76,30 @@
         </div>
     </div>
 
+    <!-- POKÉMON ATTACKS MODAL -->
+    <div id="pokemon-attacks-modal" class="modal-overlay hidden">
+        <div class="modal-card container">
+            <div class="static-row align-between">
+                <div class="column">
+                    <h2 id="attacks-pokemon-name">Pokémon</h2>
+                    <span id="attacks-pokemon-info" class="tiny-text">
+                        Attacks
+                    </span>
+                </div>
+
+                <button id="close-pokemon-attacks-modal" type="button" class="item-delete-btn">
+                    ×
+                </button>
+            </div>
+
+            <hr>
+
+            <div id="pokemon-attacks-content" class="column" style="overflow-y: auto; max-height: 70vh; gap: 10px;">
+                <!-- Attacks rendered by JS -->
+            </div>
+        </div>
+    </div>
+
     <script type="module" src="/js/database/auth-state.js"></script>
     <script type="module" src="/js/pages/game-master.js"></script>
     <script src="/js/global-scripts.js"></script>
