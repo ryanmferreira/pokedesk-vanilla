@@ -35,9 +35,13 @@ const inventoryCategories = {
    ========================================================================== */
 
 export function setInventoryCategory(category) {
-    if (!Object.prototype.hasOwnProperty.call(inventoryCategories, category)) return;
 
-    currentInventoryCategory = category;
+    if (!inventoryCategories[category]) {
+        return;
+    }
+
+    currentInventoryCategory =
+        category;
 
     renderInventoryCategories();
     renderInventory();
@@ -310,15 +314,28 @@ function renderMoveItemModal() {
    ========================================================================== */
 
 export function moveInventoryItem(targetCategory) {
-    if (!itemToMove || !itemToMoveSourceCategory) return;
-    if (!Object.prototype.hasOwnProperty.call(inventoryCategories, targetCategory)) return;
-    if (targetCategory === itemToMoveSourceCategory) return;
+    if (!itemToMove || !itemToMoveSourceCategory) {
+        return;
+    }
+
+    if (!inventoryCategories[targetCategory]) {
+        return;
+    }
+    
+    if (targetCategory === itemToMoveSourceCategory) {
+        return;
+    }
 
     const sourceInventory = characterState?.bag?.[itemToMoveSourceCategory];
-    if (!Array.isArray(sourceInventory)) return;
+
+    if (!Array.isArray(sourceInventory)) {
+        return;
+    }
 
     const itemIndex = sourceInventory.indexOf(itemToMove);
-    if (itemIndex === -1) return;
+    if (itemIndex === -1) {
+        return;
+    }
 
     if (!Array.isArray(characterState.bag[targetCategory])) {
         characterState.bag[targetCategory] = [];

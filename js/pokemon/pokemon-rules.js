@@ -10,7 +10,10 @@ const xpToAddInput = document.getElementById('xp-to-add');
 const currentLvlDisplay = document.getElementById('current-level');
 
 export function getMaxHp(pokemon) {
-    if (!pokemon || !pokemon.status) return 10;
+    if (!pokemon || !pokemon.status) {
+        return 10
+    };
+
     let { level } = calculateLevel(pokemon.xp, pokemon.levelSpeed);
 
     return Math.floor(0.01 * ((pokemon.status.hp || 0) * 2) * level) + level + 10;

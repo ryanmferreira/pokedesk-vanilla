@@ -43,7 +43,9 @@ const pokemonAttacksContent = document.getElementById("pokemon-attacks-content")
    ========================================================================== */
 
 function openPokemonAttacksModal(pokemon) {
-    if (!pokemonAttacksModal || !pokemonAttacksContent || !pokemon) return;
+    if (!pokemonAttacksModal || !pokemonAttacksContent || !pokemon) {
+        return;
+    }
 
     /* ---------------------------------------------------------------------
        BASIC INFORMATION
@@ -265,7 +267,9 @@ function openPokemonAttacksModal(pokemon) {
    ========================================================================== */
 
 function openInspectModal(char) {
-    if (!inspectModal || !modalCharContent || !char) return;
+    if (!inspectModal || !modalCharContent || !char) {
+        return;
+    }
 
     /* ---------------------------------------------------------------------
        CHARACTER DATA
@@ -276,7 +280,10 @@ function openInspectModal(char) {
     const characterClass = char.class || "Unknown Class";
     const campaignRole = char.campaignRole || "PLAYER";
     const attributes = char.attributes || {};
+
     const inventory = Array.isArray(char.inventory) ? char.inventory : [];
+    const bag = char.bag ? Object.values(char.bag).flat() : inventory;
+
     const team = Array.isArray(char.team) ? char.team : [];
     const box = Array.isArray(char.box) ? char.box : [];
     const imageSrc = char.image || "/assets/icons/pokeball.svg";
@@ -376,12 +383,12 @@ function openInspectModal(char) {
             <div class="column gm-character-section">
                 <div class="static-row align-between">
                     <h3 class="section-title">INVENTORY</h3>
-                    <span class="tiny-text">${inventory.length} item(s)</span>
+                    <span class="tiny-text">${bag.length} item(s)</span>
                 </div>
 
                 <div class="gm-inventory-list">
-                    ${inventory.length > 0
-            ? inventory.map(item => `
+                    ${bag.length > 0
+            ? bag.map(item => `
                         <div class="inventory-item-row">
                             <div class="detail-box flex-grow">
                                 <span class="poke-item-name">${item.name || "Item"}</span>

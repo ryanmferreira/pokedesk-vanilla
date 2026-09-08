@@ -77,44 +77,18 @@ export function migrateInventory(state) {
         state.inventory = [];
     }
 
-    /*
-     * Verifica se o personagem já possui o novo sistema de bag.
-     *
-     * Personagens antigos provavelmente terão:
-     *
-     * inventory: [...]
-     *
-     * mas não terão:
-     *
-     * bag: {...}
-     */
-
     const hasBag = state.bag && typeof state.bag === 'object';
-
-    /*
-     * Personagem antigo
-     *
-     * Cria a bag e copia o inventário antigo para misc.
-     */
 
     if (!hasBag) {
         state.bag = createEmptyBag();
         state.bag.misc = state.inventory.map(item => ({ ...item }));
     }
 
-    /*
-     * Garante que todas as categorias existam.
-     */
-
     for (const category of BAG_CATEGORIES) {
         if (!Array.isArray(state.bag[category])) {
             state.bag[category] = [];
         }
     }
-
-    /*
-     * Marca a versão da bag.
-     */
 
     if (state.bag.version === undefined) {
         state.bag.version = 1;

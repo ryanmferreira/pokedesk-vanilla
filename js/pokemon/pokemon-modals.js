@@ -14,12 +14,18 @@ const selectedNameDetails = document.getElementById('manage-pokemon-name');
 
 export function showSelectedPokemon() {
     const el = document.querySelector('.select-pokemon');
-    if (el) el.style.display = 'flex';
+
+    if (el) {
+        el.style.display = 'flex';
+    }
 }
 
 export function hiddenSelectedPokemon() {
     const el = document.querySelector('.select-pokemon');
-    if (el) el.style.display = 'none';
+
+    if (el) {
+        el.style.display = 'none';
+    }
 }
 
 export function openPokemon() {
@@ -52,9 +58,9 @@ export function closeAddImage() {
 export function clearSelection() {
     setCurrentPokemon(null);
     hiddenSelectedPokemon();
-  
+
     const nameDetails = selectedNameDetails || document.getElementById('manage-pokemon-name');
-   
+
     if (nameDetails) {
         nameDetails.textContent = "No Pokémon Selected";
     }
