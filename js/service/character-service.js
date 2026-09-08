@@ -40,6 +40,7 @@ export async function saveCharacter(user, characterData) {
             cash: characterData.cash || 0,
             attributes: characterData.attributes || {},
             inventory: characterData.inventory || [],
+            bag: characterData.bag || [],
             capturedPokemon: characterData.capturedPokemon || [],
             team: characterData.team || [],
             diary: characterData.diary || []

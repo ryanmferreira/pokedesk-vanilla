@@ -220,11 +220,20 @@
                 </div>
             </div>
 
-            <!-- Item Container -->
             <div class="column">
-                <h6>ITEMS</h6>
-                <div id="inventory-items-container" class="column">
-                    <!-- Items goes here (by JS) -->
+                <div class="row flex-grow">
+                    <h5 class="flex-grow">CATEGORIES</h5>
+                    <h5 class="flex-grow">ITEMS</h5>
+                </div>
+
+                <div class="inventory-content">
+
+                    <div id="inventory-categories" class="inventory-categories">
+                    </div>
+
+                    <div id="inventory-items-container" class="inventory-items-container">
+                    </div>
+
                 </div>
             </div>
 
@@ -234,6 +243,104 @@
             <div class="static-row">
                 <button id="add-item-btn" class="expand">Add Item +</button>
                 <button onclick="closeInventory()" class="btn-red">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Move Inventory Item Modal -->
+    <div id="move-item-modal" class="modal-overlay hidden">
+        <div class="modal-card container">
+
+            <div class="static-row align-between">
+                <h2>MOVE ITEM</h2>
+            </div>
+
+            <hr>
+
+            <div id="move-item-content" class="column">
+                <!-- Content goes here (by JS) -->
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Pokémon Management Modal -->
+    <div id="pokemon-management-modal" class="modal-overlay hidden">
+        <div class="modal-card container">
+
+            <!-- Header -->
+            <div class="static-row align-between">
+                <h2 id="manage-pokemon-name">No Pokémon Selected</h2>
+                <h2 class="get-player-name">Player Name</h2>
+            </div>
+
+            <hr>
+
+            <!-- Top Panel: Selected Pokémon Basic Info -->
+            <div class="column select-pokemon">
+                <div class="pokemon-detail-panel">
+                    <div id="detail-img" class="detail-box avatar-box"></div>
+
+                    <div class="detail-box exp-box static-row">
+                        <div class="column">
+                            <span class="panel-label">EXP - <span id="detail-exp-num">~</span></span>
+                            <div class="health-bar-container blue-bar">
+                                <div id="detail-exp-bar" class="health-bar-fill" style="width: 75%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="column align-center">
+                            <span class="panel-label">LVL</span>
+                            <span id="detail-lvl-num" class="panel-value">~</span>
+                        </div>
+                    </div>
+
+                    <div class="flex-grow static-row correct-size">
+                        <div class="detail-box stat-box column align-center">
+                            <span class="panel-label">HP</span>
+                            <div>
+                                <span id="detail-hp-text" class="panel-value">~ / ~</span>
+                                <div class="health-bar-container green-bar">
+                                    <div id="detail-life-bar" class="health-bar-fill" style="width: 75%;"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="detail-box stat-box column align-center">
+                            <span class="panel-label">HAPPINESS</span>
+                            <span id="detail-happy-text" class="panel-value">~</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!--Selected Pokémon Actions -->
+                <div class="action-row">
+                    <button id="add-selected-pokemon" class="flex-grow">Move To Party</button>
+                    <button id="edit-selected-pokemon" class="flex-grow">Edit</button>
+                    <button id="delete-selected-pokemon" class="btn-red flex-grow">Release</button>
+                </div>
+            </div>
+
+            <!-- Inferior Section: Captured -->
+            <h3 class="section-title">CAPTURED POKÉMON</h3>
+            <select class="custom-select" id="pokemon-location-change">
+                <option value="All">All</option>
+                <option value="Box">Box</option>
+                <option value="Party">Party</option>
+            </select>
+            <hr class="dashed-hr">
+
+            <!-- Pokémon List -->
+            <div id="captured-pokemon-list" class="captured-grid">
+                <!-- Pokémon goes here (by JS) -->
+            </div>
+
+            <hr class="dashed-hr">
+
+            <!-- Footer Actions -->
+            <div class="static-row">
+                <button id="add-pokemon-btn" class="flex-grow">Register a new Pokémon</button>
+                <button onclick="closePokemon()" class="red">Close</button>
             </div>
         </div>
     </div>

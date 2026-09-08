@@ -1,16 +1,12 @@
 import { characterState } from "./player-state.js";
-import { renderInventory } from "./player-inventory.js";
 
 /* ==========================================================================
    STATES AND GLOBAL SELECTORS
    ========================================================================== */
 
-// Player Elements Container
-const itemsContainerElement = document.getElementById('inventory-items-container');
+// Player Elements
 const characterImageElement = document.getElementById('character-image-element');
-
 const avaliablePoints = document.getElementById('points-label');
-
 const lastSavedElement = document.getElementById('last-saved');
 
 // Player Health Displays
@@ -26,7 +22,7 @@ const characterClass = document.getElementById('character-class');
 const characterCash = document.getElementById('inventory-cash');
 const characterImageInput = document.getElementById('character-image');
 
-// Player Attribute Displays (text)
+// Player Attribute Displays
 const resistanceElement = document.getElementById('attr-resistance');
 const strengthElement = document.getElementById('attr-strength');
 const minElement = document.getElementById('attr-mind');
@@ -34,6 +30,7 @@ const agilityElement = document.getElementById('attr-agility');
 
 // Player Base Values
 const baseHp = 0;
+
 let characterMaxHp = calculateMaxHP();
 
 // Modals and Buttons
@@ -59,9 +56,17 @@ export function updatePlayerHP() {
     const currentHp = characterState?.hp ?? 0;
     const maxHp = characterMaxHp || 1;
 
-    if (currentHpElement) { currentHpElement.textContent = currentHp; }
-    if (hpStatusElement) { hpStatusElement.textContent = `${currentHp}/${maxHp}`; }
-    if (maxHpElement) { maxHpElement.textContent = maxHp; }
+    if (currentHpElement) {
+        currentHpElement.textContent = currentHp;
+    }
+
+    if (hpStatusElement) {
+        hpStatusElement.textContent = `${currentHp}/${maxHp}`;
+    }
+
+    if (maxHpElement) {
+        maxHpElement.textContent = maxHp;
+    }
 
     const percentage = Math.max(0, Math.min(100, Math.round((currentHp / maxHp) * 100)));
 
@@ -70,16 +75,13 @@ export function updatePlayerHP() {
     }
 
     const hpDonut = document.querySelector('.hp-donut');
-
     if (hpDonut) {
         hpDonut.style.setProperty('--percentage', `${percentage}%`);
     }
 }
 
 export function alterAttribute(attributeName, quantity) {
-    if (!characterState?.attributes) {
-        return;
-    }
+    if (!characterState?.attributes) return;
 
     let currentUsedPoints = 0;
     for (let key in characterState.attributes) {
@@ -95,14 +97,11 @@ export function alterAttribute(attributeName, quantity) {
     const currentValue = characterState.attributes[attributeName] || 0;
     const newValue = currentValue + quantity;
 
-    if (newValue < 1) {
-        return;
-    }
+    if (newValue < 1) return;
 
     characterState.attributes[attributeName] = newValue;
 
     let updatedUsedPoints = 0;
-
     for (let key in characterState.attributes) {
         updatedUsedPoints += characterState.attributes[key];
     }
@@ -112,7 +111,6 @@ export function alterAttribute(attributeName, quantity) {
     }
 
     const attrDisplay = document.getElementById(`attr-${attributeName}`);
-
     if (attrDisplay) {
         attrDisplay.textContent = characterState.attributes[attributeName];
     }
@@ -127,20 +125,11 @@ export function alterHP(quantity) {
 
     if (characterState.hp > characterMaxHp) {
         characterState.hp = characterMaxHp;
-    }
-    else if (characterState.hp < 0) {
+    } else if (characterState.hp < 0) {
         characterState.hp = 0;
     }
 
     updatePlayerHP();
-}
-
-export function checkPlayerItems() {
-    if (!characterState.inventory) {
-        characterState.inventory = [];
-    }
-
-    return characterState.inventory;
 }
 
 /* ==========================================================================
@@ -148,11 +137,25 @@ export function checkPlayerItems() {
    ========================================================================== */
 
 export function getPlayerInfo() {
-    if (characterName) { characterState.name = characterName.value; }
-    if (characterRace) { characterState.race = characterRace.value; }
-    if (characterClass) { characterState.class = characterClass.value; }
-    if (characterCash) { characterState.cash = parseFloat(characterCash.value); }
-    if (characterImageInput) { characterState.image = characterImageInput.value; }
+    if (characterName) {
+        characterState.name = characterName.value;
+    }
+
+    if (characterRace) {
+        characterState.race = characterRace.value;
+    }
+
+    if (characterClass) {
+        characterState.class = characterClass.value;
+    }
+
+    if (characterCash) {
+        characterState.cash = parseFloat(characterCash.value);
+    }
+
+    if (characterImageInput) {
+        characterState.image = characterImageInput.value;
+    }
 
     updateLastSaved();
     updatePlayerImage();
@@ -162,7 +165,9 @@ export function getPlayerInfo() {
 
 export function updateLastSaved() {
     if (!lastSavedElement || !characterState?.lastSaved) {
-        if (lastSavedElement) lastSavedElement.textContent = '';
+        if (lastSavedElement) {
+            lastSavedElement.textContent = '';
+        }
         return;
     }
 
@@ -192,18 +197,31 @@ export function setPlayerInfo() {
     const cashInput = document.getElementById('inventory-cash');
     const imageInput = document.getElementById('character-image');
 
-    if (nameInput) { nameInput.value = characterState.name ?? ''; }
-    if (raceInput) { raceInput.value = characterState.race ?? ''; }
-    if (classInput) { classInput.value = characterState.class ?? ''; }
-    if (cashInput) { cashInput.value = characterState.cash ?? 0; }
-    if (imageInput) { imageInput.value = characterState.image ?? ''; }
+    if (nameInput) {
+        nameInput.value = characterState.name ?? '';
+    }
+
+    if (raceInput) {
+        raceInput.value = characterState.race ?? '';
+    }
+
+    if (classInput) {
+        classInput.value = characterState.class ?? '';
+    }
+
+    if (cashInput) {
+        cashInput.value = characterState.cash ?? 0;
+    }
+
+    if (imageInput) {
+        imageInput.value = characterState.image ?? '';
+    }
 
     updateLastSaved();
 
     if (characterState.attributes) {
         for (const [attr, val] of Object.entries(characterState.attributes)) {
             const attrDisplay = document.getElementById(`attr-${attr}`);
-
             if (attrDisplay) {
                 attrDisplay.textContent = val;
             }
@@ -213,6 +231,7 @@ export function setPlayerInfo() {
     updatePlayerImage();
     updatePlayerHP();
     updatePlayerName();
+
     alterAttribute('resistance', 0);
 }
 
@@ -249,18 +268,13 @@ export function closeCharacterAddImage() {
     }
 
     updatePlayerImage();
+
     addCharacterImageModal?.classList.add('hidden');
 }
 
 /* ==========================================================================
    EVENT LISTENERS
    ========================================================================== */
-
-document.getElementById('add-item-btn')?.addEventListener('click', () => {
-    if (!characterState.inventory) characterState.inventory = [];
-    characterState.inventory.push({ name: '', quantity: 1 });
-    renderInventory();
-});
 
 characterName?.addEventListener('change', getPlayerInfo);
 characterRace?.addEventListener('change', getPlayerInfo);
@@ -271,12 +285,15 @@ addCharacterImage?.addEventListener('click', () => {
     openCharacterAddImage();
 });
 
+/* ==========================================================================
+   GLOBAL FUNCTIONS
+   ========================================================================== */
+
 window.calculateMaxHP = calculateMaxHP;
 window.updateMaxHP = updateMaxHP;
 window.updatePlayerHP = updatePlayerHP;
 window.alterAttribute = alterAttribute;
 window.alterHP = alterHP;
-window.checkPlayerItems = checkPlayerItems;
 window.getPlayerInfo = getPlayerInfo;
 window.setPlayerInfo = setPlayerInfo;
 window.updatePlayerName = updatePlayerName;

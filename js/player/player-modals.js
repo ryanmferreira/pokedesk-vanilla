@@ -1,17 +1,19 @@
-import { characterState } from "./player-state.js";
-import { renderInventory } from "./player-inventory.js";
+import { initializeInventory } from "./player-inventory.js";
 import { closePokemon } from "../pokemon/pokemon-modals.js";
 
 /* ==========================================================================
    MODAL AND UI CONTROL
    ========================================================================== */
 
-// Modals
 const inventoryModal = document.getElementById('inventory-modal');
-const addCharacterImageModal = document.getElementById('add-character-image-modal');
+
+/* ==========================================================================
+   INVENTORY MODAL
+   ========================================================================== */
 
 export function openInventory() {
-    renderInventory();
+    initializeInventory();
+
     inventoryModal?.classList.remove('hidden');
 }
 
@@ -19,12 +21,20 @@ export function closeInventory() {
     inventoryModal?.classList.add('hidden');
 }
 
+/* ==========================================================================
+   KEYBOARD CONTROLS
+   ========================================================================== */
+
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
         closeInventory();
         closePokemon();
     }
 });
+
+/* ==========================================================================
+   GLOBAL FUNCTIONS
+   ========================================================================== */
 
 window.openInventory = openInventory;
 window.closeInventory = closeInventory;
