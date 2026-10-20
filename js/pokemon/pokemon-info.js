@@ -9,6 +9,64 @@ export const types = [
     "Fairy", "Cosmic", "Light"
 ];
 
+const typeColors = {
+    normal: "#A8A77A",
+    fire: "#EE8130",
+    water: "#6390F0",
+    electric: "#F7D02C",
+    grass: "#7AC74C",
+    ice: "#96D9D6",
+    fighting: "#C22E28",
+    poison: "#A33EA1",
+    ground: "#E2BF65",
+    flying: "#A98FF3",
+    psychic: "#F95587",
+    bug: "#A6B91A",
+    rock: "#B6A136",
+    ghost: "#735797",
+    dragon: "#6F35FC",
+    dark: "#705746",
+    steel: "#B7B7CE",
+    fairy: "#D685AD",
+    cosmic: "#7E6BFF",
+    light: "#E8C547"
+};
+
+function getTypeColor(type) {
+    return typeColors[(type || "").toLowerCase()] || "#6B7280";
+}
+
+function getReadableTextColor(hexColor) {
+    const hex = (hexColor || "").replace("#", "");
+
+    if (hex.length !== 6) {
+        return "#FFFFFF";
+    }
+
+    const r = parseInt(hex.substring(0, 2), 16);
+    const g = parseInt(hex.substring(2, 4), 16);
+    const b = parseInt(hex.substring(4, 6), 16);
+
+    const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+
+    return luminance > 0.6 ? "#362C22" : "#FFFFFF";
+}
+
+export function renderTypeBadges(...pokemonTypes) {
+    return pokemonTypes
+        .filter(type => type && type !== "None")
+        .map(type => {
+            const color = getTypeColor(type);
+            const textColor = getReadableTextColor(color);
+            const textShadow = textColor === "#FFFFFF"
+                ? "0 1px 2px rgba(0, 0, 0, 0.45)"
+                : "none";
+
+            return `<span class="type-badge" style="--type-color: ${color}; --type-text-color: ${textColor}; --type-text-shadow: ${textShadow}">${type}</span>`;
+        })
+        .join("");
+}
+
 export const pokeballs = [
     "Ancient Ball", "Beast Ball", "Cosmic Ball", "Cherish Ball", "Custom Ball", "Dive Ball", "Divine Ball",
     "Dream Ball", "Dusk Ball", "Fast Ball", "Feather Ball", "Friend Ball", "Gigaton Ball", "Great Ball",

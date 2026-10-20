@@ -28,13 +28,6 @@
     margin: 0;
 }
 
-.error-subtitle {
-    font-size: 14px;
-    font-weight: bold;
-    color: var(--input-contrast-color);
-    margin: 0;
-}
-
 .error-text {
     font-size: 13px;
     line-height: 140%;

@@ -1,10 +1,10 @@
 import { auth } from "/js/database/firebase-config.js";
 
-import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js"
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
 
 import { getLastSessions, getSessionInfo, joinSession, setLastSessions } from "/js/service/session-service.js";
 
-import { showLoading, hideLoading } from '/js/components/loading.js';
+import { hideLoading, showLoading } from '/js/components/loading.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     showLoading("Loading your sessions...");

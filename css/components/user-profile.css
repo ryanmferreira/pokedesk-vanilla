@@ -13,7 +13,7 @@
 }
 
 .profile-title {
-    font-size: 16px;
+    font-size: var(--font-size-medium);
 }
 
 .profile-body-column {
@@ -40,7 +40,7 @@
 }
 
 .profile-name-value {
-    font-size: 20px;
+    font-size: var(--font-size-title);
 }
 
 .profile-info-grid {
@@ -53,12 +53,12 @@
 }
 
 .profile-break-text {
-    font-size: 14px;
+    font-size: var(--font-size-small);
     word-break: break-all;
 }
 
 .profile-small-text {
-    font-size: 14px;
+    font-size: var(--font-size-small);
 }
 
 @media screen and (max-width: 600px) {

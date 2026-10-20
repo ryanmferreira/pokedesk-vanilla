@@ -1,3 +1,11 @@
+@font-face {
+    font-family: "Departure Mono";
+    src: url("/assets/fonts/DepartureMonoNerdFont-Regular.otf") format("opentype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
 *,
 *::before,
 *::after {
@@ -19,9 +27,39 @@
     --red-complementar-color: #EFCDAB;
     --white-color: #FFFFFF;
 
+    --neutral-color: #6B7280;
+    --track-color: rgba(0, 0, 0, 0.1);
+    --soft-color: rgba(0, 0, 0, 0.05);
+
     --default-padding: 16px;
     --default-button-padding: 8px 12px 8px 12px;
     --default-tiny-button-padding: 4px 8px 4px 8px;
+
+    /* Typography scale */
+    --font-size-tiny: 9px;
+    --font-size-small: 10px;
+    --font-size-base: 12px;
+    --font-size-medium: 14px;
+    --font-size-large: 16px;
+    --font-size-title: 18px;
+    --font-size-display: 20px;
+
+    /* Controls */
+    --input-height: 32px;
+    --input-padding: 4px 8px;
+
+    /* Borders */
+    --border-width: 2px;
+    --border-color: var(--input-contrast-color);
+    --border-dashed: var(--border-width) dashed var(--border-color);
+    --border-solid: var(--border-width) solid var(--border-color);
+
+    /* Bars */
+    --bar-height: 12px;
+
+    /* Select chevron */
+    --select-arrow-light: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23FFFFFF' stroke-width='2'/%3E%3C/svg%3E");
+    --select-arrow-red: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23943131' stroke-width='2'/%3E%3C/svg%3E");
 }
 
 .red {
@@ -50,6 +88,42 @@ body {
     margin: 0;
     padding: 0;
     height: 100%;
+
+    font-family: "Departure Mono", monospace;
+    font-weight: 400;
+    font-style: normal;
+    font-size: var(--font-size-base);
+    line-height: 1.5;
+}
+
+h1 {
+    font-size: var(--font-size-display);
+    line-height: 1.4;
+}
+
+h2 {
+    font-size: var(--font-size-title);
+    line-height: 1.4;
+}
+
+h3 {
+    font-size: var(--font-size-medium);
+    line-height: 1.4;
+}
+
+h4 {
+    font-size: var(--font-size-base);
+    line-height: 1.4;
+}
+
+h5 {
+    font-size: var(--font-size-small);
+    line-height: 1.4;
+}
+
+h6 {
+    font-size: var(--font-size-tiny);
+    line-height: 1.4;
 }
 
 p,
@@ -81,14 +155,22 @@ select {
     transition: filter 0.25s ease-in-out, transform 0.25s ease-in-out;
 }
 
+input,
+select {
+    text-transform: uppercase;
+}
+
 @media (pointer: fine) and (hover: hover) {
 
     select:hover,
     input:hover,
     button:hover {
         filter: brightness(125%);
-        transform: translateY(-2px);
         cursor: pointer;
+    }
+
+    button:hover {
+        transform: translateY(-2px);
     }
 }
 
@@ -109,13 +191,41 @@ hr {
     margin: 0;
 }
 
-input {
-    padding: var(--default-tiny-button-padding);
-    border: 0;
-    border-bottom: 2px dashed var(--input-contrast-color);
+input:not([type="checkbox"]):not([type="radio"]) {
     width: 100%;
-    min-height: 32px;
+    min-height: var(--input-height);
+    padding: var(--input-padding);
+    border: 0;
+    border-bottom: var(--border-dashed);
+    background-color: var(--input-camp-color);
     color: var(--input-contrast-color);
+    font-size: var(--font-size-base);
+    box-sizing: border-box;
+}
+
+/* Selects are filled like buttons so they never read as text inputs. */
+select {
+    width: 100%;
+    min-height: var(--input-height);
+
+    padding: var(--input-padding);
+    padding-right: 28px;
+
+    border: var(--border-solid);
+    background-color: var(--background-color);
+    background-image: var(--select-arrow-light);
+    background-repeat: no-repeat;
+    background-position: right 9px center;
+    background-size: 10px 6px;
+
+    color: var(--white-color);
+    font-size: var(--font-size-base);
+    font-weight: bold;
+
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    box-sizing: border-box;
 }
 
 :where(button, input, select, [role="button"]):focus-visible {

@@ -1,7 +1,7 @@
 import { database } from "/js/database/database.js";
-import { auth, signOut, googleProvider, signInWithPopup } from "/js/database/firebase-config.js";
+import { auth, googleProvider, signInWithPopup, signOut } from "/js/database/firebase-config.js";
 
-import { ref, set } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js"
+import { ref, set } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js";
 
 const logInButton = document.getElementById('login-with-google');
 const logOutButton = document.getElementById('log-out');

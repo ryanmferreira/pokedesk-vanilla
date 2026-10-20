@@ -1,7 +1,7 @@
 .header-card .last-saved {
     border: 2px dashed var(--input-contrast-color);
     padding: 4px 8px;
-    font-size: 11px;
+    font-size: var(--font-size-base);
     font-weight: bold;
     color: var(--input-contrast-color);
 }
@@ -49,7 +49,7 @@
     width: 110px;
     height: 110px;
     background: conic-gradient(var(--green-color) var(--percentage),
-            rgba(0, 0, 0, 0.1) 0);
+            var(--track-color) 0);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -75,11 +75,11 @@
 }
 
 .donut-text span {
-    font-size: 16px;
+    font-size: var(--font-size-title);
 }
 
 .donut-text small {
-    font-size: 10px;
+    font-size: var(--font-size-small);
     opacity: 0.7;
 }
 
@@ -93,8 +93,9 @@
 .pokemon-slot {
     border: 2px dashed var(--input-contrast-color);
     display: flex;
-    padding: var(--default-tiny-button-padding) !important;
+    padding: 8px !important;
     align-items: center;
+    gap: 8px;
 
     background-color: transparent;
     min-width: 100%;
@@ -104,9 +105,14 @@
     color: var(--input-contrast-color);
 }
 
+.pokemon-slot .avatar-box {
+    width: 64px;
+    height: 64px;
+}
+
 .empty-slot {
     justify-content: center;
-    font-size: 11px;
+    font-size: var(--font-size-base);
     font-weight: bold;
     opacity: 0.5;
 }
@@ -115,33 +121,42 @@
     gap: 4px;
 }
 
-.pokemon-image-placeholder {
-    width: 55px;
-    height: 55px;
-    border: 2px dashed var(--input-contrast-color);
-    flex-shrink: 0;
+.pokemon-info {
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
+
+    width: 100%;
+    min-width: 0;
 }
 
-.pokemon-info {
-    gap: 4px;
-    width: 100%;
+.pokemon-info__title {
+    flex-wrap: wrap;
+    gap: 2px 8px;
+    min-width: 0;
 }
 
 .pokemon-info h5 {
-    font-size: 11px;
+    flex: 1 1 auto;
+
+    max-width: 100%;
+    min-width: 0;
+
+    font-size: var(--font-size-base);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-.pokemon-info h6 {
-    font-size: 10px;
-}
+.pokemon-info__level {
+    flex: 0 0 auto;
 
-.pokemon-info .tiny-text {
-    font-size: 9px;
+    font-size: var(--font-size-small);
     font-weight: bold;
-}
-
-.select-pokemon {
-    display: none;
+    white-space: nowrap;
 }
 
 .player-image {
@@ -152,30 +167,15 @@
     object-fit: contain;
 }
 
-.add-image-button {
-    max-height: 32px;
-}
-
-.health-bar-container {
-    width: 100%;
-    height: 6px;
-    background-color: rgba(0, 0, 0, 0.1);
-}
-
-.health-bar-fill {
-    height: 100%;
-    background-color: var(--green-color);
-}
-
 .points-label {
-    font-size: 11px;
+    font-size: var(--font-size-base);
     font-weight: bold;
 }
 
 .attributes-list {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 8px;
 }
 
 .attribute-item {
@@ -183,10 +183,16 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+
+    gap: 12px;
+}
+
+.attribute-item h4 {
+    font-size: var(--font-size-medium);
 }
 
 .attribute-item h6 {
-    font-size: 11px;
+    font-size: var(--font-size-small);
     opacity: 0.7;
 }
 
@@ -241,130 +247,62 @@
 
 
 /* ==========================================================================
-   POKEMON INFO MODAL
+   POKEMON INFO MODAL - FRAME
    ========================================================================== */
 
 .pokemon-info-modal-card {
-    width: 65%;
+    width: 94%;
+    max-width: 1200px;
     max-height: 90vh;
+    min-height: 0;
 }
 
 .pokemon-info-body {
     display: flex;
     flex-direction: column;
+    flex: 1 1 auto;
     gap: 12px;
     overflow-y: auto;
     overflow-x: hidden;
-    max-height: 72vh;
+    max-height: none;
     padding-right: 4px;
     min-width: 0;
+    min-height: 0;
+}
+
+.pokemon-info-body .inspect-layout {
+    flex: 1 1 auto;
 }
 
 .pokemon-info-header {
     gap: 12px;
     align-items: center;
+    flex-wrap: wrap;
+    min-width: 0;
 }
 
 .pokemon-info-title {
     min-width: 0;
+    gap: 6px;
 }
 
 .pokemon-info-title h2 {
     margin: 0;
 }
 
-.gm-pokemon-summary {
-    display: grid;
-    grid-template-columns: 120px 1fr;
-    gap: 12px;
-    width: 100%;
-    min-width: 0;
+.pokemon-info__types {
+    flex-wrap: wrap;
+    gap: 4px;
 }
 
-.gm-pokemon-image {
-    width: 120px;
-    height: 120px;
-}
-
-.gm-pokemon-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-}
-
-.gm-pokemon-information {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    min-width: 0;
-}
-
-.gm-pokemon-information .correct-size {
-    gap: 12px;
-}
-
-.gm-pokemon-details {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 12px;
-    width: 100%;
-}
-
-.gm-pokemon-details .detail-box {
-    min-width: 0;
-}
-
-.gm-status-values {
-    background-color: var(--red-complementar-color);
-    text-align: center;
-}
-
-.gm-status-values span {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 32px;
-    border-right: 1px dashed var(--input-contrast-color);
-    color: var(--input-contrast-color);
-    font-size: 13px;
-    font-weight: bold;
-}
-
-.gm-status-values span:last-child {
-    border-right: none;
-}
-
-.gm-attacks-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px;
-    width: 100%;
-}
-
-.gm-attacks-grid .attack-card {
-    min-width: 0;
-}
-
-.gm-attacks-grid .attack-card h3 {
-    margin: 0;
-}
-
+/* Responsive ----------------------------------------------------------- */
 
 @media screen and (max-width: 950px) {
 
     .pokemon-info-modal-card {
-        width: 85%;
-    }
-
-    .gm-pokemon-details {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .gm-attacks-grid {
-        grid-template-columns: 1fr;
+        width: 94%;
     }
 }
-
 
 @media screen and (max-width: 800px) {
 
@@ -373,45 +311,7 @@
     }
 
     .pokemon-info-body {
-        max-height: 70vh;
-    }
-
-    .gm-pokemon-summary {
-        grid-template-columns: 90px 1fr;
-    }
-
-    .gm-pokemon-image {
-        width: 90px;
-        height: 90px;
-    }
-}
-
-
-@media screen and (max-width: 600px) {
-
-    .gm-pokemon-summary {
-        grid-template-columns: 1fr;
-    }
-
-    .gm-pokemon-image {
-        width: 100px;
-        height: 100px;
-    }
-}
-
-
-@media screen and (max-width: 500px) {
-
-    .gm-pokemon-information .correct-size {
-        flex-wrap: wrap;
-    }
-
-    .gm-pokemon-information .correct-size>div {
-        min-width: calc(50% - 6px);
-    }
-
-    .gm-status-values span {
-        font-size: 10px;
+        max-height: 78vh;
     }
 }
 
@@ -420,30 +320,130 @@
    INVENTORY LAYOUT
    ========================================================================== */
 
+.inventory-modal-card {
+    width: 82%;
+    max-width: 1040px;
+    max-height: 90vh;
+}
+
+/* Cash in hand --------------------------------------------------------- */
+
+.inventory-cash-box {
+    flex-direction: column;
+    gap: 2px;
+    width: 100%;
+}
+
+.inventory-cash-row {
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+}
+
+.inventory-cash-symbol {
+    font-size: var(--font-size-title);
+    font-weight: bold;
+    line-height: 1;
+}
+
+.inventory-cash-input {
+    flex: 1;
+    width: auto;
+    min-width: 0;
+
+    height: var(--input-height);
+    min-height: var(--input-height);
+
+    padding: var(--input-padding);
+
+    border-bottom: var(--border-dashed);
+    background-color: var(--input-camp-color);
+
+    font-size: var(--font-size-large);
+    font-weight: bold;
+}
+
+.inventory-cash-input::-webkit-outer-spin-button,
+.inventory-cash-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.inventory-cash-input {
+    appearance: textfield;
+    -moz-appearance: textfield;
+}
+
+/* Categories + items --------------------------------------------------- */
+
 .inventory-content {
     display: grid;
-    grid-template-columns: 150px minmax(0, 1fr);
+    grid-template-columns: 160px minmax(0, 1fr);
+    gap: 12px;
+
     width: 100%;
     min-width: 0;
-    height: 40vh;
-    max-height: 40vh;
+
+    height: 44vh;
+    max-height: 44vh;
+
     box-sizing: border-box;
+}
+
+.inventory-sidebar,
+.inventory-main {
+    min-width: 0;
+    min-height: 0;
+    height: 100%;
+}
+
+.inventory-main {
+    gap: 8px;
 }
 
 .inventory-categories {
     display: flex;
     flex-direction: column;
+    gap: 4px;
+
+    flex: 1 1 auto;
+
     min-width: 0;
     min-height: 0;
-    height: 100%;
-    overflow: hidden;
-    margin-right: 8px;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    scrollbar-width: none;
+}
+
+.inventory-categories::-webkit-scrollbar {
+    display: none;
 }
 
 .inventory-categories button {
     width: 100%;
-    flex: 1 1 0;
-    min-height: 0;
+    min-width: 0;
+    flex: 0 0 auto;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+
+    padding: 7px 10px;
+
+    background-color: transparent;
+    color: var(--input-contrast-color);
+
+    border: 2px solid transparent;
+    text-align: left;
+}
+
+.inventory-category-count {
+    font-size: var(--font-size-tiny);
+    font-weight: bold;
+    opacity: 0.7;
 }
 
 /* ACTIVE CATEGORY */
@@ -453,23 +453,54 @@
     color: var(--container-color);
 }
 
+.inventory-category-btn.active .inventory-category-count {
+    color: var(--container-color);
+}
+
 
 /* INVENTORY ITEMS */
 
+.inventory-main .section-head {
+    padding: 0 2px;
+}
+
 #inventory-items-container {
+    display: flex;
+    flex-direction: column;
+
+    flex: 1 1 auto;
+
     min-width: 0;
     min-height: 0;
-    height: 100%;
+
+    height: auto;
     max-height: none;
+
     overflow-y: auto;
     overflow-x: hidden;
+
+    padding: 4px 10px;
+
+    border: var(--border-dashed);
 }
 
 .inventory-item-row {
     display: flex;
     flex-direction: row;
+    gap: 8px;
     width: 100%;
     align-items: center;
+
+    padding: 8px 0;
+
+    border-bottom: 1px dashed var(--input-contrast-color);
+    background-color: transparent;
+
+    box-sizing: border-box;
+}
+
+.inventory-item-row:last-child {
+    border-bottom: 0;
 }
 
 .inventory-item-row .inventory-section {
@@ -477,15 +508,18 @@
     flex-direction: row;
     align-items: center;
     flex: 1;
+    gap: 8px !important;
     min-width: 0;
 }
 
 .inventory-item-input {
     flex: 1;
     min-width: 0;
+
+    background-color: var(--input-camp-color);
 }
 
-.inventory-qty-input {
+.inventory-qty-field {
     flex-shrink: 0;
 }
 
@@ -498,6 +532,20 @@
    INVENTORY RESPONSIVE
    ========================================================================== */
 
+@media screen and (max-width: 950px) {
+
+    .inventory-modal-card {
+        width: 92%;
+    }
+}
+
+@media screen and (max-width: 800px) {
+
+    .inventory-modal-card {
+        width: 100%;
+    }
+}
+
 @media screen and (max-width: 600px) {
 
     .inventory-content {
@@ -505,75 +553,72 @@
         flex-direction: column;
 
         width: 100%;
-        height: 50vh;
-        max-height: 50vh;
+        height: 52vh;
+        max-height: 52vh;
+    }
+
+    .inventory-sidebar {
+        height: auto;
+        flex: 0 0 auto;
     }
 
     .inventory-categories {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+
         width: 100%;
         height: auto;
-        flex-shrink: 0;
+        flex: 0 0 auto;
 
-        flex-direction: row;
+        overflow: visible;
 
-        overflow-x: auto;
-        overflow-y: hidden;
-
-        margin-right: 0;
-        margin-bottom: 10px;
-
-        gap: 6px;
+        gap: 4px;
+        padding-bottom: 0;
     }
 
     .inventory-categories button {
-        width: auto;
-        min-width: 90px;
-        height: 44px;
+        width: 100%;
+        min-width: 0;
+        height: 38px;
 
-        flex: 0 0 auto;
-
-        padding: 8px 12px;
-        font-size: 10px;
+        padding: 4px 6px;
+        font-size: var(--font-size-tiny);
         font-weight: bold;
+        gap: 4px;
     }
 
-    .inventory-category-btn.active {
-        background-color: var(--input-contrast-color);
-        color: var(--container-color);
+    .inventory-main {
+        flex: 1 1 auto;
+        height: auto;
     }
 
     #inventory-items-container {
         width: 100%;
-        min-height: 0;
-        flex: 1;
-
-        overflow-y: auto;
-        overflow-x: hidden;
     }
 
     .inventory-item-row {
-        padding: 6px 4px;
+        padding: 6px;
+        gap: 6px;
     }
 
-    .inventory-item-input {
-        min-width: 0;
+    .inventory-qty-field {
+        padding: 0 6px;
     }
 
-    .inventory-qty-input {
-        width: 52px;
-        min-width: 40px;
+    .inventory-section .inventory-qty-field .inventory-qty-input {
+        width: 36px;
+        min-width: 24px;
     }
 
     .item-delete-btn {
         width: 32px;
         height: 32px;
-        margin-left: 4px;
     }
 
     .item-move-btn {
-        width: 52px;
+        width: auto;
+        min-width: 80px;
         height: 32px;
-        margin-left: 4px;
     }
 }
 
@@ -585,30 +630,33 @@
 @media screen and (max-width: 400px) {
 
     .inventory-content {
-        height: 48vh;
-        max-height: 48vh;
+        height: 50vh;
+        max-height: 50vh;
     }
 
     .inventory-categories {
-        margin-bottom: 8px;
         gap: 4px;
     }
 
     .inventory-categories button {
         min-width: 82px;
-        height: 42px;
+        height: 38px;
 
-        padding: 6px 10px;
-        font-size: 9px;
+        padding: 6px 8px;
+        font-size: var(--font-size-tiny);
     }
 
     .inventory-item-row {
-        padding: 4px 2px;
+        padding: 5px;
     }
 
-    .inventory-qty-input {
-        width: 46px;
-        min-width: 36px;
+    .inventory-qty-field {
+        padding: 0 4px;
+    }
+
+    .inventory-section .inventory-qty-field .inventory-qty-input {
+        width: 30px;
+        min-width: 20px;
     }
 
     .item-delete-btn {
@@ -617,8 +665,17 @@
     }
 
     .item-move-btn {
-        width: 48px;
+        width: auto;
+        min-width: 76px;
         height: 30px;
+    }
+}
+
+
+@media screen and (max-width: 360px) {
+
+    .inventory-categories {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
 
@@ -628,20 +685,32 @@
    ========================================================================== */
 
 .item-move-btn {
-    width: 48px;
+    width: auto;
+    min-width: 86px;
     height: 32px;
     flex-shrink: 0;
-    padding: 0;
+    padding: 0 8px;
 
     display: flex;
     justify-content: center;
     align-items: center;
+    gap: 4px;
 
     font-family: inherit;
-    font-size: 9px;
+    font-size: var(--font-size-small);
     font-weight: bold;
 
+    background-color: transparent;
+    color: var(--input-contrast-color);
+
+    border: 2px solid var(--input-contrast-color);
+
     cursor: pointer;
+}
+
+.item-move-btn:hover {
+    background-color: var(--input-contrast-color);
+    color: var(--container-color);
 }
 
 #move-item-content {
@@ -662,7 +731,7 @@
 
     color: var(--input-contrast-color);
 
-    font-size: 11px;
+    font-size: var(--font-size-base);
     font-weight: bold;
 
     overflow: hidden;
@@ -690,7 +759,7 @@
 
     color: var(--input-contrast-color);
 
-    font-size: 11px;
+    font-size: var(--font-size-base);
     font-weight: bold;
 }
 

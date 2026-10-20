@@ -1,60 +1,42 @@
-# PokeDESK
-> In development
+# PokeDesk
 
-PokeDESK is a platform for Pokémon tabletop RPGs. Currently, it relies on hardcoded rules, but it continues to expand (evolving alongside our new requirements). Built using only vanilla web technologies.
+A platform for **Pokémon tabletop RPGs**: character sheets, categorized
+inventory, Pokémon management and a Game Master dashboard.
 
-## File Structure
-```plaintext
-.
-├── 404.html
-├── assets
-│   └── icons
-│       └── pokeball.svg
-├── css
-│   ├── components
-│   │   ├── modals.css
-│   │   ├── sidebar.css
-│   │   └── user-profile.css
-│   ├── global-styles.css
-│   ├── layout.css
-│   └── pages
-│       ├── login.css
-│       └── session.css
-├── favicon.svg
-├── firebase.json
-├── index.html
-├── js
-│   ├── components
-│   │   └── user-profile.js
-│   ├── database
-│   │   ├── auth-state.js
-│   │   ├── database.js
-│   │   └── firebase-config.js
-│   ├── global-scripts.js
-│   ├── pages
-│   │   ├── home.js
-│   │   └── session.js
-│   ├── player
-│   │   ├── player-inventory.js
-│   │   ├── player-management.js
-│   │   ├── player-modals.js
-│   │   └── player-state.js
-│   ├── pokemon
-│   │   ├── pokemon-info.js
-│   │   ├── pokemon-management.js
-│   │   ├── pokemon-modals.js
-│   │   ├── pokemon-render.js
-│   │   └── pokemon-rules.js
-│   └── service
-│       ├── auth-service.js
-│       ├── character-service.js
-│       └── session-service.js
-├── LICENSE
-├── pages
-│   ├── home.html
-│   ├── login.html
-│   └── session.html
-└── README.md
+Built with plain **HTML, CSS and ES modules**, plus **Firebase** for
+authentication, realtime data and hosting. No frameworks, no build step.
 
-14 directories, 36 files
+## Running
+
+Pages reference assets from the project root (`/css/...`, `/js/...`), so serve
+the folder instead of opening the files directly:
+
+```bash
+http-server -p 3000 -c-1
 ```
+
+Open <http://127.0.0.1:3000>. Firebase is configured in
+`js/database/firebase-config.js`.
+
+## Structure
+
+```plaintext
+assets/   icons and the Departure Mono font
+css/      design tokens, layout, components, page styles
+js/       database, services, player, Pokémon and page scripts
+pages/    login, home, session, game master
+```
+
+## Conventions
+
+- A single local typeface: `assets/fonts/DepartureMonoNerdFont-Regular.otf`.
+- Colors, spacing, borders and typography are tokens in
+  `css/global-styles.css`; the rest of the CSS only consumes them.
+- Dashed borders mark content blocks; filled controls mark inputs, selects
+  and buttons.
+- Shared Pokémon UI (HP/XP bars, tiles, attacks) lives in
+  `js/pokemon/pokemon-render.js` and `css/components/modals.css`.
+
+## License
+
+GPLv3 — see [LICENSE](LICENSE).

@@ -1,15 +1,13 @@
 import { characterState } from "../player/player-state.js";
-import { getMaxHp, calculateLevel, addXP, updateLevel } from "./pokemon-rules.js";
-import { showSelectedPokemon, clearSelection, openEditPokemon, closeEditPokemon } from "./pokemon-modals.js";
-import { renderPokemonAttacks, renderCapturedPokemons, renderAllPokemon } from "./pokemon-render.js";
-import { loadAttackType } from "./pokemon-info.js";
+import { loadAttackType, renderTypeBadges } from "./pokemon-info.js";
+import { clearSelection, closeEditPokemon, openEditPokemon, showSelectedPokemon } from "./pokemon-modals.js";
+import { renderAllPokemon, renderCapturedPokemons, renderPokemonAttacks } from "./pokemon-render.js";
+import { addXP, calculateLevel, getMaxHp, updateLevel } from "./pokemon-rules.js";
 
 /* ==========================================================================
    STATES AND GLOBAL SELECTORS
    ========================================================================== */
 const capturedPokemonElement = document.getElementById('captured-pokemon-list');
-const pokemonAttacksElement = document.getElementById('attacks-grid');
-const teamPokemonElement = document.getElementById('pokemon-grid');
 
 const pokemonLocationSelect = document.getElementById('pokemon-location-change');
 
@@ -24,9 +22,6 @@ export function setCurrentPokemon(pokemon) {
 }
 
 export const maxPartySize = 6;
-
-const xpToAddInput = document.getElementById('xp-to-add');
-const currentLvlDisplay = document.getElementById('current-level');
 
 // Text
 const pokemonHapiness = document.getElementById('poke-happiness');
@@ -63,6 +58,8 @@ const pokemonStatusSpd = document.getElementById('poke-status-spd');
 // ===== Selected Pokemon Info =====
 const selectedNameDetails = document.getElementById('manage-pokemon-name');
 const selectedImgDetails = document.getElementById('detail-img');
+const selectedTypesDetails = document.getElementById('detail-types');
+const selectedGenderDetails = document.getElementById('detail-gender');
 
 const selectedXpBarDetails = document.getElementById('detail-exp-bar');
 const selectedLvlDetails = document.getElementById('detail-lvl-num');
@@ -72,6 +69,11 @@ const selectedHappinessDetails = document.getElementById('detail-happy-text');
 
 const selectedHealthDetails = document.getElementById('detail-hp-text');
 const selectedHealthBarDetails = document.getElementById('detail-life-bar');
+
+const selectedNatureDetails = document.getElementById('detail-nature-text');
+const selectedAbilityDetails = document.getElementById('detail-ability-text');
+const selectedItemDetails = document.getElementById('detail-item-text');
+const selectedPokeballDetails = document.getElementById('detail-pokeball-text');
 
 export function debugPokemon() {
     console.log(characterState.capturedPokemon.attacks)
@@ -120,16 +122,40 @@ export function loadCurrentPokemonInfo() {
         currentTarget.classList.add('selected');
     }
 
-    const { level } = calculateLevel(currentPokemon.xp, currentPokemon.levelSpeed);
+    const { level, currentXpInLevel, costForNextLevel } = calculateLevel(currentPokemon.xp, currentPokemon.levelSpeed);
 
-    selectedXpDetails.textContent = currentPokemon.xp;
+    selectedXpDetails.textContent = `${currentXpInLevel} / ${costForNextLevel}`;
     selectedLvlDetails.textContent = level;
 
-    selectedHappinessDetails.textContent = currentPokemon.happiness;
-    selectedHealthDetails.textContent = `${currentPokemon.hp} / ${getMaxHp(currentPokemon) || '?'}`;
+    selectedHappinessDetails.textContent = currentPokemon.happiness ?? 0;
+    selectedHealthDetails.textContent = `${currentPokemon.hp ?? 0} / ${getMaxHp(currentPokemon) || '?'}`;
     selectedNameDetails.textContent = currentPokemon === null ? "No Pokémon Selected" : currentPokemon.species;
 
-    selectedImgDetails.innerHTML = `<img src="${currentPokemon.imgUrl}" alt="${currentPokemon.species}">`;
+    if (selectedTypesDetails) {
+        selectedTypesDetails.innerHTML = renderTypeBadges(currentPokemon.type1, currentPokemon.type2);
+    }
+
+    if (selectedGenderDetails) {
+        selectedGenderDetails.textContent = currentPokemon.gender || "-";
+    }
+
+    if (selectedNatureDetails) {
+        selectedNatureDetails.textContent = currentPokemon.nature || '-';
+    }
+
+    if (selectedAbilityDetails) {
+        selectedAbilityDetails.textContent = currentPokemon.ability || '-';
+    }
+
+    if (selectedItemDetails) {
+        selectedItemDetails.textContent = currentPokemon.item || '-';
+    }
+
+    if (selectedPokeballDetails) {
+        selectedPokeballDetails.textContent = currentPokemon.capturedBy || '-';
+    }
+
+    selectedImgDetails.innerHTML = `<img src="${currentPokemon.imgUrl || '/assets/icons/pokeball.svg'}" alt="${currentPokemon.species || 'Pokémon'}">`;
 
     selectedHealthBarDetails.style.width = updateLifeBar(currentPokemon);
     selectedXpBarDetails.style.width = updateXpBar(currentPokemon);

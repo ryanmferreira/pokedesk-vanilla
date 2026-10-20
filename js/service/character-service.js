@@ -1,5 +1,5 @@
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js"
-import { ref, set, push, update, onValue, query, orderByChild, onChildAdded, equalTo } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js";
+import { ref, set, push, query, orderByChild, onChildAdded, equalTo } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js";
 
 import { auth } from "../database/firebase-config.js";
 import { database } from "/js/database/database.js";

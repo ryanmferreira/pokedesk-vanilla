@@ -1,6 +1,5 @@
-import { characterState } from "../player/player-state.js";
-import { renderCapturedPokemons } from "./pokemon-render.js";
 import { setCurrentPokemon } from "./pokemon-management.js";
+import { renderCapturedPokemons } from "./pokemon-render.js";
 
 /* ==========================================================================
    MODAL AND UI CONTROL
@@ -18,6 +17,12 @@ export function showSelectedPokemon() {
     if (el) {
         el.style.display = 'flex';
     }
+
+    const inspector = document.querySelector('.pc-inspector');
+
+    if (inspector) {
+        inspector.classList.add('has-selection');
+    }
 }
 
 export function hiddenSelectedPokemon() {
@@ -25,6 +30,12 @@ export function hiddenSelectedPokemon() {
 
     if (el) {
         el.style.display = 'none';
+    }
+
+    const inspector = document.querySelector('.pc-inspector');
+
+    if (inspector) {
+        inspector.classList.remove('has-selection');
     }
 }
 
@@ -63,6 +74,18 @@ export function clearSelection() {
 
     if (nameDetails) {
         nameDetails.textContent = "No Pokémon Selected";
+    }
+
+    const typesDetails = document.getElementById('detail-types');
+
+    if (typesDetails) {
+        typesDetails.innerHTML = '';
+    }
+
+    const genderDetails = document.getElementById('detail-gender');
+
+    if (genderDetails) {
+        genderDetails.textContent = '-';
     }
 }
 

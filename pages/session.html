@@ -19,7 +19,7 @@
 
 <body>
     <nav>
-        <button id="open-mobile-menu" type="button" class="mobile-menu-toggle">☰ Menu</button>
+        <button id="open-mobile-menu" type="button" class="mobile-menu-toggle">Menu</button>
 
         <div class="nav-header">
             <h1 id="user-name">Hello, Visitor!</h1>
@@ -203,45 +203,63 @@
 
     <!-- Pop-up Inventory -->
     <div id="inventory-modal" class="modal-overlay hidden">
-        <div class="modal-card container">
-            <div class="static-row align-between">
-                <h2>INVENTORY</h2>
-                <h2 class="get-player-name">Player Name</h2>
+        <div class="modal-card container inventory-modal-card">
+
+            <!-- Header -->
+            <div class="static-row align-between pokemon-info-header">
+                <div class="column pokemon-info-title">
+                    <span class="panel-label">Trainer Bag</span>
+                    <h2>Inventory</h2>
+                </div>
+
+                <div class="column modal-trainer">
+                    <span class="panel-label">Trainer</span>
+                    <span class="get-player-name panel-value">Player Name</span>
+                </div>
             </div>
 
             <hr>
 
             <!-- Cash in Hand -->
-            <div class="column">
-                <h6>CASH IN HAND</h6>
-                <div class="static-row inventory-section" style="align-items: center;">
-                    <button class="plus-button">₽</button>
-                    <input class="inventory-item-input" onchange="updateCash(value)" type="number" id="inventory-cash">
+            <div class="detail-box inventory-cash-box">
+                <span class="panel-label">Cash in Hand</span>
+
+                <div class="static-row inventory-cash-row">
+                    <span class="inventory-cash-symbol">₽</span>
+                    <input class="inventory-cash-input" onchange="updateCash(this.value)" type="number"
+                        id="inventory-cash">
                 </div>
             </div>
 
-            <div class="column">
-                <div class="row flex-grow">
-                    <h5 class="flex-grow">CATEGORIES</h5>
-                    <h5 class="flex-grow">ITEMS</h5>
-                </div>
+            <!-- Categories + Items -->
+            <div class="inventory-content">
 
-                <div class="inventory-content">
+                <div class="inventory-sidebar column">
+                    <div class="section-head">
+                        <span class="panel-label">Categories</span>
+                    </div>
 
                     <div id="inventory-categories" class="inventory-categories">
+                    </div>
+                </div>
+
+                <div class="inventory-main column">
+                    <div class="section-head">
+                        <span class="panel-label">Items</span>
+                        <span id="inventory-item-count" class="section-count">0</span>
                     </div>
 
                     <div id="inventory-items-container" class="inventory-items-container">
                     </div>
-
                 </div>
+
             </div>
 
             <hr>
 
             <!-- Pop-up actions -->
-            <div class="static-row">
-                <button id="add-item-btn" class="expand">Add Item +</button>
+            <div class="action-row">
+                <button id="add-item-btn" class="flex-grow">Add Item +</button>
                 <button onclick="closeInventory()" class="btn-red">Close</button>
             </div>
         </div>
@@ -264,164 +282,158 @@
         </div>
     </div>
 
-    <!-- Pokémon Management Modal -->
+    <!-- Pokémon Management Modal (PC) -->
     <div id="pokemon-management-modal" class="modal-overlay hidden">
-        <div class="modal-card container">
+        <div class="modal-card container pc-modal-card">
 
             <!-- Header -->
-            <div class="static-row align-between">
-                <h2 id="manage-pokemon-name">No Pokémon Selected</h2>
-                <h2 class="get-player-name">Player Name</h2>
+            <div class="static-row align-between pokemon-info-header">
+                <div class="column pokemon-info-title">
+                    <span class="panel-label">Pokémon Storage</span>
+                    <h2>PC Box</h2>
+                </div>
+
+                <div class="column modal-trainer">
+                    <span class="panel-label">Trainer</span>
+                    <span class="get-player-name panel-value">Player Name</span>
+                </div>
             </div>
 
             <hr>
 
-            <!-- Top Panel: Selected Pokémon Basic Info -->
-            <div class="column select-pokemon">
-                <div class="pokemon-detail-panel">
-                    <div id="detail-img" class="detail-box avatar-box"></div>
+            <!-- Scrollable body -->
+            <div class="pc-body">
 
-                    <div class="detail-box exp-box static-row">
-                        <div class="column">
-                            <span class="panel-label">EXP - <span id="detail-exp-num">~</span></span>
-                            <div class="health-bar-container blue-bar">
-                                <div id="detail-exp-bar" class="health-bar-fill" style="width: 75%;"></div>
+                <!-- Selected Pokémon -->
+                <aside class="pc-inspector column">
+
+                    <div id="pc-inspector-empty" class="pc-inspector__empty">
+                        <img src="/assets/icons/pokeball.svg" alt="" class="pc-inspector__empty-icon">
+                        <span class="panel-label">Selected Pokémon</span>
+                        <p class="tiny-text">Select a Pokémon from the list to inspect it.</p>
+                    </div>
+
+                    <div class="column select-pokemon">
+                        <div class="info-hero">
+                            <div id="detail-img" class="detail-box avatar-box info-hero__image"></div>
+
+                            <div class="pc-inspector__identity">
+                                <span class="panel-label">Selected Pokémon</span>
+                                <h3 id="manage-pokemon-name">No Pokémon Selected</h3>
+                                <span id="detail-gender" class="tiny-text">-</span>
+                                <span id="detail-types" class="static-row pokemon-info__types"></span>
                             </div>
                         </div>
 
-                        <div class="column align-center">
-                            <span class="panel-label">LVL</span>
-                            <span id="detail-lvl-num" class="panel-value">~</span>
-                        </div>
-                    </div>
+                        <div class="bar-grid">
+                            <div class="stat-bar stat-bar--hp">
+                                <div class="stat-bar__head">
+                                    <span class="stat-bar__label">HP</span>
+                                    <span id="detail-hp-text" class="stat-bar__value">~ / ~</span>
+                                </div>
 
-                    <div class="flex-grow static-row correct-size">
-                        <div class="detail-box stat-box column align-center">
-                            <span class="panel-label">HP</span>
-                            <div>
-                                <span id="detail-hp-text" class="panel-value">~ / ~</span>
-                                <div class="health-bar-container green-bar">
-                                    <div id="detail-life-bar" class="health-bar-fill" style="width: 75%;"></div>
+                                <div class="stat-bar__track">
+                                    <div id="detail-life-bar" class="stat-bar__fill" style="width: 0%;"></div>
+                                </div>
+                            </div>
+
+                            <div class="stat-bar stat-bar--xp">
+                                <div class="stat-bar__head">
+                                    <span class="stat-bar__label">XP</span>
+                                    <span id="detail-exp-num" class="stat-bar__value">~</span>
+                                </div>
+
+                                <div class="stat-bar__track">
+                                    <div id="detail-exp-bar" class="stat-bar__fill" style="width: 0%;"></div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="detail-box stat-box column align-center">
-                            <span class="panel-label">HAPPINESS</span>
-                            <span id="detail-happy-text" class="panel-value">~</span>
+                        <div class="tiles info-tiles">
+                            <div class="detail-box">
+                                <span class="panel-label">Level</span>
+                                <span id="detail-lvl-num" class="panel-value">~</span>
+                            </div>
+
+                            <div class="detail-box">
+                                <span class="panel-label">Happiness</span>
+                                <span id="detail-happy-text" class="panel-value">~</span>
+                            </div>
+
+                            <div class="detail-box">
+                                <span class="panel-label">Nature</span>
+                                <span id="detail-nature-text" class="panel-value panel-value--wrap">~</span>
+                            </div>
+
+                            <div class="detail-box">
+                                <span class="panel-label">Ability</span>
+                                <span id="detail-ability-text" class="panel-value panel-value--wrap">~</span>
+                            </div>
+
+                            <div class="detail-box">
+                                <span class="panel-label">Item</span>
+                                <span id="detail-item-text" class="panel-value panel-value--wrap">~</span>
+                            </div>
+
+                            <div class="detail-box">
+                                <span class="panel-label">Poké Ball</span>
+                                <span id="detail-pokeball-text" class="panel-value panel-value--wrap">~</span>
+                            </div>
+                        </div>
+
+                        <div class="pc-actions">
+                            <button id="add-selected-pokemon" class="btn-dark pc-actions__wide">Move to Party</button>
+                            <button id="edit-selected-pokemon" class="btn-dark">Edit</button>
+                            <button id="delete-selected-pokemon" class="btn-red">Release</button>
                         </div>
                     </div>
-                </div>
+                </aside>
 
-                <!--Selected Pokémon Actions -->
-                <div class="action-row">
-                    <button id="add-selected-pokemon" class="flex-grow">Move To Party</button>
-                    <button id="edit-selected-pokemon" class="flex-grow">Edit</button>
-                    <button id="delete-selected-pokemon" class="btn-red flex-grow">Release</button>
-                </div>
-            </div>
+                <!-- Captured Pokémon -->
+                <section class="detail-section pc-captured">
+                    <div class="section-head">
+                        <h3 class="section-title">Captured Pokémon</h3>
+                        <span id="captured-count" class="section-count">0</span>
+                    </div>
 
-            <!-- Inferior Section: Captured -->
-            <h3 class="section-title">CAPTURED POKÉMON</h3>
-            <select class="custom-select" id="pokemon-location-change">
-                <option value="All">All</option>
-                <option value="Box">Box</option>
-                <option value="Party">Party</option>
-            </select>
-            <hr class="dashed-hr">
+                    <div class="pc-summary">
+                        <div class="detail-box">
+                            <span class="panel-label">Total</span>
+                            <span id="pc-total-count" class="panel-value">0</span>
+                        </div>
 
-            <!-- Pokémon List -->
-            <div id="captured-pokemon-list" class="captured-grid">
-                <!-- Pokémon goes here (by JS) -->
-            </div>
+                        <div class="detail-box">
+                            <span class="panel-label">Party</span>
+                            <span id="pc-party-count" class="panel-value">0</span>
+                        </div>
 
-            <hr class="dashed-hr">
+                        <div class="detail-box">
+                            <span class="panel-label">Box</span>
+                            <span id="pc-box-count" class="panel-value">0</span>
+                        </div>
+                    </div>
 
-            <!-- Footer Actions -->
-            <div class="static-row">
-                <button id="add-pokemon-btn" class="flex-grow">Register a new Pokémon</button>
-                <button onclick="closePokemon()" class="red">Close</button>
-            </div>
-        </div>
-    </div>
+                    <div class="static-row align-between pc-filter-row">
+                        <span class="panel-label">Location</span>
+                        <select class="custom-select" id="pokemon-location-change">
+                            <option value="All">All</option>
+                            <option value="Box">Box</option>
+                            <option value="Party">Party</option>
+                        </select>
+                    </div>
 
-    <!-- Pokémon Management Modal -->
-    <div id="pokemon-management-modal" class="modal-overlay hidden">
-        <div class="modal-card container">
-
-            <!-- Header -->
-            <div class="static-row align-between">
-                <h2 id="manage-pokemon-name">No Pokémon Selected</h2>
-                <h2 class="get-player-name">Player Name</h2>
+                    <div id="captured-pokemon-list" class="captured-grid">
+                        <!-- Pokémon goes here (by JS) -->
+                    </div>
+                </section>
             </div>
 
             <hr>
 
-            <!-- Top Panel: Selected Pokémon Basic Info -->
-            <div class="column select-pokemon">
-                <div class="pokemon-detail-panel">
-                    <div id="detail-img" class="detail-box avatar-box"></div>
-
-                    <div class="detail-box exp-box static-row">
-                        <div class="column">
-                            <span class="panel-label">EXP - <span id="detail-exp-num">~</span></span>
-                            <div class="health-bar-container blue-bar">
-                                <div id="detail-exp-bar" class="health-bar-fill" style="width: 75%;"></div>
-                            </div>
-                        </div>
-
-                        <div class="column align-center">
-                            <span class="panel-label">LVL</span>
-                            <span id="detail-lvl-num" class="panel-value">~</span>
-                        </div>
-                    </div>
-
-                    <div class="flex-grow static-row correct-size">
-                        <div class="detail-box stat-box column align-center">
-                            <span class="panel-label">HP</span>
-                            <div>
-                                <span id="detail-hp-text" class="panel-value">~ / ~</span>
-                                <div class="health-bar-container green-bar">
-                                    <div id="detail-life-bar" class="health-bar-fill" style="width: 75%;"></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="detail-box stat-box column align-center">
-                            <span class="panel-label">HAPPINESS</span>
-                            <span id="detail-happy-text" class="panel-value">~</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!--Selected Pokémon Actions -->
-                <div class="action-row">
-                    <button id="add-selected-pokemon" class="flex-grow">Move To Party</button>
-                    <button id="edit-selected-pokemon" class="flex-grow">Edit</button>
-                    <button id="delete-selected-pokemon" class="btn-red flex-grow">Release</button>
-                </div>
-            </div>
-
-            <!-- Inferior Section: Captured -->
-            <h3 class="section-title">CAPTURED POKÉMON</h3>
-            <select class="custom-select" id="pokemon-location-change">
-                <option value="All">All</option>
-                <option value="Box">Box</option>
-                <option value="Party">Party</option>
-            </select>
-            <hr class="dashed-hr">
-
-            <!-- Pokémon List -->
-            <div id="captured-pokemon-list" class="captured-grid">
-                <!-- Pokémon goes here (by JS) -->
-            </div>
-
-            <hr class="dashed-hr">
-
             <!-- Footer Actions -->
-            <div class="static-row">
+            <div class="action-row">
                 <button id="add-pokemon-btn" class="flex-grow">Register a new Pokémon</button>
-                <button onclick="closePokemon()" class="red">Close</button>
+                <button onclick="closePokemon()" class="btn-red">Close</button>
             </div>
         </div>
     </div>
@@ -491,9 +503,9 @@
                     </div>
 
                     <div class="column">
-                        <h6>CAPTURED BY</h6>
+                        <h6>POKÉ BALL</h6>
                         <select id="poke-pokeball-used" class="custom-select">
-                            <option selected disabled value="">Select a Pokeball.</option>
+                            <option selected disabled value="">Select a Poké Ball.</option>
                         </select>
                     </div>
 
@@ -641,15 +653,19 @@
             <div class="static-row align-between pokemon-info-header">
 
                 <div class="column pokemon-info-title">
+                    <span class="panel-label">Pokémon Inspection</span>
+
                     <h2 id="info-pokemon-name">Pokémon</h2>
 
-                    <span id="info-pokemon-types" class="tiny-text">Type</span>
+                    <span id="info-pokemon-gender" class="tiny-text">-</span>
+
+                    <span id="info-pokemon-types" class="static-row pokemon-info__types"></span>
                 </div>
 
-                <button id="edit-pokemon-btn">Edit</button>
-
-                <button id="close-pokemon-info-modal" type="button" class="red"
-                    aria-label="Close Pokémon information">Close</button>
+                <div class="column modal-trainer">
+                    <span class="panel-label">Trainer</span>
+                    <span id="info-pokemon-trainer" class="panel-value">-</span>
+                </div>
             </div>
 
             <hr>
@@ -657,6 +673,15 @@
             <!-- Main content -->
             <div id="pokemon-info-content" class="pokemon-info-body">
                 <!-- Lines goes here (by JS) -->
+            </div>
+
+            <hr>
+
+            <!-- Footer actions -->
+            <div class="action-row">
+                <button id="edit-pokemon-btn" class="flex-grow">Edit</button>
+                <button id="close-pokemon-info-modal" type="button" class="btn-red"
+                    aria-label="Close Pokémon information">Close</button>
             </div>
         </div>
     </div>

@@ -1,7 +1,6 @@
-import { characterState } from "../player/player-state.js";
+import { renderTypeBadges } from "./pokemon-info.js";
+import { checkPokemons, handlePokemonEdit, handlePokemonSelect, maxPartySize, updateLifeBar, updateXpBar } from "./pokemon-management.js";
 import { calculateLevel, getMaxHp } from "./pokemon-rules.js";
-import { checkPokemons, updateLifeBar, handlePokemonSelect, handlePokemonEdit, maxPartySize } from "./pokemon-management.js";
-import { toggleEffectInput } from "./pokemon-modals.js";
 
 /* ==========================================================================
    CAPTURED POKEMON MANAGEMENT
@@ -40,23 +39,16 @@ export function renderPokemonParty() {
 
         pokemonSlot.innerHTML = `
             <div class="detail-box avatar-box">
-                <img class="flex-grow" src="${pokemonInfo.imgUrl}" alt="${pokemonInfo.species}">
+                <img class="flex-grow" src="${pokemonInfo.imgUrl || "/assets/icons/pokeball.svg"}" alt="${pokemonInfo.species}">
             </div>
 
             <div class="column pokemon-info">
-                <div class="static-row align-between">
+                <div class="static-row align-between pokemon-info__title">
                     <h5>${pokemonInfo.species}</h5>
-                    <span>LVL ${level}</span>
+                    <span class="pokemon-info__level">LVL ${level}</span>
                 </div>
 
-                <div class="health-bar-container">
-                    <div class="health-bar-fill" style="width: ${updateLifeBar(pokemonInfo)};"></div>
-                </div>
-
-                <div class="static-row align-between tiny-text">
-                    <span>HP ${pokemonInfo.hp} / ${getMaxHp(pokemonInfo)}</span>
-                    <span>Happiness ${pokemonInfo.happiness}/10</span>
-                </div>
+                ${statBar("HP", `${pokemonInfo.hp ?? 0} / ${getMaxHp(pokemonInfo)}`, "hp", updateLifeBar(pokemonInfo))}
             </div>
         `;
 
@@ -93,6 +85,158 @@ export function renderPokemonParty() {
 }
 
 /* ==========================================================================
+   SHARED POKEMON DETAILS
+   ========================================================================== */
+
+function detailTile(label, value, wrap = false) {
+    return `
+        <div class="detail-box">
+            <span class="panel-label">${label}</span>
+            <span class="panel-value${wrap ? " panel-value--wrap" : ""}">${value}</span>
+        </div>
+    `;
+}
+
+export function statBar(label, value, variant, percentage) {
+    return `
+        <div class="stat-bar stat-bar--${variant}">
+            <div class="stat-bar__head">
+                <span class="stat-bar__label">${label}</span>
+                <span class="stat-bar__value">${value}</span>
+            </div>
+
+            <div class="stat-bar__track">
+                <div class="stat-bar__fill" style="width: ${percentage};"></div>
+            </div>
+        </div>
+    `;
+}
+
+function renderAttackCard(attack) {
+    const typeBadge = attack.type ? renderTypeBadges(attack.type) : "";
+
+    const effect = attack.haveEffect && attack.effect
+        ? `<p class="attack-card__effect"><span class="panel-label">EFFECT</span> ${attack.effect}</p>`
+        : "";
+
+    return `
+        <article class="attack-card">
+            <header class="attack-card__head">
+                <h4>${attack.name}</h4>
+                ${typeBadge}
+            </header>
+
+            <div class="attack-card__stats">
+                <div class="attack-stat attack-stat--main">
+                    <span class="attack-stat__label">POWER</span>
+                    <span class="attack-stat__value">${attack.pwr ?? 0}</span>
+                </div>
+
+                <div class="attack-stat attack-stat--main">
+                    <span class="attack-stat__label">ACC</span>
+                    <span class="attack-stat__value">${attack.acc ?? 0}%</span>
+                </div>
+
+                <div class="attack-stat attack-stat--muted">
+                    <span class="attack-stat__label">PP</span>
+                    <span class="attack-stat__value">${attack.pp ?? 0}</span>
+                </div>
+            </div>
+
+            ${effect}
+        </article>
+    `;
+}
+
+/**
+ * Builds the shared "inspect" markup for a Pokémon. Used by both the player
+ * (session) and the Game Master modals so they always stay in sync.
+ */
+export function renderPokemonDetails(pokemon) {
+    const { level, currentXpInLevel, costForNextLevel } = calculateLevel(pokemon.xp, pokemon.levelSpeed);
+
+    const maxHp = getMaxHp(pokemon);
+    const currentHp = pokemon.hp ?? 0;
+    const status = pokemon.status || {};
+
+    const attacks = Array.isArray(pokemon.attacks)
+        ? pokemon.attacks.filter(attack => attack && attack.name && attack.name.trim() !== "")
+        : [];
+
+    return `
+        <div class="inspect-layout">
+            <div class="inspect-layout__main">
+                <div class="info-hero">
+                    <div class="detail-box avatar-box info-hero__image">
+                        <img src="${pokemon.imgUrl || "/assets/icons/pokeball.svg"}" alt="${pokemon.species || "Pokémon"}">
+                    </div>
+
+                    <div class="tiles info-tiles">
+                        ${detailTile("LEVEL", level)}
+                        ${detailTile("HAPPINESS", `${pokemon.happiness ?? 0} / 10`)}
+                        ${detailTile("NATURE", pokemon.nature || "-", true)}
+                        ${detailTile("ABILITY", pokemon.ability || "-", true)}
+                        ${detailTile("ITEM", pokemon.item || "-", true)}
+                        ${detailTile("POKÉ BALL", pokemon.capturedBy || "-", true)}
+                    </div>
+                </div>
+
+                <div class="bar-grid">
+                    ${statBar("HP", `${currentHp} / ${maxHp}`, "hp", updateLifeBar(pokemon))}
+                    ${statBar("XP", `${currentXpInLevel} / ${costForNextLevel}`, "xp", updateXpBar(pokemon))}
+                </div>
+
+                <hr>
+
+                  <div class="detail-section">
+                    <h3 class="section-title">BASE STATS</h3>
+
+                    <table class="base-stats-table">
+                        <thead>
+                            <tr>
+                                <th scope="col">HP</th>
+                                <th scope="col">ATK</th>
+                                <th scope="col">DEF</th>
+                                <th scope="col">SP. ATK</th>
+                                <th scope="col">SP. DEF</th>
+                                <th scope="col">SPD</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+                                <td>${status.hp ?? 0}</td>
+                                <td>${status.atk ?? 0}</td>
+                                <td>${status.def ?? 0}</td>
+                                <td>${status.spAtk ?? 0}</td>
+                                <td>${status.spDef ?? 0}</td>
+                                <td>${status.spd ?? 0}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="inspect-layout__side">
+                <div class="detail-section">
+                    <div class="section-head">
+                        <h3 class="section-title">ATTACKS</h3>
+                        <span class="section-count">${attacks.length}</span>
+                    </div>
+
+                    <div class="attack-grid">
+                        ${attacks.length > 0
+            ? attacks.map(renderAttackCard).join("")
+            : `<span class="tiny-text">No attacks available.</span>`
+        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+/* ==========================================================================
    POKEMON INFO MODAL
    ========================================================================== */
 
@@ -101,6 +245,8 @@ export function openPokemonInfoModal(pokemonInfo) {
     const content = document.getElementById('pokemon-info-content');
     const nameEl = document.getElementById('info-pokemon-name');
     const typesEl = document.getElementById('info-pokemon-types');
+    const genderEl = document.getElementById('info-pokemon-gender');
+    const trainerEl = document.getElementById('info-pokemon-trainer');
 
     const editPokemonBtn = document.getElementById('edit-pokemon-btn');
 
@@ -108,227 +254,30 @@ export function openPokemonInfoModal(pokemonInfo) {
         return;
     }
 
-    editPokemonBtn?.addEventListener('click', () => {
-        closePokemonInfoModal?.click();
-        handlePokemonSelect(pokemonInfo);
-        handlePokemonEdit();
-    });
-
-    /* ---------------------------------------------------------------------
-       BASIC INFORMATION
-       --------------------------------------------------------------------- */
-
-    const { level } = calculateLevel(pokemonInfo.xp, pokemonInfo.levelSpeed);
-
-    const maxHp = getMaxHp(pokemonInfo);
-    const currentHp = pokemonInfo.hp ?? 0;
-    const status = pokemonInfo.status || {};
-
-    const types = [pokemonInfo.type1, pokemonInfo.type2].filter(type => type && type !== "None").join(" / ");
-
-    const attacks = Array.isArray(pokemonInfo.attacks) ? pokemonInfo.attacks.filter(attack => attack && attack.name && attack.name.trim() !== "") : [];
-
-    /* ---------------------------------------------------------------------
-       HEADER
-       --------------------------------------------------------------------- */
+    /* Rebind on every open so a single listener always targets the
+       currently inspected Pokémon. */
+    if (editPokemonBtn) {
+        editPokemonBtn.onclick = () => {
+            closePokemonInfo();
+            handlePokemonSelect(pokemonInfo);
+            handlePokemonEdit();
+        };
+    }
 
     nameEl.textContent = pokemonInfo.species || "Unknown Pokémon";
-    typesEl.textContent = types || "Unknown Type";
+    typesEl.innerHTML = renderTypeBadges(pokemonInfo.type1, pokemonInfo.type2)
+        || '<span class="tiny-text">Unknown Type</span>';
 
-    /* ---------------------------------------------------------------------
-       CONTENT
-       --------------------------------------------------------------------- */
+    if (genderEl) {
+        genderEl.textContent = pokemonInfo.gender || "-";
+    }
 
-    content.innerHTML = `
-        <!-- ================================================================
-             POKEMON SUMMARY
-             ================================================================ -->
-        <div class="gm-pokemon-summary">
+    if (trainerEl) {
+        const playerName = document.querySelector('.get-player-name')?.textContent?.trim();
+        trainerEl.textContent = playerName || "Unknown";
+    }
 
-            <!-- IMAGE -->
-            <div class="detail-box avatar-box gm-pokemon-image">
-                <img src="${pokemonInfo.imgUrl || "/assets/icons/pokeball.svg"}" alt="${pokemonInfo.species || "Pokémon"}">
-            </div>
-
-            <!-- BASIC INFORMATION -->
-            <div class="gm-pokemon-information">
-
-                <div class="correct-size">
-                    <!-- LEVEL -->
-                    <div class="detail-box stat-box column">
-                        <span class="panel-label">LEVEL</span>
-                        <span class="panel-value">${level}</span>
-                    </div>
-
-                    <!-- XP -->
-                    <div class="detail-box stat-box column">
-                        <span class="panel-label">XP</span>
-                        <span class="panel-value">${pokemonInfo.xp ?? 0}</span>
-                    </div>
-
-                    <!-- LEVEL SPEED -->
-                    <div class="detail-box stat-box column">
-                        <span class="panel-label">LEVEL SPEED</span>
-                        <span class="panel-value">${pokemonInfo.levelSpeed || "-"}</span>
-                    </div>
-                </div>
-
-                <div class="correct-size">
-                    <!-- HP -->
-                    <div class="detail-box stat-box column">
-                        <span class="panel-label">HP</span>
-                        <span class="panel-value">${currentHp} / ${maxHp}</span>
-                    </div>
-
-                    <!-- HAPPINESS -->
-                    <div class="detail-box stat-box column">
-                        <span class="panel-label">HAPPINESS</span>
-                        <span class="panel-value">${pokemonInfo.happiness ?? 0} / 10</span>
-                    </div>
-
-                    <!-- GENDER -->
-                    <div class="detail-box stat-box column">
-                        <span class="panel-label">GENDER</span>
-                        <span class="panel-value">${pokemonInfo.gender || "-"}</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- ================================================================
-             HP BAR
-             ================================================================ -->
-        <div class="column">
-            <div class="static-row align-between">
-                <span class="panel-label">HP</span>
-                <span class="tiny-text">${currentHp} / ${maxHp}</span>
-            </div>
-
-            <div class="health-bar-container green-bar">
-                <div class="health-bar-fill" style="width: ${updateLifeBar(pokemonInfo)};"></div>
-            </div>
-        </div>
-
-        <!-- ================================================================
-             XP BAR
-             ================================================================ -->
-        <div class="column">
-            <div class="static-row align-between">
-                <span class="panel-label">XP</span>
-            </div>
-
-            <div class="health-bar-container blue-bar">
-                <div class="health-bar-fill" style="width: ${updateXpBar(pokemonInfo)};"></div>
-            </div>
-        </div>
-
-        <!-- ================================================================
-             DETAILS
-             ================================================================ -->
-        <div class="gm-pokemon-details">
-
-            <!-- NATURE -->
-            <div class="detail-box column">
-                <span class="panel-label">NATURE</span>
-                <span class="panel-value">${pokemonInfo.nature || "-"}</span>
-            </div>
-
-            <!-- ABILITY -->
-            <div class="detail-box column">
-                <span class="panel-label">ABILITY</span>
-                <span class="panel-value">${pokemonInfo.ability || "-"}</span>
-            </div>
-
-            <!-- ITEM -->
-            <div class="detail-box column">
-                <span class="panel-label">EQUIPPED ITEM</span>
-                <span class="panel-value">${pokemonInfo.item || "-"}</span>
-            </div>
-
-            <!-- CAPTURED BY -->
-            <div class="detail-box column">
-                <span class="panel-label">CAPTURED BY</span>
-                <span class="panel-value">${pokemonInfo.capturedBy || "-"}</span>
-            </div>
-        </div>
-
-        <!-- ================================================================
-             STATUS
-             ================================================================ -->
-        <div class="column">
-            <h3 class="section-title">STATUS</h3>
-
-            <div class="status-table">
-                <div class="status-table-header">
-                    <span>HP</span>
-                    <span>ATK</span>
-                    <span>DEF</span>
-                    <span>SP. ATK</span>
-                    <span>SP. DEF</span>
-                    <span>SPD</span>
-                </div>
-
-                <div class="status-table-body gm-status-values">
-                    <span>${status.hp ?? 0}</span>
-                    <span>${status.atk ?? 0}</span>
-                    <span>${status.def ?? 0}</span>
-                    <span>${status.spAtk ?? 0}</span>
-                    <span>${status.spDef ?? 0}</span>
-                    <span>${status.spd ?? 0}</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- ================================================================
-             ATTACKS
-             ================================================================ -->
-        <div class="column">
-            <div class="static-row align-between">
-                <h3 class="section-title">ATTACKS</h3>
-                <span class="tiny-text">${attacks.length}</span>
-            </div>
-
-            <div class="gm-attacks-grid">
-                ${attacks.length > 0
-            ? attacks.map(attack => `
-                    <div class="attack-card">
-                        <div class="static-row align-between">
-                            <div class="column">
-                                <h3>${attack.name}</h3>
-                                <span class="tiny-text">${attack.type || "-"}</span>
-                            </div>
-
-                            <div class="column align-center">
-                                <span class="panel-label">POWER</span>
-                                <span class="panel-value">${attack.pwr ?? 0}</span>
-                            </div>
-                        </div>
-
-                        <div class="correct-size">
-                            <div class="detail-box stat-box column">
-                                <span class="panel-label">ACC</span>
-                                <span class="panel-value">${attack.acc ?? 0}%</span>
-                            </div>
-
-                            <div class="detail-box stat-box column">
-                                <span class="panel-label">PP</span>
-                                <span class="panel-value">${attack.pp ?? 0}</span>
-                            </div>
-                        </div>
-
-                        ${attack.haveEffect && attack.effect ? `
-                        <div class="column">
-                            <span class="panel-label">EFFECT</span>
-                            <span class="tiny-text">${attack.effect}</span>
-                        </div>
-                        ` : ""}
-                    </div>
-                `).join("")
-            : `<span class="tiny-text">No attacks available.</span>`
-        }
-            </div>
-        </div>
-    `;
+    content.innerHTML = renderPokemonDetails(pokemonInfo);
 
     modal.classList.remove("hidden");
 }
@@ -374,6 +323,32 @@ export function renderCapturedPokemons() {
        RENDER POKEMON
        --------------------------------------------------------------------- */
 
+    const countEl = document.getElementById('captured-count');
+    if (countEl) {
+        countEl.textContent = pokemonLocation.length;
+    }
+
+    const totalEl = document.getElementById('pc-total-count');
+    const partyEl = document.getElementById('pc-party-count');
+    const boxEl = document.getElementById('pc-box-count');
+
+    if (totalEl) {
+        totalEl.textContent = team.length + box.length;
+    }
+
+    if (partyEl) {
+        partyEl.textContent = team.length;
+    }
+
+    if (boxEl) {
+        boxEl.textContent = box.length;
+    }
+
+    if (pokemonLocation.length === 0) {
+        listEl.innerHTML = `<span class="empty-state tiny-text">No Pokémon found here.</span>`;
+        return;
+    }
+
     for (const pokemonInfo of pokemonLocation) {
         const pokemonSlot = document.createElement('button');
         pokemonSlot.type = 'button';
@@ -392,14 +367,7 @@ export function renderCapturedPokemons() {
                     <span class="poke-item-lvl">LVL ${level}</span>
                 </div>
 
-                <div class="health-bar-container green-bar">
-                    <div class="health-bar-fill" style="width: ${updateLifeBar(pokemonInfo)};"></div>
-                </div>
-
-                <div class="static-row align-between tiny-text">
-                    <span>HP<br>${pokemonInfo.hp ?? 0} / ${getMaxHp(pokemonInfo)}</span>
-                    <span>HAPPINESS<br>${pokemonInfo.happiness ?? 0} / 10</span>
-                </div>
+                ${statBar("HP", `${pokemonInfo.hp ?? 0} / ${getMaxHp(pokemonInfo)}`, "hp", updateLifeBar(pokemonInfo))}
             </div>
         `;
 

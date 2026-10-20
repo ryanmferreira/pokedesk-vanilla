@@ -1,7 +1,7 @@
 import { database } from "/js/database/database.js";
 import { getUserData } from "/js/service/auth-service.js";
 
-import { ref, set, get, push, onValue } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js"
+import { get, onValue, push, ref, set } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js";
 
 const createSessionButton = document.getElementById('create-session');
 const createSessionNameInput = document.getElementById('create-session-name');

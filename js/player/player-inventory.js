@@ -68,6 +68,14 @@ export function renderInventoryCategories() {
 
         button.textContent = label;
 
+        const categoryItems = characterState?.bag?.[category];
+        const count = Array.isArray(categoryItems) ? categoryItems.length : 0;
+
+        const countEl = document.createElement('span');
+        countEl.className = 'inventory-category-count';
+        countEl.textContent = count;
+        button.appendChild(countEl);
+
         button.addEventListener('click', () => {
             setInventoryCategory(category);
         });
@@ -87,7 +95,25 @@ export function renderInventory() {
     container.innerHTML = '';
 
     const categoryInventory = characterState?.bag?.[currentInventoryCategory];
-    if (!Array.isArray(categoryInventory)) return;
+    const countEl = document.getElementById('inventory-item-count');
+
+    if (!Array.isArray(categoryInventory)) {
+        if (countEl) {
+            countEl.textContent = 0;
+        }
+
+        container.innerHTML = `<span class="empty-state tiny-text">No items in this category.</span>`;
+        return;
+    }
+
+    if (countEl) {
+        countEl.textContent = categoryInventory.length;
+    }
+
+    if (categoryInventory.length === 0) {
+        container.innerHTML = `<span class="empty-state tiny-text">No items in this category.</span>`;
+        return;
+    }
 
     for (const item of categoryInventory) {
         const itemRow = document.createElement('div');
@@ -101,11 +127,23 @@ export function renderInventory() {
         nameInput.className = 'inventory-item-input';
         nameInput.value = item.name || '';
 
+        const quantityField = document.createElement('div');
+        quantityField.className = 'inventory-qty-field';
+
+        const quantitySymbol = document.createElement('span');
+        quantitySymbol.className = 'inventory-qty-symbol';
+        quantitySymbol.textContent = 'x';
+        quantitySymbol.setAttribute('aria-hidden', 'true');
+
         const quantityInput = document.createElement('input');
         quantityInput.type = 'number';
         quantityInput.className = 'inventory-qty-input';
         quantityInput.value = item.quantity || 1;
         quantityInput.min = '1';
+        quantityInput.setAttribute('aria-label', 'Quantity');
+
+        quantityField.appendChild(quantitySymbol);
+        quantityField.appendChild(quantityInput);
 
         /* -------------------------------------------------------------
            MOVE BUTTON
@@ -114,8 +152,9 @@ export function renderInventory() {
         const moveButton = document.createElement('button');
         moveButton.type = 'button';
         moveButton.className = 'item-move-btn';
-        moveButton.textContent = 'MOVE';
+        moveButton.textContent = 'MOVE >';
         moveButton.title = 'Move item';
+        moveButton.setAttribute('aria-label', 'Move item');
 
         /* -------------------------------------------------------------
            DELETE BUTTON
@@ -124,7 +163,7 @@ export function renderInventory() {
         const deleteButton = document.createElement('button');
         deleteButton.type = 'button';
         deleteButton.className = 'item-delete-btn';
-        deleteButton.textContent = '×';
+        deleteButton.textContent = 'x';
         deleteButton.title = 'Delete item';
 
         /* -------------------------------------------------------------
@@ -150,6 +189,7 @@ export function renderInventory() {
             }
 
             renderInventory();
+            renderInventoryCategories();
         });
 
         /* -------------------------------------------------------------
@@ -157,7 +197,7 @@ export function renderInventory() {
            ------------------------------------------------------------- */
 
         inventorySection.appendChild(nameInput);
-        inventorySection.appendChild(quantityInput);
+        inventorySection.appendChild(quantityField);
 
         itemRow.appendChild(inventorySection);
         itemRow.appendChild(moveButton);
@@ -184,6 +224,7 @@ export function addInventoryItem() {
     });
 
     renderInventory();
+    renderInventoryCategories();
 }
 
 /* ==========================================================================
@@ -321,7 +362,7 @@ export function moveInventoryItem(targetCategory) {
     if (!inventoryCategories[targetCategory]) {
         return;
     }
-    
+
     if (targetCategory === itemToMoveSourceCategory) {
         return;
     }

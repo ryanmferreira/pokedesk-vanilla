@@ -1,5 +1,5 @@
-import { initializeInventory } from "./player-inventory.js";
 import { closePokemon } from "../pokemon/pokemon-modals.js";
+import { initializeInventory } from "./player-inventory.js";
 
 /* ==========================================================================
    MODAL AND UI CONTROL

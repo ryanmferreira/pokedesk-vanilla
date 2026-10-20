@@ -20,7 +20,7 @@
 
 <body>
     <nav>
-        <button id="open-mobile-menu" type="button" class="mobile-menu-toggle">☰ Menu</button>
+        <button id="open-mobile-menu" type="button" class="mobile-menu-toggle">Menu</button>
 
         <div class="nav-header">
             <h1 id="user-name">Hello, Visitor!</h1>
@@ -39,20 +39,21 @@
     </nav>
 
     <main>
-        <div class="container">
-            <div class="row">
-                <h1 id="gm-session-name" class="flex-grow">Session Name</h1>
+        <div class="container gm-header-card">
+            <div class="static-row align-between gm-header-top">
+                <div class="gm-header-title">
+                    <span class="panel-label">Game Master</span>
+                    <h1 id="gm-session-name">Session Name</h1>
+                </div>
 
-                <button id="copy-session-id" class="red">
-                    Copy Session ID
-                </button>
+                <button id="copy-session-id" class="red">Copy Session ID</button>
             </div>
 
             <hr>
 
-            <div class="row">
-                <h4>Session ID:</h4>
-                <h4 id="gm-session-id"></h4>
+            <div class="static-row align-between gm-session-id-row">
+                <span class="panel-label">Session ID</span>
+                <span id="gm-session-id" class="gm-session-id">-</span>
             </div>
         </div>
 
@@ -62,11 +63,17 @@
     <!-- INSPECTION MODAL -->
     <div id="inspect-modal" class="modal-overlay hidden">
         <div class="modal-card container gm-inspect-modal">
-            <div class="static-row align-between">
-                <div class="column">
-                    <h2 id="modal-char-name">Character Name</h2>
+            <div class="static-row align-between gm-modal-head">
+                <div class="static-row gm-modal-identity">
+                    <div class="avatar-box gm-modal-avatar">
+                        <img id="modal-char-image" src="/assets/icons/pokeball.svg" alt="">
+                    </div>
 
-                    <span id="modal-char-info" class="tiny-text">Race • Class</span>
+                    <div class="gm-modal-identity-text">
+                        <h2 id="modal-char-name">Character Name</h2>
+                        <span id="modal-char-info" class="tiny-text">Race - Class</span>
+                        <span id="modal-char-role" class="type-badge gm-role-badge">PLAYER</span>
+                    </div>
                 </div>
 
                 <button id="close-inspect-modal" type="button" class="red">Close</button>
@@ -83,11 +90,11 @@
     <!-- POKÉMON INFORMATION MODAL -->
     <div id="pokemon-attacks-modal" class="modal-overlay hidden">
         <div class="modal-card container gm-pokemon-modal">
-            <div class="static-row align-between">
-                <div class="column">
+            <div class="static-row align-between gm-modal-head">
+                <div class="gm-modal-identity-text">
                     <h2 id="attacks-pokemon-name">Pokémon</h2>
-
-                    <span id="attacks-pokemon-info" class="tiny-text">Pokémon Information</span>
+                    <span id="attacks-pokemon-gender" class="tiny-text">-</span>
+                    <span id="attacks-pokemon-info" class="static-row pokemon-info__types"></span>
                 </div>
 
                 <button id="close-pokemon-attacks-modal" type="button" class="red">Close</button>

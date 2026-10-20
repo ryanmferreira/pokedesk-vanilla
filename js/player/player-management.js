@@ -23,10 +23,7 @@ const characterCash = document.getElementById('inventory-cash');
 const characterImageInput = document.getElementById('character-image');
 
 // Player Attribute Displays
-const resistanceElement = document.getElementById('attr-resistance');
-const strengthElement = document.getElementById('attr-strength');
-const minElement = document.getElementById('attr-mind');
-const agilityElement = document.getElementById('attr-agility');
+// (updated dynamically via `attr-<name>` ids)
 
 // Player Base Values
 const baseHp = 0;
