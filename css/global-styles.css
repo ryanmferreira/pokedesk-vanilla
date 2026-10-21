@@ -52,6 +52,7 @@
     --border-width: 2px;
     --border-color: var(--input-contrast-color);
     --border-dashed: var(--border-width) dashed var(--border-color);
+    --border: var(--border-width) solid var(--border-color);
     --border-solid: var(--border-width) solid var(--border-color);
 
     /* Bars */

@@ -213,7 +213,7 @@
     overflow-y: auto;
     overflow-x: hidden;
 
-    border-right: var(--border-dashed);
+    border-right: var(--border);
 }
 
 .pc-inspector .select-pokemon {

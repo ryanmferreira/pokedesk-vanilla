@@ -1,7 +1,7 @@
 import { characterState } from "../player/player-state.js";
 import { loadAttackType, renderTypeBadges } from "./pokemon-info.js";
 import { clearSelection, closeEditPokemon, openEditPokemon, showSelectedPokemon } from "./pokemon-modals.js";
-import { renderAllPokemon, renderCapturedPokemons, renderPokemonAttacks } from "./pokemon-render.js";
+import { openPokemonInfoModal, renderAllPokemon, renderCapturedPokemons, renderPokemonAttacks } from "./pokemon-render.js";
 import { addXP, calculateLevel, getMaxHp, updateLevel } from "./pokemon-rules.js";
 
 /* ==========================================================================
@@ -175,6 +175,11 @@ export function handlePokemonDelete() {
 
     renderCapturedPokemons();
     clearSelection();
+}
+
+export function handlePokemonInspect() {
+    console.log("Inspecting: ", currentPokemon.species);
+    openPokemonInfoModal(currentPokemon);
 }
 
 export function alterPokemonHappiness(quantity) {
@@ -431,6 +436,11 @@ document.getElementById('delete-selected-pokemon')?.addEventListener('click', ()
 document.getElementById('edit-selected-pokemon')?.addEventListener('click', () => {
     handlePokemonEdit();
 });
+
+document.getElementById('inspect-selected-pokemon')?.addEventListener('click', () => {
+    handlePokemonInspect();
+});
+
 
 document.getElementById('save-pokemon-btn')?.addEventListener('click', () => {
     getPokemonInfo();

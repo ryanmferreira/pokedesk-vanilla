@@ -166,6 +166,8 @@ export function renderPokemonDetails(pokemon) {
     return `
         <div class="inspect-layout">
             <div class="inspect-layout__main">
+                <h3 class="section-title">Pokémon Stats</h3>
+
                 <div class="info-hero">
                     <div class="detail-box avatar-box info-hero__image">
                         <img src="${pokemon.imgUrl || "/assets/icons/pokeball.svg"}" alt="${pokemon.species || "Pokémon"}">
@@ -188,7 +190,7 @@ export function renderPokemonDetails(pokemon) {
 
                 <hr>
 
-                  <div class="detail-section">
+                <div class="detail-section">
                     <h3 class="section-title">BASE STATS</h3>
 
                     <table class="base-stats-table">
@@ -225,10 +227,7 @@ export function renderPokemonDetails(pokemon) {
                     </div>
 
                     <div class="attack-grid">
-                        ${attacks.length > 0
-            ? attacks.map(renderAttackCard).join("")
-            : `<span class="tiny-text">No attacks available.</span>`
-        }
+                        ${attacks.length > 0 ? attacks.map(renderAttackCard).join("") : `<span class="tiny-text">No attacks available.</span>`}
                     </div>
                 </div>
             </div>

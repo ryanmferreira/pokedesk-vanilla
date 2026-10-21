@@ -329,6 +329,7 @@
 /* Cash in hand --------------------------------------------------------- */
 
 .inventory-cash-box {
+    border: var(--border);
     flex-direction: column;
     gap: 2px;
     width: 100%;
@@ -481,7 +482,7 @@
 
     padding: 4px 10px;
 
-    border: var(--border-dashed);
+    border: var(--border);
 }
 
 .inventory-item-row {
