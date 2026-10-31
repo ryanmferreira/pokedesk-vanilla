@@ -39,7 +39,7 @@ async function saveUserToDatabase(user) {
 export async function handleSignOut() {
     try {
         await signOut(auth);
-        window.location.href = "../../index.html";
+        window.location.href = "/";
     } catch (error) {
         const errorMessage = `Error logging out: ${error.code} ${error.message}`;
         console.error(errorMessage);
@@ -56,7 +56,7 @@ export async function handleLogIn() {
 
         console.log("Logged user:", user);
 
-        window.location.href = "../../pages/home.html";
+        window.location.href = "/pages/home";
     } catch (error) {
         console.error("Error on log in with Google: ", error.code, error.message);
         alert(`Failed to log in with Google: ${error.message}`);

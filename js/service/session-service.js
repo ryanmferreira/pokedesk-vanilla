@@ -79,9 +79,9 @@ export async function joinSession(sessionId) {
 
     if (sessionInfo.owner === user.uid) {
         alert("Entering as Game Master!")
-        location = "/pages/game-master.html";
+        location = "/pages/game-master";
     } else {
-        location = "/pages/session.html";
+        location = "/pages/session";
     }
 
     console.log("Session saved:", getSession());
@@ -164,7 +164,7 @@ export function getSession() {
 
 export function leaveSesion() {
     localStorage.removeItem("currentSession");
-    window.location.href = "/pages/home.html";
+    window.location.href = "/pages/home";
 };
 
 createSessionButton?.addEventListener('click', () => {

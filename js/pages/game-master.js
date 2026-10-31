@@ -461,7 +461,7 @@ function renderSessionCharacters() {
                         </div>
                     </div>
 
-                    <button type="button" class="inspect-btn btn-dark expand">Inspect Character</button>
+                    <button type="button" class="inspect-btn btn-dark expand with-icon icon-eye">Inspect Character</button>
                 `;
 
                 const inspectButton = characterCard.querySelector(".inspect-btn");
@@ -557,6 +557,7 @@ async function renderSessionInfo() {
         copyToClipboard(sessionInfo.id);
 
         copySessionIdButton.textContent = "Copied!";
+
         setTimeout(() => {
             copySessionIdButton.textContent = "Copy Session ID";
         }, 2000);

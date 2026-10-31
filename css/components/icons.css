@@ -1,0 +1,79 @@
+/* ==========================================================================
+   ICONS
+   Nerd Font glyphs (Material Design set) that are already embedded in
+   Departure Mono. No extra request and no SVG files: the icons belong to
+   the same pixel font used by the whole interface.
+
+   Icons are used on buttons and navigation only. Headings, labels,
+   tiles and stat bars stay clean so the interface does not get noisy.
+   ========================================================================== */
+
+.icon {
+    display: inline-block;
+    flex-shrink: 0;
+
+    color: inherit;
+
+    font-family: "Departure Mono", monospace;
+    font-size: 1.15em;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1;
+    text-align: center;
+    text-transform: none;
+
+    vertical-align: -0.125em;
+    margin-right: 0.45em;
+}
+
+.with-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+/* Buttons keep the glyph on a pseudo-element so updating the label from
+   JavaScript (e.g. "Saving...") never removes the icon. */
+.with-icon::before {
+    content: none;
+
+    display: inline-block;
+    flex-shrink: 0;
+
+    color: inherit;
+
+    font-family: "Departure Mono", monospace;
+    font-size: 1.15em;
+    font-weight: 400;
+    line-height: 1;
+    text-align: center;
+}
+
+/* --- Navigation ----------------------------------------------------------- */
+
+.icon-menu::before { content: "\f035c"; }
+.icon-account::before { content: "\f0004"; }
+.icon-logout::before { content: "\f0343"; }
+.icon-home::before { content: "\f02dc"; }
+.icon-bag::before { content: "\f0e10"; }
+.icon-pc::before { content: "\f0379"; }
+.icon-diary::before { content: "\f082e"; }
+.icon-pokeball::before { content: "\f041d"; }
+
+/* --- Actions -------------------------------------------------------------- */
+
+.icon-dice::before { content: "\f076e"; }
+.icon-key::before { content: "\f0306"; }
+.icon-copy::before { content: "\f018f"; }
+.icon-reload::before { content: "\f0453"; }
+.icon-save::before { content: "\f0193"; }
+.icon-image::before { content: "\f02e9"; }
+.icon-close::before { content: "\f0156"; }
+.icon-eye::before { content: "\f0208"; }
+.icon-swap::before { content: "\f04e1"; }
+.icon-edit::before { content: "\f03eb"; }
+.icon-delete::before { content: "\f01b4"; }
+.icon-bolt::before { content: "\f140b"; }
+.icon-plus::before { content: "\f0415"; }
+.icon-history::before { content: "\f02da"; }

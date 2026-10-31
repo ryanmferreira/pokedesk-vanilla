@@ -39,7 +39,7 @@ async function renderLastSessions() {
         for (const session of sessions) {
 
             const sessionsButton = document.createElement('button');
-            sessionsButton.className = 'flex-grow';
+            sessionsButton.className = 'flex-grow with-icon icon-history';
 
             const sessionInfo = await getSessionInfo(session);
 

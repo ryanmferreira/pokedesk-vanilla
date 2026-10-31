@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="/css/components/loading.css">
 
     <link rel="stylesheet" href="/css/global-styles.css">
+    <link rel="stylesheet" href="/css/components/icons.css">
     <link rel="stylesheet" href="/css/layout.css">
     <link rel="stylesheet" href="/css/components/sidebar.css">
     <link rel="stylesheet" href="/css/components/modals.css">
@@ -19,7 +20,7 @@
 
 <body>
     <nav>
-        <button id="open-mobile-menu" type="button" class="mobile-menu-toggle">Menu</button>
+        <button id="open-mobile-menu" type="button" class="mobile-menu-toggle with-icon icon-menu">Menu</button>
 
         <div class="nav-header">
             <h1 id="user-name">Hello, Visitor!</h1>
@@ -29,17 +30,17 @@
         <hr>
 
         <div>
-            <button onclick="openInventory(null)">Bag</button>
-            <button onclick="openPokemon(null)">PC</button>
-            <button>Diary</button>
+            <button onclick="openInventory(null)" class="with-icon icon-bag">Bag</button>
+            <button onclick="openPokemon(null)" class="with-icon icon-pc">PC</button>
+            <button class="with-icon icon-diary">Diary</button>
         </div>
 
         <div class="expand"></div>
 
         <div class="mobile-menu-dropdown">
-            <button id="reload-button" type="button">Reload</button>
-            <button id="save-button" type="button">Save changes</button>
-            <button id="leave-session" type="button">Leave the Session</button>
+            <button id="reload-button" type="button" class="with-icon icon-reload">Reload</button>
+            <button id="save-button" type="button" class="with-icon icon-save">Save changes</button>
+            <button id="leave-session" type="button" class="with-icon icon-logout">Leave the Session</button>
         </div>
     </nav>
 
@@ -63,7 +64,7 @@
             <div class="container">
                 <div class="row align-between">
                     <h2 class="flex-grow">Basic information</h2>
-                    <button id="add-image-button">Add Image</button>
+                    <button id="add-image-button" class="with-icon icon-image">Add Image</button>
                 </div>
 
                 <hr>
@@ -257,8 +258,8 @@
 
             <!-- Pop-up actions -->
             <div class="action-row">
-                <button id="add-item-btn" class="flex-grow">Add Item +</button>
-                <button onclick="closeInventory()" class="btn-red">Close</button>
+                <button id="add-item-btn" class="flex-grow with-icon icon-plus">Add Item</button>
+                <button onclick="closeInventory()" class="btn-red with-icon icon-close">Close</button>
             </div>
         </div>
     </div>
@@ -380,10 +381,10 @@
                         </div>
 
                         <div class="pc-actions">
-                            <button id="inspect-selected-pokemon" class="btn-dark">Inspect</button>
-                            <button id="add-selected-pokemon" class="btn-dark">Move to Party</button>
-                            <button id="edit-selected-pokemon" class="btn-dark">Edit</button>
-                            <button id="delete-selected-pokemon" class="btn-red">Release</button>
+                            <button id="inspect-selected-pokemon" class="btn-dark with-icon icon-eye">Inspect</button>
+                            <button id="add-selected-pokemon" class="btn-dark with-icon icon-swap">Move to Party</button>
+                            <button id="edit-selected-pokemon" class="btn-dark with-icon icon-edit">Edit</button>
+                            <button id="delete-selected-pokemon" class="btn-red with-icon icon-delete">Release</button>
                         </div>
                     </div>
                 </aside>
@@ -431,8 +432,8 @@
 
             <!-- Footer Actions -->
             <div class="action-row">
-                <button id="add-pokemon-btn" class="flex-grow">Register a new Pokémon</button>
-                <button onclick="closePokemon()" class="btn-red">Close</button>
+                <button id="add-pokemon-btn" class="flex-grow with-icon icon-plus">Register a new Pokémon</button>
+                <button onclick="closePokemon()" class="btn-red with-icon icon-close">Close</button>
             </div>
         </div>
     </div>
@@ -444,7 +445,7 @@
             <!-- Header -->
             <div class="static-row align-between">
                 <h2>EDIT POKÉMON</h2>
-                <button class="" onclick="openAddImage()">Add Image</button>
+                <button class="with-icon icon-image" onclick="openAddImage()">Add Image</button>
             </div>
             <hr class="dashed-hr">
 
@@ -533,7 +534,7 @@
                             </div>
                             <div class="column">
                                 <h6>CONFIRM ADDITION?</h6>
-                                <button id="add-xp" class="btn-red">Add XP</button>
+                                <button id="add-xp" class="btn-red with-icon icon-bolt">Add XP</button>
                             </div>
                         </div>
 
@@ -609,8 +610,8 @@
             <!-- Footer Actions -->
             <div class="action-row">
                 <button onclick="document.getElementById('edit-pokemon-modal').classList.add('hidden')"
-                    class="flex-grow">Cancel</button>
-                <button id="save-pokemon-btn" class="btn-red flex-grow">Save</button>
+                    class="flex-grow with-icon icon-close">Cancel</button>
+                <button id="save-pokemon-btn" class="btn-red flex-grow with-icon icon-save">Save</button>
             </div>
         </div>
     </div>
@@ -624,7 +625,7 @@
 
             <input id="add-image-input" type="text" name="">
 
-            <button onclick="closeAddImage()">Close</button>
+            <button onclick="closeAddImage()" class="with-icon icon-close">Close</button>
         </div>
     </div>
 
@@ -637,7 +638,7 @@
 
             <input id="character-image" type="text" name="">
 
-            <button onclick="closeCharacterAddImage()">Close</button>
+            <button onclick="closeCharacterAddImage()" class="with-icon icon-close">Close</button>
         </div>
     </div>
 
@@ -678,8 +679,8 @@
 
             <!-- Footer actions -->
             <div class="action-row">
-                <button id="edit-pokemon-btn" class="flex-grow">Edit</button>
-                <button id="close-pokemon-info-modal" type="button" class="btn-red"
+                <button id="edit-pokemon-btn" class="flex-grow with-icon icon-edit">Edit</button>
+                <button id="close-pokemon-info-modal" type="button" class="btn-red with-icon icon-close"
                     aria-label="Close Pokémon information">Close</button>
             </div>
         </div>

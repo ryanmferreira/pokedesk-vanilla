@@ -45,6 +45,10 @@ nav button {
     text-align: start;
 }
 
+nav .with-icon {
+    justify-content: flex-start;
+}
+
 nav button:hover {
     background: var(--input-color);
     color: var(--input-contrast-color);
@@ -88,7 +92,9 @@ nav button:hover {
     }
 
     .mobile-menu-toggle {
-        display: block;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
         background: none;
         border: none;
         font-size: 16px;
@@ -144,5 +150,13 @@ nav button:hover {
         text-align: left;
         border-right: 4px solid var(--input-color);
         border-bottom: none;
+    }
+
+    nav .with-icon {
+        justify-content: center;
+    }
+
+    .mobile-menu-dropdown .with-icon {
+        justify-content: flex-start;
     }
 }

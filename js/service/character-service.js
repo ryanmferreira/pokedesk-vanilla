@@ -82,7 +82,7 @@ export async function loadCharacter(userId) {
         });
     }
     else {
-        window.location.href = "/index.html";
+        window.location.href = "/";
     }
 }
 

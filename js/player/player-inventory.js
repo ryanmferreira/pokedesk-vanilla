@@ -151,8 +151,8 @@ export function renderInventory() {
 
         const moveButton = document.createElement('button');
         moveButton.type = 'button';
-        moveButton.className = 'item-move-btn';
-        moveButton.textContent = 'MOVE >';
+        moveButton.className = 'item-move-btn with-icon icon-swap';
+        moveButton.textContent = 'Move';
         moveButton.title = 'Move item';
         moveButton.setAttribute('aria-label', 'Move item');
 
@@ -162,9 +162,9 @@ export function renderInventory() {
 
         const deleteButton = document.createElement('button');
         deleteButton.type = 'button';
-        deleteButton.className = 'item-delete-btn';
-        deleteButton.textContent = 'x';
+        deleteButton.className = 'item-delete-btn with-icon icon-delete';
         deleteButton.title = 'Delete item';
+        deleteButton.setAttribute('aria-label', 'Delete item');
 
         /* -------------------------------------------------------------
            ITEM EVENTS
@@ -332,13 +332,13 @@ function renderMoveItemModal() {
 
     const cancelButton = document.createElement('button');
     cancelButton.type = 'button';
-    cancelButton.className = 'flex-grow';
+    cancelButton.className = 'flex-grow with-icon icon-close';
     cancelButton.textContent = 'Cancel';
     cancelButton.addEventListener('click', closeMoveItemModal);
 
     const moveButton = document.createElement('button');
     moveButton.type = 'button';
-    moveButton.className = 'btn-red flex-grow';
+    moveButton.className = 'btn-red flex-grow with-icon icon-swap';
     moveButton.textContent = 'Move';
     moveButton.addEventListener('click', () => {
         moveInventoryItem(select.value);

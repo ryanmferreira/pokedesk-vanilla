@@ -10,6 +10,7 @@
     <link rel="shortcut icon" href="favicon.svg" type="image/x-icon">
 
     <link rel="stylesheet" href="/css/global-styles.css">
+    <link rel="stylesheet" href="/css/components/icons.css">
 
     <style>
         body {
@@ -19,19 +20,18 @@
             height: 100vh;
             background-color: var(--background-color);
             color: var(--input-color);
-            font-family: inherit;
             text-transform: uppercase;
         }
     </style>
 </head>
 
 <body>
-    <div>Loading PokeDesk...</div>
+    <div><span class="icon icon-pokeball" aria-hidden="true"></span>Loading PokeDesk...</div>
 
     <script type="module" src="/js/database/auth-state.js"></script>
 
     <script>
-        window.location.href = "/pages/home.html";
+        window.location.href = "/pages/home";
     </script>
 </body>
 
