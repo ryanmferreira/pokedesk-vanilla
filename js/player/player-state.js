@@ -6,6 +6,14 @@ export let characterState = {
     sessionId: 0,
     campaignRole: '',
     points: 8,
+
+    additionalPoints: {
+        resistance: 0,
+        strength: 0,
+        mind: 0,
+        agility: 0
+    },
+
     name: '',
     class: '',
     race: '',
@@ -98,6 +106,36 @@ export function migrateInventory(state) {
 }
 
 /* ==========================================================================
+   ADDITIONAL POINTS MIGRATION
+   ========================================================================== */
+
+function normalizeAdditionalPoint(value) {
+    const points = Number(value);
+
+    if (!Number.isFinite(points)) {
+        return 0;
+    }
+
+    return Math.floor(points);
+}
+
+export function migrateAdditionalPoints(state) {
+    const additionalPoints = state?.additionalPoints;
+    const isValidObject = additionalPoints
+        && typeof additionalPoints === 'object'
+        && !Array.isArray(additionalPoints);
+
+    state.additionalPoints = {
+        resistance: isValidObject ? normalizeAdditionalPoint(additionalPoints.resistance) : 0,
+        strength: isValidObject ? normalizeAdditionalPoint(additionalPoints.strength) : 0,
+        mind: isValidObject ? normalizeAdditionalPoint(additionalPoints.mind) : 0,
+        agility: isValidObject ? normalizeAdditionalPoint(additionalPoints.agility) : 0
+    };
+
+    return state;
+}
+
+/* ==========================================================================
    CHARACTER STATE
    ========================================================================== */
 
@@ -108,6 +146,7 @@ export function setCharacterState(newState) {
      */
 
     migrateInventory(newState);
+    migrateAdditionalPoints(newState);
 
     Object.assign(characterState, newState);
 }

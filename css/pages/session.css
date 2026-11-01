@@ -196,6 +196,356 @@
     opacity: 0.7;
 }
 
+/* ==========================================================================
+   DIARY
+   ========================================================================== */
+
+.diary-modal-card {
+    width: 82%;
+    max-width: 1040px;
+    max-height: 90vh;
+    overflow: hidden;
+}
+
+.diary-body {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    flex: 1 1 auto;
+    min-height: 0;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 4px;
+}
+
+.diary-content {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(230px, 280px);
+    gap: 12px;
+
+    flex: 1 1 auto;
+    width: 100%;
+    height: 55vh;
+    max-height: 560px;
+
+    min-width: 0;
+    min-height: 0;
+}
+
+.diary-notes {
+    display: grid;
+    grid-template-columns: minmax(210px, 0.8fr) minmax(0, 1.2fr);
+    gap: 12px;
+    min-width: 0;
+    min-height: 0;
+}
+
+.diary-compose {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+    min-height: 0;
+}
+
+.diary-form {
+    flex: 1 1 auto;
+    gap: 10px;
+    padding: 10px;
+    border: var(--border-solid);
+    min-width: 0;
+    min-height: 0;
+}
+
+.diary-form input:not([type="checkbox"]):not([type="radio"]) {
+    border: var(--border-solid);
+}
+
+.diary-form-actions {
+    flex-shrink: 0;
+    gap: 8px;
+}
+
+.diary-note-field {
+    flex: 0 0 auto;
+    min-height: 0;
+}
+
+.diary-note-input {
+    width: 100%;
+    height: 120px;
+    min-height: 120px;
+
+    padding: var(--input-padding);
+
+    border: var(--border-solid);
+    background-color: var(--input-camp-color);
+    color: var(--input-contrast-color);
+
+    font: inherit;
+    line-height: 1.5;
+    text-transform: none;
+    resize: none;
+}
+
+.diary-additional-section {
+    min-width: 0;
+    min-height: 0;
+    gap: 8px;
+    align-self: stretch;
+    padding-left: 12px;
+    border-left: var(--border-solid);
+}
+
+.diary-additional-hint {
+    opacity: 0.7;
+    line-height: 1.4;
+}
+
+.diary-additional-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    flex: 1 1 auto;
+    min-height: 0;
+}
+
+.diary-additional-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    flex: 1 1 0;
+
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.diary-additional-row:last-child {
+    border-bottom: 0;
+}
+
+.diary-additional-identity {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+    min-width: 0;
+}
+
+.diary-additional-name {
+    font-size: var(--font-size-small);
+    font-weight: bold;
+}
+
+.diary-additional-total {
+    font-size: var(--font-size-small);
+    opacity: 0.7;
+    white-space: nowrap;
+}
+
+.diary-additional-controls {
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.diary-additional-controls .plus-button {
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+}
+
+.diary-additional-value {
+    flex: 0 0 40px;
+    text-align: center;
+    font-size: var(--font-size-medium);
+    font-weight: bold;
+}
+
+.diary-additional-value.is-positive {
+    color: var(--green-color);
+}
+
+.diary-additional-value.is-negative {
+    color: var(--red-color);
+}
+
+.diary-additional-value.is-zero {
+    opacity: 0.6;
+}
+
+.diary-entries {
+    flex: 1 1 auto;
+    gap: 8px;
+    min-width: 0;
+    min-height: 0;
+}
+
+.diary-entries-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    flex: 1 1 auto;
+    min-width: 0;
+    min-height: 0;
+
+    padding: 2px 6px 2px 0;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.diary-entry {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    padding: 10px;
+
+    border: var(--border-solid);
+    background-color: var(--input-camp-color);
+}
+
+.diary-entry-head {
+    align-items: flex-start;
+    gap: 8px;
+}
+
+.diary-entry-title {
+    flex: 1 1 auto;
+    min-width: 0;
+    font-size: var(--font-size-medium);
+
+    overflow-wrap: anywhere;
+}
+
+.diary-entries-list .empty-state {
+    border: var(--border-solid);
+    background-color: var(--input-camp-color);
+}
+
+.diary-entry-date {
+    opacity: 0.7;
+}
+
+.diary-entry-content {
+    font-size: var(--font-size-base);
+    font-weight: normal;
+    line-height: 1.5;
+    text-transform: none;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.diary-entry-actions {
+    display: flex;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+.diary-entry-action {
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+    padding: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: transparent;
+    color: var(--input-contrast-color);
+    border: 2px solid var(--input-contrast-color);
+}
+
+.diary-entry-delete {
+    color: var(--red-color);
+    border-color: var(--red-color);
+}
+
+.diary-modal-card>.action-row>button {
+    flex: 1 1 auto;
+    width: 100%;
+}
+
+
+/* ==========================================================================
+   DIARY RESPONSIVE
+   ========================================================================== */
+
+@media screen and (max-width: 800px) {
+
+    .diary-modal-card {
+        width: 100%;
+        height: auto;
+        overflow: hidden;
+    }
+
+    .diary-modal-card>hr,
+    .diary-modal-card>.pokemon-info-header,
+    .diary-modal-card>.action-row {
+        flex-shrink: 0;
+    }
+
+    .diary-content {
+        display: flex;
+        flex-direction: column;
+        flex: 0 0 auto;
+
+        height: auto;
+        max-height: none;
+    }
+
+    .diary-notes {
+        flex: 0 0 auto;
+    }
+
+    .diary-note-input {
+        height: 140px;
+        min-height: 140px;
+    }
+
+    .diary-entries {
+        flex: 0 0 auto;
+    }
+
+    .diary-entries-list {
+        max-height: 30vh;
+    }
+
+    .diary-additional-section {
+        flex: 0 0 auto;
+        align-self: stretch;
+        height: auto;
+        padding: 12px 0 0;
+        border-top: var(--border-solid);
+        border-left: 0;
+        overflow: visible;
+    }
+
+    .diary-additional-list {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        column-gap: 16px;
+    }
+}
+
+@media screen and (max-width: 520px) {
+
+    .diary-notes {
+        grid-template-columns: 1fr;
+    }
+
+    .diary-additional-list {
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+}
+
 
 /* ==========================================================================
    RESPONSIVE

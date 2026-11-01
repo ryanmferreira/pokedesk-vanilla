@@ -33,6 +33,7 @@ export async function saveCharacter(user, characterData) {
             image: characterData.image || "",
             campaignRole: characterData.campaignRole || "Player",
             points: characterData.points || 8,
+            additionalPoints: characterData.additionalPoints || {},
             name: characterData.name || "",
             class: characterData.class || "",
             race: characterData.race || "",

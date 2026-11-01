@@ -39,8 +39,8 @@ const addCharacterImageModal = document.getElementById('add-character-image-moda
    ========================================================================== */
 
 export function calculateMaxHP() {
-    const resistance = characterState?.attributes?.resistance ?? 0;
-    return baseHp + (resistance * 15);
+    const resistance = getAttributeTotal('resistance');
+    return Math.max(0, baseHp + (resistance * 15));
 }
 
 export function updateMaxHP() {
@@ -51,7 +51,7 @@ export function updatePlayerHP() {
     updateMaxHP();
 
     const currentHp = characterState?.hp ?? 0;
-    const maxHp = characterMaxHp || 1;
+    const maxHp = Math.max(0, characterMaxHp);
 
     if (currentHpElement) {
         currentHpElement.textContent = currentHp;
@@ -65,7 +65,9 @@ export function updatePlayerHP() {
         maxHpElement.textContent = maxHp;
     }
 
-    const percentage = Math.max(0, Math.min(100, Math.round((currentHp / maxHp) * 100)));
+    const percentage = maxHp > 0
+        ? Math.max(0, Math.min(100, Math.round((currentHp / maxHp) * 100)))
+        : 0;
 
     if (hpPercentageElement) {
         hpPercentageElement.textContent = `${percentage}%`;
@@ -77,17 +79,86 @@ export function updatePlayerHP() {
     }
 }
 
+const ATTRIBUTE_NAMES = ['resistance', 'strength', 'mind', 'agility'];
+
+function getAdditionalPoints(attributeName) {
+    const additionalPoints = characterState?.additionalPoints;
+
+    if (!additionalPoints || typeof additionalPoints !== 'object') {
+        return 0;
+    }
+
+    return Number(additionalPoints[attributeName]) || 0;
+}
+
+export function getAttributeTotal(attributeName) {
+    const baseValue = Number(characterState?.attributes?.[attributeName]) || 0;
+
+    return baseValue + getAdditionalPoints(attributeName);
+}
+
+function updateAttributeDisplay(attributeName) {
+    const attrDisplay = document.getElementById(`attr-${attributeName}`);
+
+    if (attrDisplay) {
+        attrDisplay.textContent = getAttributeTotal(attributeName);
+    }
+}
+
+export function alterAdditionalPoints(attributeName, quantity) {
+    if (!ATTRIBUTE_NAMES.includes(attributeName)) {
+        return 0;
+    }
+
+    if (!characterState.additionalPoints || typeof characterState.additionalPoints !== 'object') {
+        characterState.additionalPoints = {
+            resistance: 0,
+            strength: 0,
+            mind: 0,
+            agility: 0
+        };
+    }
+
+    const currentValue = getAdditionalPoints(attributeName);
+    const newValue = currentValue + quantity;
+
+    characterState.additionalPoints[attributeName] = newValue;
+
+    updateAttributeDisplay(attributeName);
+    updatePlayerHP();
+
+    return newValue;
+}
+
+function getUsedAttributePoints() {
+    let usedPoints = 0;
+
+    for (const value of Object.values(characterState?.attributes ?? {})) {
+        usedPoints += Number(value) || 0;
+    }
+
+    return usedPoints;
+}
+
+function getMaxAttributePoints() {
+    return (Number(characterState?.points) || 0) + 4;
+}
+
+export function updateAvailablePoints() {
+    if (!avaliablePoints) return;
+
+    const remainingPoints = getMaxAttributePoints() - getUsedAttributePoints();
+    avaliablePoints.innerText = `Points to distribute: ${remainingPoints}`;
+}
+
 export function alterAttribute(attributeName, quantity) {
     if (!characterState?.attributes) return;
 
-    let currentUsedPoints = 0;
-    for (let key in characterState.attributes) {
-        currentUsedPoints += characterState.attributes[key];
-    }
-
-    const maxPointsAllowed = characterState.points + 4;
+    const currentUsedPoints = getUsedAttributePoints();
+    const maxPointsAllowed = getMaxAttributePoints();
 
     if (quantity > 0 && currentUsedPoints >= maxPointsAllowed) {
+        updateAvailablePoints();
         return;
     }
 
@@ -98,20 +169,8 @@ export function alterAttribute(attributeName, quantity) {
 
     characterState.attributes[attributeName] = newValue;
 
-    let updatedUsedPoints = 0;
-    for (let key in characterState.attributes) {
-        updatedUsedPoints += characterState.attributes[key];
-    }
-
-    if (avaliablePoints) {
-        avaliablePoints.innerText = `Points to distribute: ${maxPointsAllowed - updatedUsedPoints}`;
-    }
-
-    const attrDisplay = document.getElementById(`attr-${attributeName}`);
-    if (attrDisplay) {
-        attrDisplay.textContent = characterState.attributes[attributeName];
-    }
-
+    updateAvailablePoints();
+    updateAttributeDisplay(attributeName);
     updatePlayerHP();
 }
 
@@ -217,11 +276,8 @@ export function setPlayerInfo() {
     updateLastSaved();
 
     if (characterState.attributes) {
-        for (const [attr, val] of Object.entries(characterState.attributes)) {
-            const attrDisplay = document.getElementById(`attr-${attr}`);
-            if (attrDisplay) {
-                attrDisplay.textContent = val;
-            }
+        for (const attr of Object.keys(characterState.attributes)) {
+            updateAttributeDisplay(attr);
         }
     }
 
@@ -290,6 +346,7 @@ window.calculateMaxHP = calculateMaxHP;
 window.updateMaxHP = updateMaxHP;
 window.updatePlayerHP = updatePlayerHP;
 window.alterAttribute = alterAttribute;
+window.alterAdditionalPoints = alterAdditionalPoints;
 window.alterHP = alterHP;
 window.getPlayerInfo = getPlayerInfo;
 window.setPlayerInfo = setPlayerInfo;

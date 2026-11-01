@@ -82,7 +82,6 @@ function openInspectModal(char) {
     const race = char.race || "Unknown Race";
     const characterClass = char.class || "Unknown Class";
     const campaignRole = char.campaignRole || "PLAYER";
-    const attributes = char.attributes || {};
 
     const inventory = Array.isArray(char.inventory) ? char.inventory : [];
     const bag = char.bag ? Object.values(char.bag).flat() : inventory;
@@ -135,22 +134,22 @@ function openInspectModal(char) {
             <div class="tiles">
                 <div class="detail-box">
                     <span class="panel-label">STR</span>
-                    <span class="panel-value">${attributes.strength ?? 1}</span>
+                    <span class="panel-value">${getCharacterAttribute(char, 'strength')}</span>
                 </div>
 
                 <div class="detail-box">
                     <span class="panel-label">AGI</span>
-                    <span class="panel-value">${attributes.agility ?? 1}</span>
+                    <span class="panel-value">${getCharacterAttribute(char, 'agility')}</span>
                 </div>
 
                 <div class="detail-box">
                     <span class="panel-label">RES</span>
-                    <span class="panel-value">${attributes.resistance ?? 1}</span>
+                    <span class="panel-value">${getCharacterAttribute(char, 'resistance')}</span>
                 </div>
 
                 <div class="detail-box">
                     <span class="panel-label">MND</span>
-                    <span class="panel-value">${attributes.mind ?? 1}</span>
+                    <span class="panel-value">${getCharacterAttribute(char, 'mind')}</span>
                 </div>
             </div>
         `, { collapsible: false })}
@@ -300,9 +299,19 @@ function renderBoxPokemon(pokemon, index) {
    CHARACTER / ITEM HELPERS
    ========================================================================== */
 
+function getCharacterAttribute(char, attributeName) {
+    const baseValue = Number(char?.attributes?.[attributeName] ?? 1) || 0;
+    const additionalPoints = char?.additionalPoints;
+    const bonus = additionalPoints && typeof additionalPoints === 'object'
+        ? Number(additionalPoints[attributeName]) || 0
+        : 0;
+
+    return baseValue + bonus;
+}
+
 function getCharacterMaxHp(char) {
-    const resistance = char?.attributes?.resistance ?? 0;
-    return resistance * 15;
+    const resistance = getCharacterAttribute(char, 'resistance');
+    return Math.max(0, resistance * 15);
 }
 
 function formatCash(cash) {

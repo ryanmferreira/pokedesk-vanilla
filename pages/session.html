@@ -32,7 +32,7 @@
         <div>
             <button onclick="openInventory(null)" class="with-icon icon-bag">Bag</button>
             <button onclick="openPokemon(null)" class="with-icon icon-pc">PC</button>
-            <button class="with-icon icon-diary">Diary</button>
+            <button onclick="openDiary()" class="with-icon icon-diary">Diary</button>
         </div>
 
         <div class="expand"></div>
@@ -201,6 +201,96 @@
             </div>
         </div>
     </main>
+
+    <!-- Pop-up Diary -->
+    <div id="diary-modal" class="modal-overlay hidden">
+        <div class="modal-card container diary-modal-card">
+
+            <!-- Header -->
+            <div class="static-row align-between pokemon-info-header">
+                <div class="column pokemon-info-title">
+                    <span class="panel-label">Session Journal</span>
+                    <h2>Diary</h2>
+                </div>
+
+                <div class="column modal-trainer">
+                    <span class="panel-label">Trainer</span>
+                    <span class="get-player-name panel-value">Player Name</span>
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="diary-body">
+                <div class="diary-content">
+
+                    <div class="diary-notes">
+
+                        <!-- New note -->
+                        <div class="diary-compose">
+                            <div class="section-head">
+                                <span class="panel-label">New note</span>
+                            </div>
+
+                            <div class="column diary-form">
+                                <div class="column">
+                                    <h6>Title</h6>
+                                    <input id="diary-title" type="text" maxlength="80" placeholder="Note title">
+                                </div>
+
+                                <div class="column diary-note-field">
+                                    <h6>Note</h6>
+                                    <textarea id="diary-note" class="diary-note-input" maxlength="4000"
+                                        placeholder="Write your note..."></textarea>
+                                </div>
+
+                                <div class="static-row diary-form-actions">
+                                    <button id="add-diary-note" type="button" class="flex-grow with-icon icon-plus">Add
+                                        note</button>
+                                    <button id="cancel-diary-edit" type="button"
+                                        class="btn-red hidden with-icon icon-close">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Saved notes -->
+                        <div class="column diary-entries">
+                            <div class="section-head">
+                                <span class="panel-label">Entries</span>
+                                <span id="diary-entry-count" class="section-count">0</span>
+                            </div>
+
+                            <div id="diary-entries" class="diary-entries-list">
+                                <!-- Notes go here (by JS) -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Additional points sidebar -->
+                    <aside class="detail-section diary-additional-section">
+                        <div class="section-head">
+                            <span class="panel-label">Additional points</span>
+                        </div>
+
+                        <p class="diary-additional-hint tiny-text">
+                            Use + for buffs and - for debuffs.
+                        </p>
+
+                        <div id="diary-additional-points" class="diary-additional-list">
+                            <!-- Attribute bonuses go here (by JS) -->
+                        </div>
+                    </aside>
+                </div>
+            </div>
+
+            <hr>
+
+            <!-- Pop-up actions -->
+            <div class="action-row">
+                <button onclick="closeDiary()" class="btn-red with-icon icon-close">Close</button>
+            </div>
+        </div>
+    </div>
 
     <!-- Pop-up Inventory -->
     <div id="inventory-modal" class="modal-overlay hidden">
@@ -382,7 +472,8 @@
 
                         <div class="pc-actions">
                             <button id="inspect-selected-pokemon" class="btn-dark with-icon icon-eye">Inspect</button>
-                            <button id="add-selected-pokemon" class="btn-dark with-icon icon-swap">Move to Party</button>
+                            <button id="add-selected-pokemon" class="btn-dark with-icon icon-swap">Move to
+                                Party</button>
                             <button id="edit-selected-pokemon" class="btn-dark with-icon icon-edit">Edit</button>
                             <button id="delete-selected-pokemon" class="btn-red with-icon icon-delete">Release</button>
                         </div>
@@ -690,6 +781,7 @@
     <script type="module" src="/js/player/player-management.js"></script>
     <script type="module" src="/js/player/player-modals.js"></script>
     <script type="module" src="/js/player/player-inventory.js"></script>
+    <script type="module" src="/js/player/player-diary.js"></script>
 
     <script type="module" src="/js/pages/session.js"></script>
 
