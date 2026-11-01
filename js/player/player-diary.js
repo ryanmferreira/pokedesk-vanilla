@@ -12,13 +12,22 @@ const diaryTitleInput = document.getElementById('diary-title');
 const diaryNoteInput = document.getElementById('diary-note');
 const addDiaryNoteButton = document.getElementById('add-diary-note');
 const cancelDiaryEditButton = document.getElementById('cancel-diary-edit');
+const diaryComposeLabel = document.getElementById('diary-compose-label');
 const diaryAdditionalPointsElement = document.getElementById('diary-additional-points');
+const diaryAdditionalSummary = document.getElementById('diary-additional-summary');
 
 const ATTRIBUTE_LABELS = {
     resistance: 'Resistance',
     strength: 'Strength',
     mind: 'Mind',
     agility: 'Agility'
+};
+
+const ATTRIBUTE_ABBREVIATIONS = {
+    resistance: 'RES',
+    strength: 'STR',
+    mind: 'MND',
+    agility: 'AGI'
 };
 
 let editingEntryId = null;
@@ -97,6 +106,23 @@ function formatBonus(value) {
     return value > 0 ? `+${value}` : String(value);
 }
 
+function getAdditionalPointsSummary() {
+    const activeModifiers = Object.keys(ATTRIBUTE_LABELS)
+        .map(attributeName => [attributeName, getAdditionalPointsFor(attributeName)])
+        .filter(([, value]) => value !== 0)
+        .map(([attributeName, value]) => `${ATTRIBUTE_ABBREVIATIONS[attributeName]} ${formatBonus(value)}`);
+
+    return activeModifiers.length > 0
+        ? activeModifiers.join(' • ')
+        : 'No modifiers';
+}
+
+function updateAdditionalPointsSummary() {
+    if (diaryAdditionalSummary) {
+        diaryAdditionalSummary.textContent = getAdditionalPointsSummary();
+    }
+}
+
 /* ==========================================================================
    RENDER ADDITIONAL POINTS
    ========================================================================== */
@@ -153,6 +179,8 @@ export function renderAdditionalPoints() {
 
         diaryAdditionalPointsElement.appendChild(row);
     }
+
+    updateAdditionalPointsSummary();
 }
 
 function changeAdditionalPoints(attributeName, quantity) {
@@ -191,11 +219,16 @@ export function renderDiary() {
         entryElement.className = 'diary-entry';
 
         const entryHead = document.createElement('div');
-        entryHead.className = 'static-row align-between diary-entry-head';
+        entryHead.className = 'diary-entry-head';
+
+        const entryHeading = document.createElement('div');
+        entryHeading.className = 'diary-entry-heading';
 
         const entryTitle = document.createElement('h4');
         entryTitle.className = 'diary-entry-title';
         entryTitle.textContent = entry.title || 'Untitled note';
+
+        entryHeading.appendChild(entryTitle);
 
         const entryActions = document.createElement('div');
         entryActions.className = 'diary-entry-actions';
@@ -215,18 +248,32 @@ export function renderDiary() {
         deleteButton.addEventListener('click', () => deleteDiaryEntry(entry.id));
 
         entryActions.append(editButton, deleteButton);
-        entryHead.append(entryTitle, entryActions);
-        entryElement.appendChild(entryHead);
+        entryHead.append(entryHeading, entryActions);
 
         const dateSource = entry.updatedAt || entry.createdAt;
         const entryDate = formatDiaryDate(dateSource);
 
         if (entryDate) {
+            const metaElement = document.createElement('div');
+            metaElement.className = 'diary-entry-meta';
+
             const dateElement = document.createElement('span');
             dateElement.className = 'diary-entry-date tiny-text';
-            dateElement.textContent = entry.updatedAt ? `${entryDate} (edited)` : entryDate;
-            entryElement.appendChild(dateElement);
+            dateElement.textContent = entryDate;
+
+            metaElement.appendChild(dateElement);
+
+            if (entry.updatedAt) {
+                const editedElement = document.createElement('span');
+                editedElement.className = 'diary-entry-edited';
+                editedElement.textContent = 'Edited';
+                metaElement.appendChild(editedElement);
+            }
+
+            entryHeading.appendChild(metaElement);
         }
+
+        entryElement.appendChild(entryHead);
 
         if (entry.content) {
             const contentElement = document.createElement('p');
@@ -290,6 +337,10 @@ function startEditingDiaryEntry(entryId) {
 
     editingEntryId = entry.id;
 
+    if (diaryComposeLabel) {
+        diaryComposeLabel.textContent = 'Editing note';
+    }
+
     if (diaryTitleInput) {
         diaryTitleInput.value = entry.title || '';
     }
@@ -311,6 +362,10 @@ function startEditingDiaryEntry(entryId) {
 
 function resetDiaryForm() {
     editingEntryId = null;
+
+    if (diaryComposeLabel) {
+        diaryComposeLabel.textContent = 'New note';
+    }
 
     if (diaryTitleInput) {
         diaryTitleInput.value = '';

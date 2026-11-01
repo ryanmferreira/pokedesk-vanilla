@@ -1,0 +1,27 @@
+/* ==========================================================================
+   MESSAGE MODAL
+   Compact dialog used instead of native alert().
+   ========================================================================== */
+
+.message-modal-card {
+    width: 100%;
+    max-width: 420px;
+    gap: 12px;
+}
+
+.message-modal-head {
+    flex-grow: 0;
+}
+
+.message-modal-text {
+    font-size: var(--font-size-base);
+    font-weight: bold;
+    line-height: 1.6;
+    text-transform: none;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.message-modal-card>.action-row {
+    margin-top: auto;
+}

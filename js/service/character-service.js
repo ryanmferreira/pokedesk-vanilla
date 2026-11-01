@@ -4,6 +4,7 @@ import { ref, set, push, query, orderByChild, onChildAdded, equalTo } from "http
 import { auth } from "../database/firebase-config.js";
 import { database } from "/js/database/database.js";
 import { getUserData } from "/js/service/auth-service.js";
+import { showMessage } from "/js/components/message-modal.js";
 import { getSession, getLastSessions } from "./session-service.js";
 import { characterState, setCharacterState } from "../player/player-state.js";
 import { setPlayerInfo } from "../player/player-management.js";
@@ -106,10 +107,10 @@ handleSaveButton.addEventListener('click', async () => {
 
         window.updateLastSaved();
 
-        alert("Character Saved!");
+        showMessage("Character Saved!", { title: 'Saved' });
     } catch (error) {
         console.error("Error on saving character:", error);
-        alert("Error on saving character.");
+        showMessage("Error on saving character.", { title: 'Error' });
     } finally {
         handleSaveButton.disabled = false;
         handleSaveButton.textContent = "Save changes";
@@ -124,16 +125,16 @@ handleReloadButton.addEventListener('click', async () => {
         const user = await getUserData();
 
         if (!user) {
-            alert("Nenhum usuário logado!");
+            showMessage("Nenhum usuário logado!", { title: 'Error' });
             return;
         }
 
         loadCharacter(user.uid);
 
-        alert("Character loaded!");
+        showMessage("Character loaded!", { title: 'Loaded' });
     } catch (error) {
         console.error("Error on reloading character:", error);
-        alert("Error on reloading character.");
+        showMessage("Error on reloading character.", { title: 'Error' });
     } finally {
         handleReloadButton.disabled = false;
         handleReloadButton.textContent = "Reload";

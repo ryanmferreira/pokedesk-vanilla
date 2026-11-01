@@ -1,4 +1,5 @@
 import { characterState } from "../player/player-state.js";
+import { showMessage } from "../components/message-modal.js";
 import { loadAttackType, renderTypeBadges } from "./pokemon-info.js";
 import { clearSelection, closeEditPokemon, openEditPokemon, showSelectedPokemon } from "./pokemon-modals.js";
 import { openPokemonInfoModal, renderAllPokemon, renderCapturedPokemons, renderPokemonAttacks } from "./pokemon-render.js";
@@ -281,7 +282,7 @@ export function moveToTeam() {
         box.push(pokemonToMove);
     } else {
         if (team.length >= 6) {
-            alert("Team already full!");
+            showMessage("Team already full!", { title: 'Team full' });
             return;
         }
 

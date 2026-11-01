@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="/css/layout.css">
     <link rel="stylesheet" href="/css/components/sidebar.css">
     <link rel="stylesheet" href="/css/components/modals.css">
+    <link rel="stylesheet" href="/css/components/message-modal.css">
     <link rel="stylesheet" href="/css/pages/session.css">
 </head>
 
@@ -222,65 +223,71 @@
             <hr>
 
             <div class="diary-body">
-                <div class="diary-content">
+                <div class="diary-workspace">
 
-                    <div class="diary-notes">
-
-                        <!-- New note -->
-                        <div class="diary-compose">
-                            <div class="section-head">
-                                <span class="panel-label">New note</span>
-                            </div>
-
-                            <div class="column diary-form">
-                                <div class="column">
-                                    <h6>Title</h6>
-                                    <input id="diary-title" type="text" maxlength="80" placeholder="Note title">
-                                </div>
-
-                                <div class="column diary-note-field">
-                                    <h6>Note</h6>
-                                    <textarea id="diary-note" class="diary-note-input" maxlength="4000"
-                                        placeholder="Write your note..."></textarea>
-                                </div>
-
-                                <div class="static-row diary-form-actions">
-                                    <button id="add-diary-note" type="button" class="flex-grow with-icon icon-plus">Add
-                                        note</button>
-                                    <button id="cancel-diary-edit" type="button"
-                                        class="btn-red hidden with-icon icon-close">Cancel</button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Saved notes -->
-                        <div class="column diary-entries">
-                            <div class="section-head">
-                                <span class="panel-label">Entries</span>
-                                <span id="diary-entry-count" class="section-count">0</span>
-                            </div>
-
-                            <div id="diary-entries" class="diary-entries-list">
-                                <!-- Notes go here (by JS) -->
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Additional points sidebar -->
-                    <aside class="detail-section diary-additional-section">
+                    <!-- New note -->
+                    <section class="detail-section diary-compose">
                         <div class="section-head">
-                            <span class="panel-label">Additional points</span>
+                            <span id="diary-compose-label" class="panel-label">New note</span>
                         </div>
 
-                        <p class="diary-additional-hint tiny-text">
+                        <div class="column diary-form">
+                            <div class="column diary-title-field">
+                                <h6>Title</h6>
+                                <input id="diary-title" type="text" maxlength="80" placeholder="Note title">
+                            </div>
+
+                            <div class="column diary-note-field">
+                                <h6>Note</h6>
+                                <textarea id="diary-note" class="diary-note-input" maxlength="4000"
+                                    placeholder="Write your note..."></textarea>
+                            </div>
+
+                            <div class="static-row diary-form-actions">
+                                <button id="add-diary-note" type="button" class="flex-grow with-icon icon-plus">Add
+                                    note</button>
+                                <button id="cancel-diary-edit" type="button"
+                                    class="btn-red hidden with-icon icon-close">Cancel</button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Saved notes -->
+                    <section class="column diary-entries">
+                        <div class="section-head">
+                            <span class="panel-label">Entries</span>
+                            <span id="diary-entry-count" class="section-count">0</span>
+                        </div>
+
+                        <div id="diary-entries" class="diary-entries-list">
+                            <!-- Notes go here (by JS) -->
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Additional points -->
+                <details class="diary-additional-section">
+                    <summary class="diary-additional-toggle">
+                        <span class="panel-label">Additional points</span>
+
+                        <span class="diary-additional-meta">
+                            <span id="diary-additional-summary" class="diary-additional-summary tiny-text">No
+                                modifiers</span>
+                            <span class="diary-additional-action" aria-hidden="true"></span>
+                            <span class="diary-additional-chevron" aria-hidden="true"></span>
+                        </span>
+                    </summary>
+
+                    <div class="diary-additional-panel">
+                        <p class="diary-additional-instructions tiny-text">
                             Use + for buffs and - for debuffs.
                         </p>
 
                         <div id="diary-additional-points" class="diary-additional-list">
                             <!-- Attribute bonuses go here (by JS) -->
                         </div>
-                    </aside>
-                </div>
+                    </div>
+                </details>
             </div>
 
             <hr>

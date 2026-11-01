@@ -1,5 +1,6 @@
 import { database } from "/js/database/database.js";
 import { auth, googleProvider, signInWithPopup, signOut } from "/js/database/firebase-config.js";
+import { showMessage } from "/js/components/message-modal.js";
 
 import { ref, set } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js";
 
@@ -43,7 +44,7 @@ export async function handleSignOut() {
     } catch (error) {
         const errorMessage = `Error logging out: ${error.code} ${error.message}`;
         console.error(errorMessage);
-        alert(errorMessage);
+        await showMessage(errorMessage, { title: 'Error' });
     }
 }
 
@@ -59,7 +60,7 @@ export async function handleLogIn() {
         window.location.href = "/pages/home";
     } catch (error) {
         console.error("Error on log in with Google: ", error.code, error.message);
-        alert(`Failed to log in with Google: ${error.message}`);
+        await showMessage(`Failed to log in with Google: ${error.message}`, { title: 'Login failed' });
     }
 }
 

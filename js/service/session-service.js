@@ -1,5 +1,6 @@
 import { database } from "/js/database/database.js";
 import { getUserData } from "/js/service/auth-service.js";
+import { showMessage } from "/js/components/message-modal.js";
 
 import { get, onValue, push, ref, set } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js";
 
@@ -60,7 +61,7 @@ export async function getSessionInfo(sessionId) {
 
 export async function joinSession(sessionId) {
     if (!sessionId) {
-        alert("Enter a valid Session ID!");
+        await showMessage("Enter a valid Session ID!", { title: 'Invalid session' });
         return;
     }
 
@@ -71,14 +72,14 @@ export async function joinSession(sessionId) {
     const sessionInfo = await getSessionInfo(getSession());
 
     if (!sessionInfo) {
-        alert("Session not founded!");
+        await showMessage("Session not founded!", { title: 'Session not found' });
         return;
     }
 
     let location;
 
     if (sessionInfo.owner === user.uid) {
-        alert("Entering as Game Master!")
+        await showMessage("Entering as Game Master!", { title: 'Game Master' });
         location = "/pages/game-master";
     } else {
         location = "/pages/session";
