@@ -628,8 +628,12 @@
    ========================================================================== */
 
 .edit-pokemon-card {
-    width: 85%;
+    flex-direction: column;
+    width: min(94vw, 1100px);
     max-width: 1100px;
+    min-width: 0;
+    max-height: 90vh;
+    overflow: hidden;
 }
 
 .edit-pokemon-card input,
@@ -645,12 +649,22 @@
 
 .edit-pokemon-body {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: 12px;
     overflow-y: auto;
     overflow-x: hidden;
     max-height: 65vh;
+    min-width: 0;
     padding-right: 4px;
+}
+
+.edit-pokemon-body>.column,
+.edit-pokemon-body .static-row>.column {
+    min-width: 0;
+}
+
+.edit-pokemon-body .static-row>.column:not(.current-lvl-box) {
+    flex: 1 1 0;
 }
 
 .custom-select {
@@ -686,7 +700,7 @@
     display: flex;
     flex-direction: column;
     border: 0;
-    border-bottom: var(--border-dashed);
+    border-bottom: var(--border-dashed-red);
     width: 100%;
     box-sizing: border-box;
 }
@@ -714,7 +728,6 @@
 .status-table-body input {
     text-align: center;
     border: none;
-    border-right: var(--border-dashed);
     background-color: transparent;
     font-weight: bold;
     height: var(--input-height);
@@ -923,7 +936,7 @@
     width: 100%;
 
     border-collapse: collapse;
-    border: var(--border-dashed);
+    border: var(--border-dashed-red);
     table-layout: fixed;
 
     font-size: var(--font-size-medium);
@@ -934,7 +947,7 @@
     padding: 8px 4px;
 
     text-align: center;
-    border-right: var(--border-dashed);
+    border-right: var(--border-dashed-red);
 }
 
 .base-stats-table th {
@@ -944,12 +957,12 @@
     font-size: var(--font-size-small);
     font-weight: bold;
 
-    border-bottom: var(--border-dashed);
+    border-bottom: var(--border-dashed-red);
 }
 
 .base-stats-table td {
     background-color: var(--red-complementar-color);
-    color: var(--input-contrast-color);
+    color: var(--red-color);
     font-weight: bold;
 }
 
@@ -1046,6 +1059,10 @@
     font-size: var(--font-size-small);
     line-height: 1.5;
     text-transform: none;
+}
+
+.status-table-body input {
+    border-bottom: none !important;
 }
 
 /* ==========================================================================

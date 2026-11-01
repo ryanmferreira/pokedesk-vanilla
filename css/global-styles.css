@@ -56,6 +56,7 @@
     --border-inverse-color: var(--white-color);
     --border-transparent-color: transparent;
     --border-dashed: var(--border-width) dashed var(--border-color);
+    --border-dashed-red: var(--border-width) dashed var(--red-color);
     --border-dotted: var(--border-width) dotted var(--border-color);
     --border: var(--border-width) solid var(--border-color);
     --border-solid: var(--border);
