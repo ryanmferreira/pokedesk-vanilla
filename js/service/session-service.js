@@ -16,7 +16,8 @@ export async function createSession(sessionName) {
         const user = getUserData();
 
         if (!user) {
-            return;
+            await showMessage("Sign in before creating a session.", { title: 'Sign in required' });
+            return null;
         }
 
         const sessionsRef = ref(database, 'sessions/');
@@ -39,12 +40,13 @@ export async function createSession(sessionName) {
 
         console.log("session created succesfully! ID:", sessionId);
 
-        joinSession(sessionId);
+        await joinSession(sessionId);
 
         return sessionData;
     } catch (error) {
         console.error("Error creating session:", error);
-        throw error;
+        await showMessage(`Could not create the session: ${error.message || error}`, { title: 'Session creation failed' });
+        return null;
     }
 }
 
@@ -60,37 +62,46 @@ export async function getSessionInfo(sessionId) {
 }
 
 export async function joinSession(sessionId) {
-    if (!sessionId) {
-        await showMessage("Enter a valid Session ID!", { title: 'Invalid session' });
-        return;
+    try {
+        if (!sessionId) {
+            await showMessage("Enter a valid Session ID!", { title: 'Invalid session' });
+            return;
+        }
+
+        const user = getUserData();
+        if (!user) {
+            await showMessage("Sign in before joining a session.", { title: 'Sign in required' });
+            return;
+        }
+
+        const sessionInfo = await getSessionInfo(sessionId);
+
+        if (!sessionInfo) {
+            await showMessage("Session not founded!", { title: 'Session not found' });
+            return;
+        }
+
+        setSession(sessionId);
+
+        let location;
+
+        if (sessionInfo.owner === user.uid) {
+            await showMessage("Entering as Game Master!", { title: 'Game Master' });
+            location = "/pages/game-master";
+        } else {
+            location = "/pages/session";
+        }
+
+        console.log("Session saved:", getSession());
+
+        window.location.href = location;
+    } catch (error) {
+        console.error("Error joining session:", error);
+        await showMessage(`Could not join the session: ${error.message || error}`, { title: 'Session join failed' });
     }
-
-    const user = getUserData();
-
-    setSession(sessionId);
-
-    const sessionInfo = await getSessionInfo(getSession());
-
-    if (!sessionInfo) {
-        await showMessage("Session not founded!", { title: 'Session not found' });
-        return;
-    }
-
-    let location;
-
-    if (sessionInfo.owner === user.uid) {
-        await showMessage("Entering as Game Master!", { title: 'Game Master' });
-        location = "/pages/game-master";
-    } else {
-        location = "/pages/session";
-    }
-
-    console.log("Session saved:", getSession());
-
-    window.location.href = location;
 }
 
-export function getAllSessionCharacters(callback) {
+export function getAllSessionCharacters(callback, onError = null) {
     const currentSessionId = getSession();
     const databaseRef = ref(database, 'characters/');
 
@@ -109,6 +120,14 @@ export function getAllSessionCharacters(callback) {
         });
 
         callback(sessionCharacters);
+    }, error => {
+        console.error("Error loading session characters:", error);
+        if (onError) {
+            onError(error);
+            return;
+        }
+
+        showMessage(`Could not load session characters: ${error.message || error}`, { title: 'Character loading failed' });
     });
 }
 

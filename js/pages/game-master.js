@@ -5,6 +5,7 @@ import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.16.0/f
 import { getAllSessionCharacters, getSession, getSessionInfo, leaveSesion } from "/js/service/session-service.js";
 
 import { hideLoading, showLoading } from "/js/components/loading.js";
+import { showMessage } from "/js/components/message-modal.js";
 import { renderTypeBadges } from "/js/pokemon/pokemon-info.js";
 import { updateLifeBar } from "/js/pokemon/pokemon-management.js";
 import { renderPokemonDetails, statBar } from "/js/pokemon/pokemon-render.js";
@@ -251,7 +252,8 @@ function renderCharacterPokemon(pokemon, index) {
     const currentHp = pokemon.hp ?? 0;
 
     return `
-        <button type="button" class="pokemon-slot active-slot" data-team-index="${index}">
+        <button type="button" class="pokemon-slot active-slot" data-team-index="${index}"
+            title="View ${pokemon.species || 'Pokémon'} in the party">
             <div class="detail-box avatar-box">
                 <img src="${pokemon.imgUrl || "/assets/icons/pokeball.svg"}" alt="${pokemon.species || "Pokémon"}">
             </div>
@@ -278,7 +280,8 @@ function renderBoxPokemon(pokemon, index) {
     const currentHp = pokemon.hp ?? 0;
 
     return `
-        <button type="button" class="captured-item gm-box-pokemon" data-box-index="${index}">
+        <button type="button" class="captured-item gm-box-pokemon" data-box-index="${index}"
+            title="View ${pokemon.species || 'Pokémon'} in storage">
             <div class="detail-box avatar-box">
                 <img src="${pokemon.imgUrl || "/assets/icons/pokeball.svg"}" alt="${pokemon.species || "Pokémon"}">
             </div>
@@ -470,7 +473,8 @@ function renderSessionCharacters() {
                         </div>
                     </div>
 
-                    <button type="button" class="inspect-btn btn-dark expand with-icon icon-eye">Inspect Character</button>
+                    <button type="button" class="inspect-btn btn-dark expand with-icon icon-eye"
+                        title="Inspect ${char.name || 'this character'}">Inspect Character</button>
                 `;
 
                 const inspectButton = characterCard.querySelector(".inspect-btn");
@@ -480,9 +484,15 @@ function renderSessionCharacters() {
 
                 mainElement.appendChild(characterCard);
             }
+        } catch (error) {
+            console.error("Error rendering session characters:", error);
+            showMessage(`Could not display session characters: ${error.message || error}`, { title: 'Character display failed' });
         } finally {
             hideLoading();
         }
+    }, error => {
+        hideLoading();
+        showMessage(`Could not load session characters: ${error.message || error}`, { title: 'Character loading failed' });
     });
 }
 
@@ -539,7 +549,7 @@ leaveSessionButton?.addEventListener("click", () => {
    ========================================================================== */
 
 function copyToClipboard(text) {
-    navigator.clipboard.writeText(text);
+    return navigator.clipboard.writeText(text);
 }
 
 /* ==========================================================================
@@ -547,30 +557,40 @@ function copyToClipboard(text) {
    ========================================================================== */
 
 async function renderSessionInfo() {
-    const sessionInfo = await getSessionInfo(getSession());
-    if (!sessionInfo) return;
+    try {
+        const sessionInfo = await getSessionInfo(getSession());
+        if (!sessionInfo) return;
 
-    if (showSessionName) {
-        showSessionName.innerText = sessionInfo.name;
+        if (showSessionName) {
+            showSessionName.innerText = sessionInfo.name;
+        }
+
+        if (sessionIdElement) {
+            sessionIdElement.innerText = sessionInfo.id;
+        }
+
+        if (sessionNameElement) {
+            sessionNameElement.innerText = sessionInfo.name;
+        }
+
+        copySessionIdButton?.addEventListener("click", async () => {
+            try {
+                await copyToClipboard(sessionInfo.id);
+
+                copySessionIdButton.textContent = "Copied!";
+
+                setTimeout(() => {
+                    copySessionIdButton.textContent = "Copy Session ID";
+                }, 2000);
+            } catch (error) {
+                console.error("Error copying session ID:", error);
+                await showMessage(`Could not copy the session ID: ${error.message || error}`, { title: 'Copy failed' });
+            }
+        });
+    } catch (error) {
+        console.error("Error loading game-master session information:", error);
+        await showMessage(`Could not load session information: ${error.message || error}`, { title: 'Session loading failed' });
     }
-
-    if (sessionIdElement) {
-        sessionIdElement.innerText = sessionInfo.id;
-    }
-
-    if (sessionNameElement) {
-        sessionNameElement.innerText = sessionInfo.name;
-    }
-
-    copySessionIdButton?.addEventListener("click", () => {
-        copyToClipboard(sessionInfo.id);
-
-        copySessionIdButton.textContent = "Copied!";
-
-        setTimeout(() => {
-            copySessionIdButton.textContent = "Copy Session ID";
-        }, 2000);
-    });
 }
 
 /* ==========================================================================
@@ -594,5 +614,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const firstName = user.displayName ? user.displayName.split(" ", 1)[0] : "Visitor";
         greetingsNameElement.textContent = `Hello, ${firstName}!`;
+    }, error => {
+        console.error("Authentication state error:", error);
+        showMessage(`Could not verify your account: ${error.message || error}`, { title: 'Authentication failed' });
     });
 });

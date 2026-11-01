@@ -51,9 +51,21 @@
     /* Borders */
     --border-width: 2px;
     --border-color: var(--input-contrast-color);
+    --border-accent-color: var(--red-color);
+    --border-indicator-color: var(--input-color);
+    --border-inverse-color: var(--white-color);
+    --border-transparent-color: transparent;
     --border-dashed: var(--border-width) dashed var(--border-color);
+    --border-dotted: var(--border-width) dotted var(--border-color);
     --border: var(--border-width) solid var(--border-color);
-    --border-solid: var(--border-width) solid var(--border-color);
+    --border-solid: var(--border);
+    --border-accent: var(--border-width) solid var(--border-accent-color);
+    --border-indicator: var(--border-width) solid var(--border-indicator-color);
+    --border-active: var(--border-width) solid var(--border-indicator-color);
+    --border-inverse: var(--border-width) solid var(--border-inverse-color);
+    --border-transparent: var(--border-width) solid var(--border-transparent-color);
+    --focus-outline: var(--border-width) solid var(--border-accent-color);
+    --border-hr: 1px dashed var(--border-color);
 
     /* Bars */
     --bar-height: 12px;
@@ -69,7 +81,7 @@
 
 .red-text {
     color: var(--red-color) !important;
-    border-color: var(--red-color) !important;
+    border-color: var(--border-accent-color) !important;
 }
 
 .expand {
@@ -187,7 +199,7 @@ button:active {
 }
 
 hr {
-    border: 1px dashed var(--input-contrast-color);
+    border: var(--border-hr);
     width: 100%;
     margin: 0;
 }
@@ -230,7 +242,7 @@ select {
 }
 
 :where(button, input, select, [role="button"]):focus-visible {
-    outline: 2px solid var(--red-color);
+    outline: var(--focus-outline);
     outline-offset: 2px;
 }
 

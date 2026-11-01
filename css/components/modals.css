@@ -123,7 +123,7 @@
 .item-delete-btn {
     background-color: transparent;
     color: var(--red-color);
-    border: 2px solid var(--red-color);
+    border: var(--border-accent);
     width: 32px;
     height: 32px;
     display: flex;
@@ -147,7 +147,7 @@
 }
 
 .detail-box {
-    border: 2px dashed var(--input-contrast-color);
+    border: var(--border-dashed);
     padding: 8px 10px;
     display: flex;
     box-sizing: border-box;
@@ -345,7 +345,7 @@
 
     padding: 16px;
 
-    border: 2px dashed var(--input-contrast-color);
+    border: var(--border-dashed);
     text-align: center;
 }
 
@@ -472,7 +472,7 @@
 }
 
 .captured-item.selected {
-    border: 2px solid var(--red-color) !important;
+    border: var(--border-accent) !important;
     color: var(--red-color) !important;
 }
 
@@ -485,7 +485,7 @@
 }
 
 .captured-item.selected .avatar-box {
-    border: 2px solid var(--red-color) !important;
+    border: var(--border-accent) !important;
 }
 
 .item-info {
@@ -528,7 +528,7 @@
 .pokemon-slot {
     display: flex;
     flex-direction: row;
-    border: 2px dashed var(--input-contrast-color);
+    border: var(--border-dashed);
     padding: 8px 12px;
     gap: 12px;
     align-items: center;
@@ -544,7 +544,7 @@
 }
 
 .pokemon-slot.empty-slot {
-    border-style: dotted;
+    border: var(--border-dotted);
     opacity: 0.6;
     justify-content: center;
     align-items: center;
@@ -661,7 +661,7 @@
 
 .custom-select-red {
     height: var(--input-height);
-    border: var(--border-width) solid var(--red-color);
+    border: var(--border-accent);
     background-color: var(--red-complementar-color);
     background-image: var(--select-arrow-red);
     color: var(--red-color);
@@ -714,7 +714,7 @@
 .status-table-body input {
     text-align: center;
     border: none;
-    border-right: 1px dashed var(--input-contrast-color);
+    border-right: var(--border-dashed);
     background-color: transparent;
     font-weight: bold;
     height: var(--input-height);
@@ -734,7 +734,8 @@
 }
 
 .attack-card {
-    border: var(--border-width) dashed var(--red-color);
+    border: var(--border-dashed);
+    border-color: var(--border-accent-color);
     background-color: var(--red-complementar-color);
     padding: 10px;
     display: flex;
@@ -933,7 +934,7 @@
     padding: 8px 4px;
 
     text-align: center;
-    border-right: 1px dashed var(--input-contrast-color);
+    border-right: var(--border-dashed);
 }
 
 .base-stats-table th {
@@ -997,7 +998,8 @@
     gap: 2px;
     padding: 6px 4px;
     background-color: var(--input-camp-color);
-    border: var(--border-width) dashed var(--red-color);
+    border: var(--border-dashed);
+    border-color: var(--border-accent-color);
 }
 
 .attack-stat__label {
@@ -1028,7 +1030,7 @@
 .attack-stat--muted {
     padding: 4px;
     background-color: transparent;
-    border-color: transparent;
+    border-color: var(--border-transparent-color);
     opacity: 0.65;
 }
 
@@ -1039,7 +1041,8 @@
 .attack-card__effect {
     margin: 0;
     padding-top: 6px;
-    border-top: var(--border-width) dashed var(--red-color);
+    border-top: var(--border-dashed);
+    border-top-color: var(--border-accent-color);
     font-size: var(--font-size-small);
     line-height: 1.5;
     text-transform: none;
@@ -1189,4 +1192,3 @@
         grid-template-columns: 1fr;
     }
 }
-

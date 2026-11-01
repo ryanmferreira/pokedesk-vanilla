@@ -32,6 +32,7 @@ export function renderPokemonParty() {
         const pokemonSlot = document.createElement('button');
         pokemonSlot.type = 'button';
         pokemonSlot.className = 'pokemon-slot active-slot';
+        pokemonSlot.title = `View ${pokemonInfo.species} in your party`;
 
         totalPokemons++;
 
@@ -70,6 +71,8 @@ export function renderPokemonParty() {
         const emptySlot = document.createElement('button');
         emptySlot.type = 'button';
         emptySlot.className = 'pokemon-slot empty-slot';
+        emptySlot.title = 'Empty Pokémon party slot';
+        emptySlot.setAttribute('aria-label', 'Empty Pokémon party slot');
         emptySlot.textContent = '(+) Empty';
         partyEl.appendChild(emptySlot);
     }
@@ -159,9 +162,14 @@ export function renderPokemonDetails(pokemon) {
     const currentHp = pokemon.hp ?? 0;
     const status = pokemon.status || {};
 
-    const attacks = Array.isArray(pokemon.attacks)
-        ? pokemon.attacks.filter(attack => attack && attack.name && attack.name.trim() !== "")
-        : [];
+    const attacks = [];
+    if (Array.isArray(pokemon.attacks)) {
+        for (const attack of pokemon.attacks) {
+            if (attack && attack.name && attack.name.trim() !== "") {
+                attacks.push(attack);
+            }
+        }
+    }
 
     return `
         <div class="inspect-layout">
@@ -352,6 +360,7 @@ export function renderCapturedPokemons() {
         const pokemonSlot = document.createElement('button');
         pokemonSlot.type = 'button';
         pokemonSlot.className = 'captured-item';
+        pokemonSlot.title = `Select ${pokemonInfo.species || 'Pokémon'} to inspect`;
 
         const { level } = calculateLevel(pokemonInfo.xp, pokemonInfo.levelSpeed);
 

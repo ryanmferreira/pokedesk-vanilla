@@ -60,31 +60,43 @@ export async function saveCharacter(user, characterData) {
 }
 
 export async function loadCharacter(userId) {
-    const currentSession = getSession();
+    try {
+        const currentSession = getSession();
 
-    const { sessions } = getLastSessions();
+        const { sessions } = getLastSessions();
 
-    const characterRef = ref(database, 'characters/');
+        const characterRef = ref(database, 'characters/');
 
-    console.log("Current session: ", currentSession);
-    console.log(sessions);
+        console.log("Current session: ", currentSession);
+        console.log(sessions);
 
-    if (currentSession != null && currentSession !== "") {
-        const orderedQuery = query(characterRef, orderByChild('userId'), equalTo(userId));
+        if (currentSession != null && currentSession !== "") {
+            const orderedQuery = query(characterRef, orderByChild('userId'), equalTo(userId));
 
-        console.log("Session: ", currentSession);
+            console.log("Session: ", currentSession);
 
-        onChildAdded(orderedQuery, (snapshot) => {
-            const character = snapshot.val();
+            onChildAdded(orderedQuery, snapshot => {
+                try {
+                    const character = snapshot.val();
 
-            if (character && character.sessionId === currentSession) {
-                console.log("Character found:", snapshot.key, character);
-                setCharacterData(character);
-            }
-        });
-    }
-    else {
-        window.location.href = "/";
+                    if (character && character.sessionId === currentSession) {
+                        console.log("Character found:", snapshot.key, character);
+                        setCharacterData(character);
+                    }
+                } catch (error) {
+                    console.error("Error displaying character:", error);
+                    showMessage(`Could not display your character: ${error.message || error}`, { title: 'Character loading failed' });
+                }
+            }, error => {
+                console.error("Error loading character:", error);
+                showMessage(`Could not load your character: ${error.message || error}`, { title: 'Character loading failed' });
+            });
+        } else {
+            window.location.href = "/";
+        }
+    } catch (error) {
+        console.error("Error preparing character load:", error);
+        await showMessage(`Could not load your character: ${error.message || error}`, { title: 'Character loading failed' });
     }
 }
 
@@ -110,7 +122,7 @@ handleSaveButton.addEventListener('click', async () => {
         showMessage("Character Saved!", { title: 'Saved' });
     } catch (error) {
         console.error("Error on saving character:", error);
-        showMessage("Error on saving character.", { title: 'Error' });
+        await showMessage(`Could not save your character: ${error.message || error}`, { title: 'Save failed' });
     } finally {
         handleSaveButton.disabled = false;
         handleSaveButton.textContent = "Save changes";
@@ -129,12 +141,12 @@ handleReloadButton.addEventListener('click', async () => {
             return;
         }
 
-        loadCharacter(user.uid);
+        await loadCharacter(user.uid);
 
         showMessage("Character loaded!", { title: 'Loaded' });
     } catch (error) {
         console.error("Error on reloading character:", error);
-        showMessage("Error on reloading character.", { title: 'Error' });
+        await showMessage(`Could not reload your character: ${error.message || error}`, { title: 'Reload failed' });
     } finally {
         handleReloadButton.disabled = false;
         handleReloadButton.textContent = "Reload";
@@ -142,7 +154,12 @@ handleReloadButton.addEventListener('click', async () => {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-    onAuthStateChanged(auth, (user) => {
-        loadCharacter(auth.currentUser.uid);
+    onAuthStateChanged(auth, user => {
+        if (user) {
+            loadCharacter(user.uid);
+        }
+    }, error => {
+        console.error("Authentication state error:", error);
+        showMessage(`Could not verify your account: ${error.message || error}`, { title: 'Authentication failed' });
     });
 });

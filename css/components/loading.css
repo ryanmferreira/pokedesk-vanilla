@@ -25,7 +25,7 @@
     min-width: min(100%, 220px);
     padding: 24px;
     background-color: var(--container-color);
-    border: 2px dashed var(--input-contrast-color);
+    border: var(--border-dashed);
 }
 
 .loading-overlay__icon {

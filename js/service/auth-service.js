@@ -34,6 +34,7 @@ async function saveUserToDatabase(user) {
         console.log("User saved to database Successfully!");
     } catch (error) {
         console.error("Error on save user to database:", error.code);
+        throw error;
     }
 }
 

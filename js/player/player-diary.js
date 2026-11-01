@@ -107,10 +107,14 @@ function formatBonus(value) {
 }
 
 function getAdditionalPointsSummary() {
-    const activeModifiers = Object.keys(ATTRIBUTE_LABELS)
-        .map(attributeName => [attributeName, getAdditionalPointsFor(attributeName)])
-        .filter(([, value]) => value !== 0)
-        .map(([attributeName, value]) => `${ATTRIBUTE_ABBREVIATIONS[attributeName]} ${formatBonus(value)}`);
+    const activeModifiers = [];
+
+    for (const attributeName of Object.keys(ATTRIBUTE_LABELS)) {
+        const value = getAdditionalPointsFor(attributeName);
+        if (value === 0) continue;
+
+        activeModifiers.push(`${ATTRIBUTE_ABBREVIATIONS[attributeName]} ${formatBonus(value)}`);
+    }
 
     return activeModifiers.length > 0
         ? activeModifiers.join(' • ')
@@ -352,6 +356,8 @@ function startEditingDiaryEntry(entryId) {
     if (addDiaryNoteButton) {
         addDiaryNoteButton.className = 'flex-grow with-icon icon-save';
         addDiaryNoteButton.textContent = 'Save note';
+        addDiaryNoteButton.title = 'Save note';
+        addDiaryNoteButton.setAttribute('aria-label', 'Save note');
     }
 
     cancelDiaryEditButton?.classList.remove('hidden');
@@ -378,6 +384,8 @@ function resetDiaryForm() {
     if (addDiaryNoteButton) {
         addDiaryNoteButton.className = 'flex-grow with-icon icon-plus';
         addDiaryNoteButton.textContent = 'Add note';
+        addDiaryNoteButton.title = 'Add note';
+        addDiaryNoteButton.setAttribute('aria-label', 'Add note');
     }
 
     cancelDiaryEditButton?.classList.add('hidden');
@@ -386,7 +394,13 @@ function resetDiaryForm() {
 function deleteDiaryEntry(entryId) {
     normalizeDiary();
 
-    characterState.diary = characterState.diary.filter(entry => entry.id !== entryId);
+    const remainingEntries = [];
+    for (const entry of characterState.diary) {
+        if (entry.id !== entryId) {
+            remainingEntries.push(entry);
+        }
+    }
+    characterState.diary = remainingEntries;
 
     if (editingEntryId === entryId) {
         resetDiaryForm();

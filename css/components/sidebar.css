@@ -40,7 +40,7 @@ nav button {
 }
 
 nav button {
-    border-right: 4px solid var(--input-color);
+    border-right: var(--border-indicator);
     background: none;
     text-align: start;
 }
@@ -52,7 +52,7 @@ nav .with-icon {
 nav button:hover {
     background: var(--input-color);
     color: var(--input-contrast-color);
-    border-color: var(--input-contrast-color);
+    border-color: var(--border-color);
 }
 
 .mobile-menu-toggle {
@@ -134,7 +134,7 @@ nav button:hover {
     }
 
     nav button {
-        border-bottom: 2px solid var(--input-color);
+        border-bottom: var(--border-active);
         border-right: none;
         background: rgba(255, 255, 255, 0.05);
         text-align: center;
@@ -148,7 +148,7 @@ nav button:hover {
 
     .mobile-menu-dropdown button {
         text-align: left;
-        border-right: 4px solid var(--input-color);
+        border-right: var(--border-indicator);
         border-bottom: none;
     }
 

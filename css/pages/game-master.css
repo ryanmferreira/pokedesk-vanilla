@@ -181,7 +181,6 @@
     user-select: none;
 }
 
-/* The global span rule would otherwise darken these on the filled bar. */
 .gm-section__head .section-title,
 .gm-section__head .section-count,
 .gm-section__head .gm-section__hint,
@@ -206,7 +205,7 @@
 }
 
 .gm-section__head:focus-visible {
-    outline: 2px solid var(--red-color);
+    outline: var(--focus-outline);
     outline-offset: 2px;
 }
 
@@ -237,8 +236,8 @@
     width: 10px;
     height: 10px;
 
-    border-right: 2px solid var(--white-color);
-    border-bottom: 2px solid var(--white-color);
+    border-right: var(--border-inverse);
+    border-bottom: var(--border-inverse);
 
     transform: rotate(-45deg);
     transition: transform 0.2s ease-in-out;
@@ -343,7 +342,7 @@
 }
 
 .gm-box-pokemon:hover {
-    border-color: var(--input-color);
+    border-color: var(--border-indicator-color);
 }
 
 /* ==========================================================================

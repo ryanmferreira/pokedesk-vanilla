@@ -67,6 +67,7 @@ export function renderInventoryCategories() {
         }
 
         button.textContent = label;
+        button.title = `Show ${label} inventory items`;
 
         const categoryItems = characterState?.bag?.[category];
         const count = Array.isArray(categoryItems) ? categoryItems.length : 0;
@@ -153,8 +154,8 @@ export function renderInventory() {
         moveButton.type = 'button';
         moveButton.className = 'item-move-btn with-icon icon-swap';
         moveButton.textContent = 'Move';
-        moveButton.title = 'Move item';
-        moveButton.setAttribute('aria-label', 'Move item');
+        moveButton.title = 'Choose a category for this item';
+        moveButton.setAttribute('aria-label', 'Choose a category for this item');
 
         /* -------------------------------------------------------------
            DELETE BUTTON
@@ -334,6 +335,9 @@ function renderMoveItemModal() {
     cancelButton.type = 'button';
     cancelButton.className = 'flex-grow with-icon icon-close';
     cancelButton.textContent = 'Cancel';
+    cancelButton.title = 'Cancel moving this item';
+    moveButton.title = 'Move this item to the selected category';
+    moveButton.setAttribute('aria-label', 'Move this item to the selected category');
     cancelButton.addEventListener('click', closeMoveItemModal);
 
     const moveButton = document.createElement('button');

@@ -52,28 +52,92 @@
 
 /* --- Navigation ----------------------------------------------------------- */
 
-.icon-menu::before { content: "\f035c"; }
-.icon-account::before { content: "\f0004"; }
-.icon-logout::before { content: "\f0343"; }
-.icon-home::before { content: "\f02dc"; }
-.icon-bag::before { content: "\f0e10"; }
-.icon-pc::before { content: "\f0379"; }
-.icon-diary::before { content: "\f082e"; }
-.icon-pokeball::before { content: "\f041d"; }
+.icon-menu::before {
+    content: "\f035c";
+}
+
+.icon-account::before {
+    content: "\f0004";
+}
+
+.icon-logout::before {
+    content: "\f0343";
+}
+
+.icon-home::before {
+    content: "\f02dc";
+}
+
+.icon-bag::before {
+    content: "\f0e10";
+}
+
+.icon-pc::before {
+    content: "\f0379";
+}
+
+.icon-diary::before {
+    content: "\f082e";
+}
+
+.icon-pokeball::before {
+    content: "\f041d";
+}
 
 /* --- Actions -------------------------------------------------------------- */
 
-.icon-dice::before { content: "\f076e"; }
-.icon-key::before { content: "\f0306"; }
-.icon-copy::before { content: "\f018f"; }
-.icon-reload::before { content: "\f0453"; }
-.icon-save::before { content: "\f0193"; }
-.icon-image::before { content: "\f02e9"; }
-.icon-close::before { content: "\f0156"; }
-.icon-eye::before { content: "\f0208"; }
-.icon-swap::before { content: "\f04e1"; }
-.icon-edit::before { content: "\f03eb"; }
-.icon-delete::before { content: "\f01b4"; }
-.icon-bolt::before { content: "\f140b"; }
-.icon-plus::before { content: "\f0415"; }
-.icon-history::before { content: "\f02da"; }
+.icon-dice::before {
+    content: "\f076e";
+}
+
+.icon-key::before {
+    content: "\f0306";
+}
+
+.icon-copy::before {
+    content: "\f018f";
+}
+
+.icon-reload::before {
+    content: "\f0453";
+}
+
+.icon-save::before {
+    content: "\f0193";
+}
+
+.icon-image::before {
+    content: "\f02e9";
+}
+
+.icon-close::before {
+    content: "\f0156";
+}
+
+.icon-eye::before {
+    content: "\f0208";
+}
+
+.icon-swap::before {
+    content: "\f04e1";
+}
+
+.icon-edit::before {
+    content: "\f03eb";
+}
+
+.icon-delete::before {
+    content: "\f01b4";
+}
+
+.icon-bolt::before {
+    content: "\f140b";
+}
+
+.icon-plus::before {
+    content: "\f0415";
+}
+
+.icon-history::before {
+    content: "\f02da";
+}

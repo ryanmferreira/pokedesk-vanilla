@@ -53,18 +53,21 @@ function getReadableTextColor(hexColor) {
 }
 
 export function renderTypeBadges(...pokemonTypes) {
-    return pokemonTypes
-        .filter(type => type && type !== "None")
-        .map(type => {
-            const color = getTypeColor(type);
-            const textColor = getReadableTextColor(color);
-            const textShadow = textColor === "#FFFFFF"
-                ? "0 1px 2px rgba(0, 0, 0, 0.45)"
-                : "none";
+    const badges = [];
 
-            return `<span class="type-badge" style="--type-color: ${color}; --type-text-color: ${textColor}; --type-text-shadow: ${textShadow}">${type}</span>`;
-        })
-        .join("");
+    for (const type of pokemonTypes) {
+        if (!type || type === "None") continue;
+
+        const color = getTypeColor(type);
+        const textColor = getReadableTextColor(color);
+        const textShadow = textColor === "#FFFFFF"
+            ? "0 1px 2px rgba(0, 0, 0, 0.45)"
+            : "none";
+
+        badges.push(`<span class="type-badge" style="--type-color: ${color}; --type-text-color: ${textColor}; --type-text-shadow: ${textShadow}">${type}</span>`);
+    }
+
+    return badges.join("");
 }
 
 export const pokeballs = [

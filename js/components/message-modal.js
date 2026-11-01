@@ -54,7 +54,7 @@ function ensureModal() {
             <p id="message-modal-text" class="message-modal-text"></p>
 
             <div class="action-row">
-                <button id="message-modal-ok" type="button" class="btn-dark expand">${DEFAULT_OK_TEXT}</button>
+                <button id="message-modal-ok" type="button" class="btn-dark expand" title="Dismiss message">${DEFAULT_OK_TEXT}</button>
             </div>
         </div>
     `;
@@ -94,8 +94,6 @@ export function showMessage(message, options = {}) {
 
     const wasOpen = !overlayElement.classList.contains('hidden');
 
-    // A new message replaces the current one; resolve the old Promise so no
-    // caller is left waiting.
     resolveCurrentMessage?.();
     resolveCurrentMessage = null;
 
